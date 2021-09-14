@@ -32,11 +32,7 @@ fun PackageWalkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    val colors = LightColorPalette // Будет только светлая тема
 
     MaterialTheme(
         colors = colors,
