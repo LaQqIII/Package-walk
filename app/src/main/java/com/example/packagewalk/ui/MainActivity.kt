@@ -1,4 +1,4 @@
-package com.example.packagewalk
+package com.example.packagewalk.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
