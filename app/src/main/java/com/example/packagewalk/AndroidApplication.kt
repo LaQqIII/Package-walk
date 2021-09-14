@@ -3,7 +3,7 @@ package com.example.packagewalk
 import android.app.Application
 import timber.log.Timber
 
-class PackageWalkApplication : Application() {
+class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
