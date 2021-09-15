@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Package walk</string>
+    <string name="screen_progress">Активность</string>
+    <string name="screen_find_order">Найти заказ</string>
+    <string name="screen_create_order">Создать заказ</string>
+    <string name="screen_profile">Профиль</string>
 </resources>
