@@ -1,22 +1,12 @@
 package com.example.packagewalk.ui
 
-import androidx.annotation.FloatRange
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.*
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import timber.log.Timber
 
 @Composable
 fun PackageWalkBottomBar(navController: NavController, tabs: Array<Screens>) {
@@ -27,7 +17,7 @@ fun PackageWalkBottomBar(navController: NavController, tabs: Array<Screens>) {
     BottomNavigation {
         tabs.forEach { screen ->
             BottomNavigationItem(
-                icon = screen.icon,
+                icon = { Icon(imageVector = screen.icon, contentDescription = "") },
                 selected = screen.route == currentRoute,
                 onClick = {
                     if (screen.route != currentRoute) {
@@ -43,13 +33,4 @@ fun PackageWalkBottomBar(navController: NavController, tabs: Array<Screens>) {
             )
         }
     }
-}
-
-@Composable
-private fun BottomNavigationItem(
-    icon: ImageVector,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    Icon(imageVector = icon, contentDescription = "", modifier = Modifier.clickable { onClick() })
 }
