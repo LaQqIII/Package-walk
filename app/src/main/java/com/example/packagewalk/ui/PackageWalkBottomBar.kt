@@ -24,7 +24,7 @@ fun PackageWalkBottomBar(navController: NavController, tabs: Array<Screens>) {
                         navController.navigate(screen.route) {
                             launchSingleTop = true
                             restoreState = true
-                            popUpTo("progress") {
+                            popUpTo(Screens.PROGRESS.route) {
                                 saveState = true
                             }
                         }

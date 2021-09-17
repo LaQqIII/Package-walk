@@ -38,6 +38,12 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
 class MainActions(navController: NavHostController) {
     val navigateToScreenAuthorization: () -> Unit = {
-        navController.navigate("authorization")
+        navController.navigate("authorization") {
+            if (navController.currentDestination?.route == Screens.PROFILE.route) {
+                popUpTo(Screens.PROGRESS.route) {
+                    saveState = true
+                }
+            }
+        }
     }
 }
