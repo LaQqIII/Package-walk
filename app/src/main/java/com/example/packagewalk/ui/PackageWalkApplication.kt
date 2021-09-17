@@ -1,7 +1,6 @@
 package com.example.packagewalk.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Create
@@ -24,10 +23,8 @@ enum class Screens(@StringRes val title: Int, val icon: ImageVector, val route: 
 @Composable
 fun PackageWalkApplication() {
     PackageWalkTheme {
-
         val navController = rememberNavController()
         val tabs = Screens.values()
-
         Scaffold(bottomBar = { PackageWalkBottomBar(navController, tabs) }) {
             PackageWalkNavGraph(navController)
         }

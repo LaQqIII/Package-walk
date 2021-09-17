@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.packagewalk.ui.screens.profile.Profile
 
 @Composable
 fun PackageWalkNavGraph(navController: NavHostController) {
@@ -22,7 +23,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             Text(text = "3")
         }
         composable(Screens.PROFILE.route) {
-            Text(text = "4")
+            Profile()
         }
     }
 }
