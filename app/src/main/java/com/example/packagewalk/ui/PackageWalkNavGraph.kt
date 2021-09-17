@@ -11,7 +11,7 @@ import com.example.packagewalk.ui.screens.profile.Profile
 fun PackageWalkNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "progress"
+        startDestination = Screens.PROGRESS.route
     ) {
         composable(Screens.PROGRESS.route) {
             Text(text = "1")
