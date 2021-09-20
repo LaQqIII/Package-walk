@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import timber.log.Timber
 
 @Composable
-fun Authorization() {
+fun Authorization(viewModel: AuthorizationViewModel) {
 
     Timber.d("Отрисовка экрана авторизации пользователя !@#")
 

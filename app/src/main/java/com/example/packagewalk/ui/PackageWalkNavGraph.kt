@@ -3,10 +3,12 @@ package com.example.packagewalk.ui
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.packagewalk.ui.screens.authorization.Authorization
+import com.example.packagewalk.ui.screens.authorization.AuthorizationViewModel
 import com.example.packagewalk.ui.screens.profile.Profile
 
 @Composable
@@ -31,7 +33,8 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             Profile(navigateToScreenAuthorization = actions.navigateToScreenAuthorization)
         }
         composable("authorization") {
-            Authorization()
+            val viewModel = hiltViewModel<AuthorizationViewModel>()
+            Authorization(viewModel)
         }
     }
 }
