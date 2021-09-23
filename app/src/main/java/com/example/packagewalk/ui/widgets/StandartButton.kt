@@ -16,7 +16,7 @@ fun StandartButton(onClick: () -> Unit, modifier: Modifier = Modifier, @StringRe
     Button(
         onClick = { onClick() }, modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(R.dimen.between_the_lines_base))
+            .padding(horizontal = dimensionResource(R.dimen.on_the_sides_base))
     ) {
         Text(text = stringResource(stringId))
     }

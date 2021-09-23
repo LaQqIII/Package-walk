@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    // vertical
     <dimen name="between_the_lines_base">16dp</dimen>
+
+    //horizontal
+    <dimen name="on_the_sides_base">16dp</dimen>
+
+    //all
+    <dimen name="around_base">16dp</dimen>
+    
 </resources>

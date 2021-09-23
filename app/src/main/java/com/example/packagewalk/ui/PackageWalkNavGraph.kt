@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.packagewalk.ui.screens.authorization.Authorization
+import com.example.packagewalk.ui.screens.authorization.registration.RegistrationScreen
 import com.example.packagewalk.ui.screens.profile.Profile
 
 @Composable
@@ -40,7 +41,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
         }
         composable(AuthorizationSections.REGISTRATION.route) {
-
+            RegistrationScreen()
         }
     }
 }

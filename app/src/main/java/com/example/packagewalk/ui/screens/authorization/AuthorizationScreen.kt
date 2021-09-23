@@ -14,13 +14,21 @@ import com.example.packagewalk.data.authorization.Authorization
 import com.example.packagewalk.ui.widgets.StandartButton
 import timber.log.Timber
 
+private const val TAG_SCREEN = "Авторизация"
+
+/**
+ * Отрисововывает экран, который показывает пользователю выбор
+ * между входом и регистрацией в приложении
+ * @param navigateToScreenLoginIn функция, отвечающая за переход на экран для входа
+ * @param navigateToScreenRegistration функция, отвечающая за переход на экран регистрации
+ */
 @Composable
 fun Authorization(
     navigateToScreenLoginIn: () -> Unit,
     navigateToScreenRegistration: () -> Unit
 ) {
 
-    Timber.d("Отрисовка экрана выбора зайти или зарегистрироваться !@#")
+    Timber.d("Отрисовка экрана выбора зайти или зарегистрироваться !@# $TAG_SCREEN")
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -28,11 +36,11 @@ fun Authorization(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        StandartButton(onClick = navigateToScreenLoginIn, stringId = R.string.register)
+        StandartButton(onClick = navigateToScreenRegistration, stringId = R.string.register)
 
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.between_the_lines_base)))
 
-        StandartButton(onClick = navigateToScreenRegistration, stringId = R.string.login)
+        StandartButton(onClick = navigateToScreenLoginIn, stringId = R.string.login)
 
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.between_the_lines_base)))
 

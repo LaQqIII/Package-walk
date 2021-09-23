@@ -5,8 +5,15 @@
     <string name="screen_create_order">Создать заказ</string>
     <string name="screen_profile">Профиль</string>
 
+    <string name="verification_text">
+        Раз два три четыре пять шесть семь восемь
+        девять десять одиннадцать двенадцать
+    </string>
+
     // Авторизация пользователя
     <string name="login">Войти</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="entrance">Вход</string>
+    <string name="registration">Регистрация</string>
 
 </resources>
