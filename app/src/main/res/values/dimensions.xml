@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="between_the_lines_base">16dp</dimen>
+</resources>

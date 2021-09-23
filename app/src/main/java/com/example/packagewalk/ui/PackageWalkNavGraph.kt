@@ -3,12 +3,10 @@ package com.example.packagewalk.ui
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.packagewalk.ui.screens.authorization.Authorization
-import com.example.packagewalk.ui.screens.authorization.AuthorizationViewModel
 import com.example.packagewalk.ui.screens.profile.Profile
 
 @Composable
@@ -18,30 +16,30 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.PROGRESS.route
+        startDestination = MainSections.PROGRESS.route
     ) {
-        composable(Screens.PROGRESS.route) {
+        composable(MainSections.PROGRESS.route) {
             Text(text = "1")
         }
-        composable(Screens.FIND_ORDER.route) {
+        composable(MainSections.FIND_ORDER.route) {
             Text(text = "2")
         }
-        composable(Screens.CREATE_ORDER.route) {
+        composable(MainSections.CREATE_ORDER.route) {
             Text(text = "3")
         }
-        composable(Screens.PROFILE.route) {
+        composable(MainSections.PROFILE.route) {
             Profile(navigateToScreenAuthorization = actions.navigateToScreenAuthorization)
         }
-        composable("authorization") {
+        composable(AuthorizationSections.AUTHORIZATION.route) {
             Authorization(
                 navigateToScreenLoginIn = actions.navigateToScreenLoginIn,
                 navigateToScreenRegistration = actions.navigateToScreenRegistration
             )
         }
-        composable("loginIn") {
+        composable(AuthorizationSections.LOGIN.route) {
 
         }
-        composable("registration") {
+        composable(AuthorizationSections.REGISTRATION.route) {
 
         }
     }
@@ -49,18 +47,18 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
 class MainActions(navController: NavHostController) {
     val navigateToScreenAuthorization: () -> Unit = {
-        navController.navigate("authorization") {
-            if (navController.currentDestination?.route == Screens.PROFILE.route) {
-                popUpTo(Screens.PROGRESS.route) {
+        navController.navigate(AuthorizationSections.AUTHORIZATION.route) {
+            if (navController.currentDestination?.route == MainSections.PROFILE.route) {
+                popUpTo(MainSections.PROGRESS.route) {
                     saveState = true
                 }
             }
         }
     }
     val navigateToScreenLoginIn: () -> Unit = {
-        navController.navigate("loginIn")
+        navController.navigate(AuthorizationSections.LOGIN.route)
     }
     val navigateToScreenRegistration: () -> Unit = {
-        navController.navigate("registration")
+        navController.navigate(AuthorizationSections.REGISTRATION.route)
     }
 }
