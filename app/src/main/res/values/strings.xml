@@ -4,4 +4,9 @@
     <string name="screen_find_order">Найти заказ</string>
     <string name="screen_create_order">Создать заказ</string>
     <string name="screen_profile">Профиль</string>
+
+    // Авторизация пользователя
+    <string name="login">Войти</string>
+    <string name="register">Зарегистрироваться</string>
+
 </resources>

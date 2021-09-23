@@ -33,8 +33,16 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             Profile(navigateToScreenAuthorization = actions.navigateToScreenAuthorization)
         }
         composable("authorization") {
-            val viewModel = hiltViewModel<AuthorizationViewModel>()
-            Authorization(viewModel)
+            Authorization(
+                navigateToScreenLoginIn = actions.navigateToScreenLoginIn,
+                navigateToScreenRegistration = actions.navigateToScreenRegistration
+            )
+        }
+        composable("loginIn") {
+
+        }
+        composable("registration") {
+
         }
     }
 }
@@ -48,5 +56,11 @@ class MainActions(navController: NavHostController) {
                 }
             }
         }
+    }
+    val navigateToScreenLoginIn: () -> Unit = {
+        navController.navigate("loginIn")
+    }
+    val navigateToScreenRegistration: () -> Unit = {
+        navController.navigate("registration")
     }
 }

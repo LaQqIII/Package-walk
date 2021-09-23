@@ -10,5 +10,4 @@ class AuthorizationViewModel @Inject constructor(
     private val repository: Authorization
 ) : ViewModel() {
 
-
 }
