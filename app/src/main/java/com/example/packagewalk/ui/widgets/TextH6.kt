@@ -29,7 +29,7 @@ fun TextH6(@StringRes stringId: Int) {
 
 @Preview(showBackground = true)
 @Composable
-fun TextH6Preview() {
+private fun TextH6Preview() {
     PackageWalkTheme() {
         TextH6(R.string.verification_text)
     }

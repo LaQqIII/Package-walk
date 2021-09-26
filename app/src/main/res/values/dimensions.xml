@@ -10,4 +10,7 @@
     //all
     <dimen name="around_base">16dp</dimen>
     
+    //
+    <dimen name="height_button_base">44dp</dimen>
+    
 </resources>

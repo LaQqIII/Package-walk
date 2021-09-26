@@ -1,9 +1,7 @@
 package com.example.packagewalk.ui.screens.authorization.registration
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,6 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.widgets.StandartButton
+import com.example.packagewalk.ui.widgets.StandartSpacer
 import com.example.packagewalk.ui.widgets.TextH6
 import timber.log.Timber
 
@@ -32,14 +32,22 @@ fun RegistrationScreen() {
 
     Scaffold(topBar = {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.around_base)),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) { TextH6(R.string.registration) }
     }) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            StandartButton(onClick = { /*TODO*/ }, stringId = R.string.email)
 
+            StandartSpacer()
+
+            StandartButton(onClick = { /*TODO*/ }, stringId = R.string.number_phone)
+        }
     }
 
 }
@@ -47,5 +55,5 @@ fun RegistrationScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun RegistrationScreenPreview() {
-
+    RegistrationScreen()
 }

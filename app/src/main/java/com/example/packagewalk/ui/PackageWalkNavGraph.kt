@@ -34,7 +34,8 @@ fun PackageWalkNavGraph(navController: NavHostController) {
         composable(AuthorizationSections.AUTHORIZATION.route) {
             Authorization(
                 navigateToScreenLoginIn = actions.navigateToScreenLoginIn,
-                navigateToScreenRegistration = actions.navigateToScreenRegistration
+                navigateToScreenRegistration = actions.navigateToScreenRegistration,
+                navigateBack = actions.navigateBack
             )
         }
         composable(AuthorizationSections.LOGIN.route) {
@@ -61,5 +62,8 @@ class MainActions(navController: NavHostController) {
     }
     val navigateToScreenRegistration: () -> Unit = {
         navController.navigate(AuthorizationSections.REGISTRATION.route)
+    }
+    val navigateBack: () -> Unit = {
+        navController.popBackStack()
     }
 }

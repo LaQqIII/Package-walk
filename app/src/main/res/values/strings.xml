@@ -15,5 +15,8 @@
     <string name="register">Зарегистрироваться</string>
     <string name="entrance">Вход</string>
     <string name="registration">Регистрация</string>
+    <string name="number_phone">Номер телефона</string>
+    <string name="email">Электронная почта</string>
+    <string name="google">Google</string>
 
 </resources>
