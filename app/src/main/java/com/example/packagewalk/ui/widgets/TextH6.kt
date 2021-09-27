@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,9 +18,10 @@ private const val ALPHA_HEAD_TEXT = 0.87f
  * @param stringId id ресурса с текстом
  */
 @Composable
-fun TextH6(@StringRes stringId: Int) {
+fun TextH6(@StringRes stringId: Int, modifier: Modifier = Modifier) {
     Text(
         text = stringResource(stringId),
+        modifier = modifier,
         color = MaterialTheme.colors.onBackground.copy(ALPHA_HEAD_TEXT),
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.h6

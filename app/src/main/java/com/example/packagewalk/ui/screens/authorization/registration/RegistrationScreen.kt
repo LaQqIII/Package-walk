@@ -1,21 +1,20 @@
 package com.example.packagewalk.ui.screens.authorization.registration
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.StandartButton
 import com.example.packagewalk.ui.widgets.StandartSpacer
-import com.example.packagewalk.ui.widgets.TextH6
 import timber.log.Timber
 
 private const val TAG_SCREEN = "регистрация"
@@ -24,18 +23,19 @@ private const val TAG_SCREEN = "регистрация"
  * Экран, который отвечает за следующее:
  * 1. выбор варианты регистрации в приложении
  * 2. регистрация в приложении
+ * @param navigateBack функция, возвращающая на предыдущий экран
  */
 @Composable
-fun RegistrationScreen() {
+fun RegistrationScreen(navigateBack: () -> Unit) {
 
     Timber.d("Отрисовка экрана регистрации !@# $TAG_SCREEN")
 
     Scaffold(topBar = {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) { TextH6(R.string.registration) }
+        PackageWalkTopBar(
+            titleId = R.string.registration,
+            icon = Icons.Default.ArrowBack,
+            onClickIcon = navigateBack
+        )
     }) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -55,5 +55,5 @@ fun RegistrationScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun RegistrationScreenPreview() {
-    RegistrationScreen()
+    RegistrationScreen({})
 }

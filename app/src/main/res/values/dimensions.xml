@@ -9,8 +9,9 @@
 
     //all
     <dimen name="around_base">16dp</dimen>
-    
-    //
+
+    //elements
     <dimen name="height_button_base">44dp</dimen>
-    
+    <dimen name="height_top_bar">56dp</dimen>
+
 </resources>

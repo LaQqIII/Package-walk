@@ -42,7 +42,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
         }
         composable(AuthorizationSections.REGISTRATION.route) {
-            RegistrationScreen()
+            RegistrationScreen(navigateBack = actions.navigateBack)
         }
     }
 }

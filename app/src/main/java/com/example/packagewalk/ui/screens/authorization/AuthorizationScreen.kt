@@ -1,7 +1,9 @@
 package com.example.packagewalk.ui.screens.authorization
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.StandartButton
 import com.example.packagewalk.ui.widgets.StandartOutlinedButton
 import com.example.packagewalk.ui.widgets.StandartSpacer
@@ -32,16 +35,12 @@ fun Authorization(
     Timber.d("Отрисовка экрана выбора зайти или зарегистрироваться !@# $TAG_SCREEN")
 
     Scaffold(topBar = {
-        // TopAppBar(actions = {})
-    })
-//    {
-//        Row(modifier = Modifier.fillMaxWidth()) {
-//            IconButton(onClick = { navigateBack() }) {
-//                Icon(imageVector = Icons.Default.Close, contentDescription = "")
-//            }
-//        }
-//    }) {
-    {
+        PackageWalkTopBar(
+            titleId = null,
+            icon = Icons.Default.Close,
+            onClickIcon = navigateBack
+        )
+    }) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom,
