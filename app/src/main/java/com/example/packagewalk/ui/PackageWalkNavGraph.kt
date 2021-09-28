@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.packagewalk.ui.screens.authorization.Authorization
+import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthorizationScreen
+import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthorizationViewModel
 import com.example.packagewalk.ui.screens.authorization.registration.RegistrationScreen
 import com.example.packagewalk.ui.screens.profile.Profile
 
@@ -42,7 +44,14 @@ fun PackageWalkNavGraph(navController: NavHostController) {
 
         }
         composable(AuthorizationSections.REGISTRATION.route) {
-            RegistrationScreen(navigateBack = actions.navigateBack)
+            RegistrationScreen(
+                navigateBack = actions.navigateBack,
+                navigateToScreenMobileAuthorization = actions.navigateToScreenMobileAuthorization
+            )
+        }
+        composable(AuthorizationSections.MOBILE_AUTHORIZATION.route) {
+            val viewModel = MobileAuthorizationViewModel()
+            MobileAuthorizationScreen(navigateBack = actions.navigateBack, viewModel = viewModel)
         }
     }
 }
@@ -65,5 +74,8 @@ class MainActions(navController: NavHostController) {
     }
     val navigateBack: () -> Unit = {
         navController.popBackStack()
+    }
+    val navigateToScreenMobileAuthorization: () -> Unit = {
+        navController.navigate(AuthorizationSections.MOBILE_AUTHORIZATION.route)
     }
 }

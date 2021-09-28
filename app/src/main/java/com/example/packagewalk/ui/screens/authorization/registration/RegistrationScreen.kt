@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,9 +23,14 @@ private const val TAG_SCREEN = "регистрация"
  * 1. выбор варианты регистрации в приложении
  * 2. регистрация в приложении
  * @param navigateBack функция, возвращающая на предыдущий экран
+ * @param navigateToScreenMobileAuthorization функция, которая отвечает за переход
+ * на экран авторизации с помощью телефона
  */
 @Composable
-fun RegistrationScreen(navigateBack: () -> Unit) {
+fun RegistrationScreen(
+    navigateBack: () -> Unit,
+    navigateToScreenMobileAuthorization: () -> Unit
+) {
 
     Timber.d("Отрисовка экрана регистрации !@# $TAG_SCREEN")
 
@@ -46,7 +50,10 @@ fun RegistrationScreen(navigateBack: () -> Unit) {
 
             StandartSpacer()
 
-            StandartButton(onClick = { /*TODO*/ }, stringId = R.string.number_phone)
+            StandartButton(
+                onClick = { navigateToScreenMobileAuthorization() },
+                stringId = R.string.number_phone
+            )
         }
     }
 
@@ -55,5 +62,5 @@ fun RegistrationScreen(navigateBack: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun RegistrationScreenPreview() {
-    RegistrationScreen({})
+    RegistrationScreen({}, {})
 }

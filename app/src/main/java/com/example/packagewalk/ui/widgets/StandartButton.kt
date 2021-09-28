@@ -13,6 +13,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
 
+/**
+ * Наиболее часто используемая "заполненная" кнопка
+ * @param onClick событие, вызываемое по клику на кнопку
+ * @param modifier модификатор кнопки
+ * @param stringId текст, отображаемый внутри кнопки
+ */
 @Composable
 fun StandartButton(onClick: () -> Unit, modifier: Modifier = Modifier, @StringRes stringId: Int) {
     Button(
@@ -26,6 +32,12 @@ fun StandartButton(onClick: () -> Unit, modifier: Modifier = Modifier, @StringRe
     }
 }
 
+/**
+ * Наиболее часто используемая "пустая" кнопка
+ * @param onClick событие, вызываемое по клику на кнопку
+ * @param modifier модификатор кнопки
+ * @param stringId текст, отображаемый внутри кнопки
+ */
 @Composable
 fun StandartOutlinedButton(
     onClick: () -> Unit,

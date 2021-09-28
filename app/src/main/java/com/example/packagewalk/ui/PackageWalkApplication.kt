@@ -33,7 +33,8 @@ enum class MainSections(@StringRes val title: Int, val icon: ImageVector, val ro
 enum class AuthorizationSections(val route: String) {
     AUTHORIZATION("authorization"),
     LOGIN("loginIn"),
-    REGISTRATION("registration")
+    REGISTRATION("registration"),
+    MOBILE_AUTHORIZATION("mobile_authorization")
 }
 
 @Composable
