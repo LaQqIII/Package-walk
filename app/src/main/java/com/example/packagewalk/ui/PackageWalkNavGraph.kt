@@ -3,6 +3,7 @@ package com.example.packagewalk.ui
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -50,7 +51,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             )
         }
         composable(AuthorizationSections.MOBILE_AUTHORIZATION.route) {
-            val viewModel = MobileAuthorizationViewModel()
+            val viewModel = hiltViewModel<MobileAuthorizationViewModel>()
             MobileAuthorizationScreen(navigateBack = actions.navigateBack, viewModel = viewModel)
         }
     }

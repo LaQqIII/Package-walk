@@ -3,11 +3,16 @@ package com.example.packagewalk.ui.widgets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.tooling.preview.Preview
 
 /**
@@ -40,6 +45,7 @@ fun StandartMobileTextField(
         value = value,
         onValueChange = { if (it.length <= 10) onValueChange(it) },
         modifier = Modifier.fillMaxWidth(),
+        textStyle = MaterialTheme.typography.h5,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Phone,
             imeAction = ImeAction.Done
