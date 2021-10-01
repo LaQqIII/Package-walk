@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.StandartOutlinedTextField
+import com.example.packagewalk.ui.widgets.StandartMobileTextField
 import com.example.packagewalk.ui.widgets.StandartSpacer
 import com.example.packagewalk.ui.widgets.TextH6
 import timber.log.Timber
@@ -30,7 +30,7 @@ fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateB
 
     Scaffold(topBar = {
         PackageWalkTopBar(
-            titleId = null,
+            titleId = R.string.registration,
             icon = Icons.Default.ArrowBack,
             onClickIcon = navigateBack
         )
@@ -43,7 +43,10 @@ fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateB
 
             StandartSpacer()
 
-            StandartOutlinedTextField(value = phoneNumber, onValueChange = setPhoneNumber)
+            StandartMobileTextField(
+                value = phoneNumber,
+                onValueChange = setPhoneNumber,
+                onDoneClick = {})
         }
     }
 }
