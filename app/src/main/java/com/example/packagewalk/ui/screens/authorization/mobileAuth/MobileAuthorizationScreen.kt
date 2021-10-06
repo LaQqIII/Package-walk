@@ -7,10 +7,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
+import com.example.packagewalk.ui.widgets.StandartButton
 import com.example.packagewalk.ui.widgets.StandartMobileTextField
 import com.example.packagewalk.ui.widgets.StandartSpacer
 import com.example.packagewalk.ui.widgets.TextH6
@@ -21,12 +25,16 @@ private const val TAG_SCREEN = "Авторизация по телефону"
 /**
  * Экран, который отвечает за авторизацию пользователь с помощью мобильного телефона
  */
+@ExperimentalComposeUiApi
 @Composable
 fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateBack: () -> Unit) {
 
     Timber.d("Отрисовка экрана авторизации по телефону $TAG_SCREEN")
 
-    val (phoneNumber, setPhoneNumber) = viewModel.phoneNumber
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val phoneNumber by viewModel.phoneNumber
+    val phoneNumberIsValid by viewModel.phoneNumberIsValid
 
     Scaffold(topBar = {
         PackageWalkTopBar(
@@ -45,8 +53,16 @@ fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateB
 
             StandartMobileTextField(
                 value = phoneNumber,
-                onValueChange = setPhoneNumber,
-                onDoneClick = {})
+                onValueChange = { viewModel.setPhoneNumber(it) },
+                onDoneClick = { keyboardController?.hide() })
+
+            StandartSpacer()
+
+            StandartButton(
+                onClick = { /*TODO*/ },
+                stringId = R.string.get_code,
+                enabled = phoneNumberIsValid
+            )
         }
     }
 }

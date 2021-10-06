@@ -20,12 +20,19 @@ import com.example.packagewalk.R
  * @param stringId текст, отображаемый внутри кнопки
  */
 @Composable
-fun StandartButton(onClick: () -> Unit, modifier: Modifier = Modifier, @StringRes stringId: Int) {
+fun StandartButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    @StringRes stringId: Int,
+    enabled: Boolean = true,
+) {
     Button(
-        onClick = { onClick() }, modifier = modifier
+        onClick = { onClick() },
+        modifier = modifier
             .fillMaxWidth()
             .height(dimensionResource(R.dimen.height_button_base))
             .padding(horizontal = dimensionResource(R.dimen.on_the_sides_base)),
+        enabled = enabled,
         shape = CircleShape
     ) {
         TextButton(stringId = stringId)

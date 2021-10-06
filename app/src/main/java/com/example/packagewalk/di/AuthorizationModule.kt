@@ -13,5 +13,4 @@ abstract class AuthorizationModule {
 
     @Binds
     abstract fun providesAuthorizationRepository(impl: FirebaseAuthorizationImpl): Authorization
-
 }
