@@ -3,16 +3,22 @@ package com.example.packagewalk.ui
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import com.example.packagewalk.ui.screens.authorization.Authorization
+import com.example.packagewalk.ui.screens.authorization.mobileAuth.EnterCodeScreen
+import com.example.packagewalk.ui.screens.authorization.mobileAuth.EnterCodeViewModel
 import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthorizationScreen
 import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthorizationViewModel
 import com.example.packagewalk.ui.screens.authorization.registration.RegistrationScreen
 import com.example.packagewalk.ui.screens.profile.Profile
 
+@ExperimentalComposeUiApi
 @Composable
 fun PackageWalkNavGraph(navController: NavHostController) {
 
@@ -52,7 +58,22 @@ fun PackageWalkNavGraph(navController: NavHostController) {
         }
         composable(AuthorizationSections.MOBILE_AUTHORIZATION.route) {
             val viewModel = hiltViewModel<MobileAuthorizationViewModel>()
-            MobileAuthorizationScreen(navigateBack = actions.navigateBack, viewModel = viewModel)
+            MobileAuthorizationScreen(
+                navigateBack = actions.navigateBack,
+                viewModel = viewModel,
+                navigateToScreenEnterCode = actions.navigateToScreenEnterCode
+            )
+        }
+        composable(
+            "${AuthorizationSections.ENTER_CODE.route}/{phoneNumber}",
+            arguments = listOf(navArgument("phoneNumber") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val viewModel = hiltViewModel<EnterCodeViewModel>()
+            EnterCodeScreen(
+                viewModel = viewModel,
+                navigateBack = actions.navigateBack,
+                phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+            )
         }
     }
 }
@@ -78,5 +99,8 @@ class MainActions(navController: NavHostController) {
     }
     val navigateToScreenMobileAuthorization: () -> Unit = {
         navController.navigate(AuthorizationSections.MOBILE_AUTHORIZATION.route)
+    }
+    val navigateToScreenEnterCode: (String) -> Unit = { phoneNumber ->
+        navController.navigate("${AuthorizationSections.ENTER_CODE.route}/${"+7$phoneNumber"}")
     }
 }

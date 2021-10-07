@@ -19,5 +19,7 @@
     <string name="email">Электронная почта</string>
     <string name="google">Google</string>
     <string name="get_code">Получить код</string>
+    <string name="sms_code">Код из смс</string>
+    <string name="send_on_number">Отправлен на номер %1s</string>
 
 </resources>

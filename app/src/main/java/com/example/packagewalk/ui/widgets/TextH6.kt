@@ -28,7 +28,6 @@ fun TextH6(@StringRes stringId: Int, modifier: Modifier = Modifier) {
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun TextH6Preview() {

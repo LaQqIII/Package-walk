@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
@@ -27,11 +27,14 @@ private const val TAG_SCREEN = "Авторизация по телефону"
  */
 @ExperimentalComposeUiApi
 @Composable
-fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateBack: () -> Unit) {
-
+fun MobileAuthorizationScreen(
+    viewModel: MobileAuthorizationViewModel,
+    navigateBack: () -> Unit,
+    navigateToScreenEnterCode: (String) -> Unit
+) {
     Timber.d("Отрисовка экрана авторизации по телефону $TAG_SCREEN")
 
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     val phoneNumber by viewModel.phoneNumber
     val phoneNumberIsValid by viewModel.phoneNumberIsValid
@@ -54,12 +57,12 @@ fun MobileAuthorizationScreen(viewModel: MobileAuthorizationViewModel, navigateB
             StandartMobileTextField(
                 value = phoneNumber,
                 onValueChange = { viewModel.setPhoneNumber(it) },
-                onDoneClick = { keyboardController?.hide() })
+                onDoneClick = { focusManager.clearFocus() })
 
             StandartSpacer()
 
             StandartButton(
-                onClick = { /*TODO*/ },
+                onClick = { navigateToScreenEnterCode(phoneNumber) },
                 stringId = R.string.get_code,
                 enabled = phoneNumberIsValid
             )

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.rememberNavController
 import com.example.packagewalk.R
@@ -34,9 +35,11 @@ enum class AuthorizationSections(val route: String) {
     AUTHORIZATION("authorization"),
     LOGIN("loginIn"),
     REGISTRATION("registration"),
-    MOBILE_AUTHORIZATION("mobile_authorization")
+    MOBILE_AUTHORIZATION("mobile_authorization"),
+    ENTER_CODE("enter_code")
 }
 
+@ExperimentalComposeUiApi
 @Composable
 fun PackageWalkApplication() {
     PackageWalkTheme {
