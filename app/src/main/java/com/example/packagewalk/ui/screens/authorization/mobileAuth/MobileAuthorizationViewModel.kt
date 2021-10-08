@@ -16,7 +16,9 @@ class MobileAuthorizationViewModel @Inject constructor() : ViewModel() {
     val phoneNumberIsValid: State<Boolean> = _phoneNumberIsValid
 
     fun setPhoneNumber(value: String) {
-        _phoneNumber.value = value
-        _phoneNumberIsValid.value = value.length == 10
+        if (value.length <= 10) {
+            _phoneNumber.value = value
+            _phoneNumberIsValid.value = value.length == 10
+        }
     }
 }

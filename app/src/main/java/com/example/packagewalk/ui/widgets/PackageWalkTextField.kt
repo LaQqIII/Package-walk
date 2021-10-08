@@ -8,26 +8,9 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-
-/**
- * Наиболее часто используемое поле для ввода
- * @param value значение поле ввода
- * @param onValueChange функция, вызываемая при изменении поля ввода
- */
-@Composable
-fun StandartOutlinedTextField(value: String, onValueChange: (String) -> Unit) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = { onValueChange(it) },
-        modifier = Modifier.fillMaxWidth()
-    )
-}
 
 /**
  * Стандартное поле для ввода мобильного телефона, пока только для номеров, начинающихся с +7
@@ -36,14 +19,14 @@ fun StandartOutlinedTextField(value: String, onValueChange: (String) -> Unit) {
  * @param onDoneClick функция, вызываемая после набора номера, для отправки проверочного кода
  */
 @Composable
-fun StandartMobileTextField(
+fun PackageWalkMobileTextField(
     value: String,
     onValueChange: (String) -> Unit,
     onDoneClick: () -> Unit
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = { if (it.length <= 10) onValueChange(it) },
+        onValueChange = { onValueChange(it) },
         modifier = Modifier.fillMaxWidth(),
         textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
         keyboardOptions = KeyboardOptions(
@@ -99,12 +82,6 @@ private fun mobileNumberTransformation(inputText: String): TransformedText {
 
 @Preview(showBackground = true)
 @Composable
-private fun StandartOutlinedTextFieldPreview() {
-    StandartOutlinedTextField("", {})
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun StandartMobileTextFieldPreview() {
-    StandartMobileTextField("", {}, {})
+private fun PackageWalkMobileTextFieldPreview() {
+    PackageWalkMobileTextField("", {}, {})
 }

@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.StandartButton
-import com.example.packagewalk.ui.widgets.StandartOutlinedButton
+import com.example.packagewalk.ui.widgets.PackageWalkButton
+import com.example.packagewalk.ui.widgets.PackageWalkOutlinedButton
 import com.example.packagewalk.ui.widgets.StandartSpacer
 import timber.log.Timber
 
@@ -46,11 +46,11 @@ fun Authorization(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            StandartButton(onClick = navigateToScreenRegistration, stringId = R.string.register)
+            PackageWalkButton(onClick = navigateToScreenRegistration, stringId = R.string.register)
 
             StandartSpacer()
 
-            StandartOutlinedButton(onClick = navigateToScreenLoginIn, stringId = R.string.login)
+            PackageWalkOutlinedButton(onClick = navigateToScreenLoginIn, stringId = R.string.login)
 
             StandartSpacer()
         }

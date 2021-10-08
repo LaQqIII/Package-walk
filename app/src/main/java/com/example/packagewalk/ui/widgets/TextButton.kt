@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
 
 @Composable
-fun TextButton(@StringRes stringId: Int) {
+fun PackageWalkTextButton(@StringRes stringId: Int) {
     Text(
         text = stringResource(stringId),
         textAlign = TextAlign.Center,
@@ -20,6 +20,6 @@ fun TextButton(@StringRes stringId: Int) {
 
 @Preview(showBackground = true)
 @Composable
-private fun TextButtonPreview() {
-    TextButton(R.string.verification_text)
+private fun PackageWalkTextButtonPreview() {
+    PackageWalkTextButton(R.string.verification_text)
 }

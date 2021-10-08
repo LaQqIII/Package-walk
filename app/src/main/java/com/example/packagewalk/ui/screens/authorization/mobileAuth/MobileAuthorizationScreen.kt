@@ -14,8 +14,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.StandartButton
-import com.example.packagewalk.ui.widgets.StandartMobileTextField
+import com.example.packagewalk.ui.widgets.PackageWalkButton
+import com.example.packagewalk.ui.widgets.PackageWalkMobileTextField
 import com.example.packagewalk.ui.widgets.StandartSpacer
 import com.example.packagewalk.ui.widgets.TextH6
 import timber.log.Timber
@@ -54,14 +54,14 @@ fun MobileAuthorizationScreen(
 
             StandartSpacer()
 
-            StandartMobileTextField(
+            PackageWalkMobileTextField(
                 value = phoneNumber,
                 onValueChange = { viewModel.setPhoneNumber(it) },
                 onDoneClick = { focusManager.clearFocus() })
 
             StandartSpacer()
 
-            StandartButton(
+            PackageWalkButton(
                 onClick = { navigateToScreenEnterCode(phoneNumber) },
                 stringId = R.string.get_code,
                 enabled = phoneNumberIsValid

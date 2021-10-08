@@ -21,5 +21,7 @@
     <string name="get_code">Получить код</string>
     <string name="sms_code">Код из смс</string>
     <string name="send_on_number">Отправлен на номер %1s</string>
+    <string name="continuee">Продолжить</string>
+    <string name="send_code_repeat">Отправить код повторно</string>
 
 </resources>

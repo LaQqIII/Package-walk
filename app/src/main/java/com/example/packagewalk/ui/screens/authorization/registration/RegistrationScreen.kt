@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.StandartButton
+import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.StandartSpacer
 import timber.log.Timber
 
@@ -46,11 +46,11 @@ fun RegistrationScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            StandartButton(onClick = { /*TODO*/ }, stringId = R.string.email)
+            PackageWalkButton(onClick = { /*TODO*/ }, stringId = R.string.email)
 
             StandartSpacer()
 
-            StandartButton(
+            PackageWalkButton(
                 onClick = { navigateToScreenMobileAuthorization() },
                 stringId = R.string.number_phone
             )
