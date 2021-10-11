@@ -16,7 +16,7 @@ class SendVerificationCodeFirebase
 @Inject constructor() : SendVerificationCode {
 
     override suspend fun invoke(phoneNumber: String, context: Context) {
-        Timber.d("!@# отправка кода верификации на номер $+7$phoneNumber")
+        Timber.d("!@# отправка кода верификации на номер +7$phoneNumber")
 
         val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber("+7$phoneNumber")
@@ -24,12 +24,13 @@ class SendVerificationCodeFirebase
             .setActivity(context as Activity)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+                    Timber.d("!@# код для верификации успешно отправлен")
                     TODO("Not yet implemented")
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
                     Timber.d("!@# ошибка при отправке кода верификации")
-                    Timber.d("${e.message}")
+                    Timber.d("${e.cause}")
                 }
             })
             .build()
