@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
@@ -35,6 +36,7 @@ fun MobileAuthorizationScreen(
     Timber.d("Отрисовка экрана авторизации по телефону $TAG_SCREEN")
 
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
     val phoneNumber by viewModel.phoneNumber
     val phoneNumberIsValid by viewModel.phoneNumberIsValid
@@ -63,7 +65,7 @@ fun MobileAuthorizationScreen(
 
             PackageWalkButton(
                 onClick = {
-                    viewModel.sendCode()
+                    viewModel.sendCode(context)
                     navigateToScreenEnterCode(phoneNumber)
                 },
                 stringId = R.string.get_code,

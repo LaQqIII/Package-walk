@@ -1,6 +1,7 @@
 package com.example.packagewalk
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -14,6 +15,7 @@ class AndroidApplication : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
+        FirebaseApp.initializeApp(this)
     }
 
 }
