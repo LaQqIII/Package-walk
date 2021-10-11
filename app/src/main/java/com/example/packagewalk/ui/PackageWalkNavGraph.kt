@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import com.example.packagewalk.ui.screens.authorization.Authorization
 import com.example.packagewalk.ui.screens.authorization.mobileAuth.EnterCodeScreen
 import com.example.packagewalk.ui.screens.authorization.mobileAuth.EnterCodeViewModel

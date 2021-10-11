@@ -9,5 +9,4 @@ class FirebaseAuthorizationImpl @Inject constructor() : Authorization {
     override fun userLoggedIn(): Result<Boolean> {
         return Result.Success(false)
     }
-
 }

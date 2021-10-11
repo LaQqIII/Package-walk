@@ -15,6 +15,10 @@ class EnterCodeViewModel @Inject constructor() : ViewModel() {
     private val _codeIsValid = mutableStateOf(false)
     val codeIsValid: State<Boolean> = _codeIsValid
 
+    init {
+
+    }
+
     fun setCode(value: String) {
         if (value.length <= 4) {
             _code.value = value

@@ -62,7 +62,10 @@ fun MobileAuthorizationScreen(
             StandartSpacer()
 
             PackageWalkButton(
-                onClick = { navigateToScreenEnterCode(phoneNumber) },
+                onClick = {
+                    viewModel.sendCode()
+                    navigateToScreenEnterCode(phoneNumber)
+                },
                 stringId = R.string.get_code,
                 enabled = phoneNumberIsValid
             )

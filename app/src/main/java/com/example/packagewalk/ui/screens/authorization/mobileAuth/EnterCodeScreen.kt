@@ -35,7 +35,6 @@ private const val TAG_SCREEN = "Ввод проверочного кода"
 fun EnterCodeScreen(viewModel: EnterCodeViewModel, navigateBack: () -> Unit, phoneNumber: String) {
 
     Timber.d("Отрисовка экрана ввода проверочного кода $TAG_SCREEN")
-
     val focusManager = LocalFocusManager.current
 
     val code by viewModel.code
