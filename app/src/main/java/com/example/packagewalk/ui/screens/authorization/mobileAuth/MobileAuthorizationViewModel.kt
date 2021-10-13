@@ -21,13 +21,17 @@ class MobileAuthorizationViewModel
     val phoneNumberIsValid: State<Boolean> = _phoneNumberIsValid
 
     fun setPhoneNumber(value: String) {
-        if (value.length <= 10) {
+        if (value.length <= PHONE_NUMBER_LENGTH) {
             _phoneNumber.value = value
-            _phoneNumberIsValid.value = value.length == 10
+            _phoneNumberIsValid.value = value.length == PHONE_NUMBER_LENGTH
         }
     }
 
     fun sendCode(context: Context) = viewModelScope.launch {
         sendVerificationCode(_phoneNumber.value, context)
+    }
+
+    companion object {
+        private const val PHONE_NUMBER_LENGTH = 10
     }
 }
