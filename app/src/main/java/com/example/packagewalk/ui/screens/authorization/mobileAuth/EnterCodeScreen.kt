@@ -69,7 +69,7 @@ fun EnterCodeScreen(viewModel: EnterCodeViewModel, navigateBack: () -> Unit, pho
 
             PackageWalkButton(
                 stringId = R.string.continuee,
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.checkCode() },
                 enabled = codeIsValid
             )
 

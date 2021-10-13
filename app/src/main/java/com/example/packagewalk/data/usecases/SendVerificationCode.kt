@@ -1,4 +1,4 @@
-package com.example.packagewalk.data.firebase
+package com.example.packagewalk.data.usecases
 
 import android.content.Context
 

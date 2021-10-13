@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.firebase.SendVerificationCode
+import com.example.packagewalk.data.usecases.SendVerificationCode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,12 +24,13 @@ class MobileAuthorizationViewModel
     fun setPhoneNumber(value: String) {
         if (value.length <= PHONE_NUMBER_LENGTH) {
             _phoneNumber.value = value
-            _phoneNumberIsValid.value = value.length == PHONE_NUMBER_LENGTH
         }
+        _phoneNumberIsValid.value = value.length == PHONE_NUMBER_LENGTH
     }
 
-    fun sendCode(context: Context) = viewModelScope.launch {
-        sendVerificationCode(_phoneNumber.value, context)
+    @DelicateCoroutinesApi
+    fun sendCode(context: Context) = GlobalScope.launch {
+        sendVerificationCode("+7${_phoneNumber.value}", context)
     }
 
     companion object {
