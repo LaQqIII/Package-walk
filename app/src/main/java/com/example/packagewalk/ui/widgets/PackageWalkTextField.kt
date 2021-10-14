@@ -1,5 +1,6 @@
 package com.example.packagewalk.ui.widgets
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,6 +12,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.packagewalk.R
 
 /**
  * Стандартное поле для ввода мобильного телефона, пока только для номеров, начинающихся с +7
@@ -78,6 +80,32 @@ private fun mobileNumberTransformation(inputText: String): TransformedText {
     }
 
     return TransformedText(AnnotatedString(outputText), numberOffsetTranslator)
+}
+
+@Composable
+fun EnterCodeTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onDoneClick: () -> Unit,
+    isError: Boolean
+) {
+    Column {
+        OutlinedTextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
+            isError = isError,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = { onDoneClick() })
+        )
+        if (isError) {
+            TextError(stringId = R.string.error_code)
+        }
+    }
 }
 
 @Preview(showBackground = true)

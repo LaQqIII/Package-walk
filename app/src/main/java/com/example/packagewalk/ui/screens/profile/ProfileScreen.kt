@@ -2,18 +2,19 @@ package com.example.packagewalk.ui.screens.profile
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import timber.log.Timber
 
 @Composable
-fun Profile(navigateToScreenAuthorization: () -> Unit) {
+fun Profile(viewModel: ProfileViewModel, navigateToScreenAuthorization: () -> Unit) {
 
     Timber.d("Отрисовка экрана профиля пользователя !@#")
 
-    // todo добавить проверку залогинен пользователь или нет
-    if (false) {
+    val userLoggedIn by viewModel.userLoggedIn
+
+    if (userLoggedIn) {
         Text(text = "4")
     } else {
         navigateToScreenAuthorization()
     }
-
 }

@@ -17,6 +17,7 @@ import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthori
 import com.example.packagewalk.ui.screens.authorization.mobileAuth.MobileAuthorizationViewModel
 import com.example.packagewalk.ui.screens.authorization.registration.RegistrationScreen
 import com.example.packagewalk.ui.screens.profile.Profile
+import com.example.packagewalk.ui.screens.profile.ProfileViewModel
 
 @ExperimentalComposeUiApi
 @Composable
@@ -38,7 +39,11 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             Text(text = "3")
         }
         composable(MainSections.PROFILE.route) {
-            Profile(navigateToScreenAuthorization = actions.navigateToScreenAuthorization)
+            val viewModel = hiltViewModel<ProfileViewModel>()
+            Profile(
+                viewModel = viewModel,
+                navigateToScreenAuthorization = actions.navigateToScreenAuthorization
+            )
         }
         composable(AuthorizationSections.AUTHORIZATION.route) {
             Authorization(

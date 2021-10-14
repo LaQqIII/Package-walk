@@ -7,8 +7,6 @@ import com.example.packagewalk.data.authorization.mobile.RepositoryMobileAuthori
 import com.example.packagewalk.data.err
 import com.example.packagewalk.data.success
 import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -16,11 +14,11 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.Exception
 
 @Singleton
 class FirebaseRepositoryMobileAuthorization
@@ -31,6 +29,8 @@ class FirebaseRepositoryMobileAuthorization
     private lateinit var _token: ForceResendingToken
 
     private lateinit var _smsCode: String
+
+    private lateinit var _credential: PhoneAuthCredential
 
     private val callbacks = object : OnVerificationStateChangedCallbacks() {
 
@@ -45,6 +45,7 @@ class FirebaseRepositoryMobileAuthorization
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             Timber.d("!@# verification completed $credential")
             _smsCode = credential.smsCode.orEmpty()
+            _credential = credential
         }
 
         /**
@@ -53,11 +54,6 @@ class FirebaseRepositoryMobileAuthorization
          */
         override fun onVerificationFailed(e: FirebaseException) {
             Timber.e("!@# verification failed ${e.cause}")
-
-            when (e) {
-                is FirebaseAuthInvalidCredentialsException -> throw Exception("x1")
-                is FirebaseTooManyRequestsException -> throw Exception("x2")
-            }
         }
 
         /**
@@ -79,8 +75,7 @@ class FirebaseRepositoryMobileAuthorization
     override suspend fun sendVerificationCode(
         phoneNumber: String,
         context: Context
-    ): Result<String> {
-
+    ): Result<Boolean> {
         Timber.d("!@# отправка кода верификации на номер $phoneNumber")
 
         return try {
@@ -93,9 +88,10 @@ class FirebaseRepositoryMobileAuthorization
                 .build()
             PhoneAuthProvider.verifyPhoneNumber(options)
 
-            success("")
+            success(true)
 
         } catch (e: Exception) {
+            Timber.d("!@# emerged error at the time code verification")
             err(e)
         }
     }
@@ -106,14 +102,22 @@ class FirebaseRepositoryMobileAuthorization
         return _smsCode == code
     }
 
-    override suspend fun signInWithPhone(): Result<String> {
-        //val credential = PhoneAuthProvider.getCredential(_verificationId, )
-        //        Timber.d("!@# sign in with phone number")
-        //
-        //        Firebase.auth
-        //            .signInWithCredential(credential)
-        //            .await()
-        //            .user
-        return Result.Success("")
+    override suspend fun signInWithPhone(): Result<Boolean> {
+        Timber.d("!@# signIn with phone")
+
+        return try {
+
+            Firebase.auth
+                .signInWithCredential(_credential)
+                .await()
+
+            Timber.d("!@# signIn success!")
+
+            success(true)
+
+        } catch (e: Exception) {
+            Timber.d("!@# error on signIn with phone ${e.cause}")
+            err(e)
+        }
     }
 }

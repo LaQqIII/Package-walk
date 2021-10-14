@@ -1,7 +1,9 @@
 package com.example.packagewalk.data.usecases
 
-import com.google.firebase.auth.PhoneAuthCredential
+import com.example.packagewalk.data.Result
 
 interface SignInWithPhone {
-    suspend operator fun invoke(credential: PhoneAuthCredential)
+    /**
+     * Create new recording on db authentication*/
+    suspend operator fun invoke(): Result<Boolean>
 }
