@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.example.packagewalk.core.data.MobileAuthorizationDataSource
 import com.example.packagewalk.core.domain.MyResult
+import com.example.packagewalk.core.domain.User
 import com.example.packagewalk.core.domain.err
 import com.example.packagewalk.core.domain.success
 import com.google.firebase.FirebaseException
@@ -110,6 +111,9 @@ class FirebaseMobileAuthorization
                 .await()
 
             Timber.d("!@# signIn success!")
+
+            // Пока решил так определять, что пользователь вошел в приложение
+            User.loggedIn = true
 
             success(true)
 

@@ -22,7 +22,12 @@ import timber.log.Timber
 private const val TAG_SCREEN = "Ввод проверочного кода"
 
 @Composable
-fun EnterCodeScreen(viewModel: EnterCodeViewModel, navigateBack: () -> Unit, phoneNumber: String) {
+fun EnterCodeScreen(
+    viewModel: EnterCodeViewModel,
+    phoneNumber: String,
+    navigateBack: () -> Unit,
+    navigateToScreenProfile: () -> Unit
+) {
 
     Timber.d("Отрисовка экрана ввода проверочного кода $TAG_SCREEN")
     val focusManager = LocalFocusManager.current
@@ -30,6 +35,12 @@ fun EnterCodeScreen(viewModel: EnterCodeViewModel, navigateBack: () -> Unit, pho
     val code by viewModel.code
     val codeIsValid by viewModel.codeIsValid
     val codeIsError by viewModel.codeIsError
+    val userLoggedIn by viewModel.userLoggedIn
+
+    if (userLoggedIn) {
+        navigateToScreenProfile()
+        return
+    }
 
     Timber.d("!@# codeIsError=$codeIsError")
 

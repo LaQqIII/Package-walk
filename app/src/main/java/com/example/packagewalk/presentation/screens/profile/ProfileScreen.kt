@@ -10,9 +10,9 @@ fun Profile(viewModel: ProfileViewModel, navigateToScreenAuthorization: () -> Un
 
     Timber.d("Отрисовка экрана профиля пользователя !@#")
 
-    //val userLoggedIn by viewModel.userLoggedIn
+    val userLoggedIn by viewModel.userLoggedIn
 
-    if (false) {
+    if (userLoggedIn) {
         Text(text = "4")
     } else {
         navigateToScreenAuthorization()

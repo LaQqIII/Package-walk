@@ -18,7 +18,9 @@ import com.example.packagewalk.presentation.screens.authorization.mobileAuth.Mob
 import com.example.packagewalk.presentation.screens.authorization.registration.RegistrationScreen
 import com.example.packagewalk.presentation.screens.profile.Profile
 import com.example.packagewalk.presentation.screens.profile.ProfileViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@DelicateCoroutinesApi
 @ExperimentalComposeUiApi
 @Composable
 fun PackageWalkNavGraph(navController: NavHostController) {
@@ -76,8 +78,9 @@ fun PackageWalkNavGraph(navController: NavHostController) {
             val viewModel = hiltViewModel<EnterCodeViewModel>()
             EnterCodeScreen(
                 viewModel = viewModel,
+                phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: "",
                 navigateBack = actions.navigateBack,
-                phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+                navigateToScreenProfile = actions.navigateToScreenProfile
             )
         }
     }
@@ -107,5 +110,9 @@ class MainActions(navController: NavHostController) {
     }
     val navigateToScreenEnterCode: (String) -> Unit = { phoneNumber ->
         navController.navigate("${AuthorizationSections.ENTER_CODE.route}/${"+7$phoneNumber"}")
+    }
+    val navigateToScreenProfile: () -> Unit = {
+        navController.navigate(MainSections.PROFILE.route)
+        navController.backQueue.clear()
     }
 }

@@ -1,8 +1,8 @@
 package com.example.packagewalk.presentation.screens.authorization.mobileAuth
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.example.packagewalk.core.domain.MyResult
 import com.example.packagewalk.framework.Interactors
 import com.example.packagewalk.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,35 +13,41 @@ import javax.inject.Inject
 class EnterCodeViewModel
 @Inject constructor(private val interactors: Interactors) : BaseViewModel() {
 
-    private val _code = mutableStateOf("")
-    val code: State<String> = _code
-
-    private val _codeIsValid = mutableStateOf(false)
-    val codeIsValid: State<Boolean> = _codeIsValid
-
-    private val _codeIsError = mutableStateOf(false)
-    val codeIsError: State<Boolean> = _codeIsError
+    val code = mutableStateOf("")
+    val codeIsValid = mutableStateOf(false)
+    val codeIsError = mutableStateOf(false)
+    val userLoggedIn = mutableStateOf(false)
 
     fun setCode(value: String) {
         if (value.length <= CODE_LENGTH) {
-            _code.value = value
+            code.value = value
         }
-        _codeIsValid.value = value.length == CODE_LENGTH
+        codeIsValid.value = value.length == CODE_LENGTH
         clearCodeCheck()
     }
 
     fun signInWithCheckCode() = viewModelScope.launch {
-        val codeIsCorrect = interactors.checkVerificationCode(_code.value)
+        val codeIsCorrect = interactors.checkVerificationCode(code.value)
 
         if (codeIsCorrect) {
-            val result = interactors.signInWithPhone()
+            when (val result = interactors.signInWithPhone()) {
+                is MyResult.Success ->
+                    if (result.data) {
+                        userLoggedIn.value = true
+                    } else {
+                        // TODO: 16.10.2021
+                    }
+                is MyResult.Error -> {
+                    // TODO: 16.10.2021
+                }
+            }
         } else {
-            _codeIsError.value = true
+            codeIsError.value = true
         }
     }
 
     private fun clearCodeCheck() {
-        _codeIsError.value = false
+        codeIsError.value = false
     }
 
     companion object {
