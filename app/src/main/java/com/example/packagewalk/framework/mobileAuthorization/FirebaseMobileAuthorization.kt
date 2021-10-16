@@ -1,24 +1,32 @@
 package com.example.packagewalk.framework.mobileAuthorization
 
-import com.example.core.data.MobileAuthorizationDataSource
-import com.example.core.domain.MyResult
-import com.example.core.domain.err
-import com.example.core.domain.success
+import android.app.Activity
+import android.content.Context
+import com.example.packagewalk.core.data.MobileAuthorizationDataSource
+import com.example.packagewalk.core.domain.MyResult
+import com.example.packagewalk.core.domain.err
+import com.example.packagewalk.core.domain.success
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class FirebaseMobileAuthorization : MobileAuthorizationDataSource {
+@Singleton
+class FirebaseMobileAuthorization
+@Inject constructor() : MobileAuthorizationDataSource {
 
     private lateinit var _verificationId: String
 
-    private lateinit var _token: PhoneAuthProvider.ForceResendingToken
+    private lateinit var _token: ForceResendingToken
 
     private lateinit var _smsCode: String
 
@@ -34,10 +42,10 @@ class FirebaseMobileAuthorization : MobileAuthorizationDataSource {
          *  detect the incoming verification SMS and perform verification without
          *  user action
          */
-        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            Timber.d("!@# verification completed $credential")
-            _smsCode = credential.smsCode.orEmpty()
-            _credential = credential
+        override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+            Timber.d("!@# verification completed $phoneAuthCredential")
+            _smsCode = phoneAuthCredential.smsCode.orEmpty()
+            _credential = phoneAuthCredential
         }
 
         /**
@@ -55,27 +63,28 @@ class FirebaseMobileAuthorization : MobileAuthorizationDataSource {
          */
         override fun onCodeSent(
             verificationId: String,
-            token: PhoneAuthProvider.ForceResendingToken
+            token: ForceResendingToken
         ) {
             Timber.d("!@# code send $verificationId")
+            Timber.d("!@# token=$token")
 
             _verificationId = verificationId
             _token = token
         }
     }
 
-    override suspend fun sendCode(phoneNumber: String): MyResult<Boolean> {
+    override suspend fun sendCode(phoneNumber: String, context: Context): MyResult<Boolean> {
         Timber.d("!@# отправка кода верификации на номер $phoneNumber")
 
         return try {
 
-//            val options = PhoneAuthOptions.newBuilder(Firebase.auth)
-//                .setPhoneNumber(phoneNumber)
-//                .setTimeout(60L, TimeUnit.SECONDS)
-//                .setActivity(context as Activity)
-//                .setCallbacks(callbacks)
-//                .build()
-//            PhoneAuthProvider.verifyPhoneNumber(options)
+            val options = PhoneAuthOptions.newBuilder(Firebase.auth)
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(context as Activity)
+                .setCallbacks(callbacks)
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
 
             success(true)
 

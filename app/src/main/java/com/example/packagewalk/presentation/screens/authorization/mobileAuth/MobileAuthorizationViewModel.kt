@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MobileAuthorizationViewModel
-@Inject constructor() : ViewModel() {
+@Inject constructor(private val interactors: Interactors) : ViewModel() {
 
     private val _phoneNumber = mutableStateOf("")
     val phoneNumber: State<String> = _phoneNumber
@@ -30,7 +30,7 @@ class MobileAuthorizationViewModel
 
     @DelicateCoroutinesApi
     fun sendCode(context: Context) = GlobalScope.launch {
-       // interactors.sendVerificationCode("+7${_phoneNumber.value}")
+        interactors.sendVerificationCode("+7${_phoneNumber.value}", context)
     }
 
     companion object {

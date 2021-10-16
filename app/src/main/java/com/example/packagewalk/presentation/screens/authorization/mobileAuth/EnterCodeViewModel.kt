@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EnterCodeViewModel
-@Inject constructor() : BaseViewModel() {
+@Inject constructor(private val interactors: Interactors) : BaseViewModel() {
 
     private val _code = mutableStateOf("")
     val code: State<String> = _code
@@ -31,13 +31,13 @@ class EnterCodeViewModel
     }
 
     fun signInWithCheckCode() = viewModelScope.launch {
-        // val codeIsCorrect = interactors.checkVerificationCode(_code.value)
+        val codeIsCorrect = interactors.checkVerificationCode(_code.value)
 
-//        if (codeIsCorrect) {
-//            val result = interactors.signInWithPhone()
-//        } else {
-//            _codeIsError.value = true
-//        }
+        if (codeIsCorrect) {
+            val result = interactors.signInWithPhone()
+        } else {
+            _codeIsError.value = true
+        }
     }
 
     private fun clearCodeCheck() {

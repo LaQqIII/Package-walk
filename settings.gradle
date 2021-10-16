@@ -8,4 +8,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Package walk"
 include ':app'
-include ':core'

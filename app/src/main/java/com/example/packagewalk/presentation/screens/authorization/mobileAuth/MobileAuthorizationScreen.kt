@@ -19,6 +19,7 @@ import com.example.packagewalk.presentation.widgets.PackageWalkButton
 import com.example.packagewalk.presentation.widgets.PackageWalkMobileTextField
 import com.example.packagewalk.presentation.widgets.StandartSpacer
 import com.example.packagewalk.presentation.widgets.TextH6
+import kotlinx.coroutines.DelicateCoroutinesApi
 import timber.log.Timber
 
 private const val TAG_SCREEN = "Авторизация по телефону"
@@ -26,6 +27,7 @@ private const val TAG_SCREEN = "Авторизация по телефону"
 /**
  * Экран, который отвечает за авторизацию пользователь с помощью мобильного телефона
  */
+@DelicateCoroutinesApi
 @ExperimentalComposeUiApi
 @Composable
 fun MobileAuthorizationScreen(

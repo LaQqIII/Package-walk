@@ -1,4 +1,4 @@
-package com.example.core.domain
+package com.example.packagewalk.core.domain
 
 import java.lang.Exception
 
