@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import com.example.packagewalk.core.data.MobileAuthorizationDataSource
 import com.example.packagewalk.core.domain.MyResult
-import com.example.packagewalk.core.domain.User
 import com.example.packagewalk.core.domain.err
 import com.example.packagewalk.core.domain.success
 import com.google.firebase.FirebaseException
@@ -14,7 +13,6 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -113,7 +111,7 @@ class FirebaseMobileAuthorization
             Timber.d("!@# signIn success!")
 
             // Пока решил так определять, что пользователь вошел в приложение
-            User.loggedIn = true
+            //User.loggedIn = true
 
             success(true)
 

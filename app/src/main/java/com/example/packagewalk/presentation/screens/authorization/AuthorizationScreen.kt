@@ -32,7 +32,7 @@ fun Authorization(
     navigateToScreenRegistration: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    Timber.d("Отрисовка экрана выбора зайти или зарегистрироваться !@# $TAG_SCREEN")
+    //Timber.d("Отрисовка экрана выбора зайти или зарегистрироваться !@# $TAG_SCREEN")
 
     Scaffold(topBar = {
         PackageWalkTopBar(

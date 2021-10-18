@@ -1,7 +1,9 @@
 package com.example.packagewalk.presentation.screens.profile
 
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import timber.log.Timber
 
@@ -10,11 +12,15 @@ fun Profile(viewModel: ProfileViewModel, navigateToScreenAuthorization: () -> Un
 
     Timber.d("Отрисовка экрана профиля пользователя !@#")
 
-    val userLoggedIn by viewModel.userLoggedIn
+    val userLoggedIn by viewModel.userLoggedIn.collectAsState(false)
 
     if (userLoggedIn) {
-        Text(text = "4")
+        Text(text = "Зашел")
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Выйти")
+        }
     } else {
-        navigateToScreenAuthorization()
+        Text(text = "Не зашел")
+        //navigateToScreenAuthorization()
     }
 }

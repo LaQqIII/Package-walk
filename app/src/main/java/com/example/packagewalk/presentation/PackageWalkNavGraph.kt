@@ -113,6 +113,5 @@ class MainActions(navController: NavHostController) {
     }
     val navigateToScreenProfile: () -> Unit = {
         navController.navigate(MainSections.PROFILE.route)
-        navController.backQueue.clear()
     }
 }

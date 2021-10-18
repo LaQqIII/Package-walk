@@ -33,6 +33,7 @@ class EnterCodeViewModel
             when (val result = interactors.signInWithPhone()) {
                 is MyResult.Success ->
                     if (result.data) {
+                        interactors.changeLoggedInUser(true)
                         userLoggedIn.value = true
                     } else {
                         // TODO: 16.10.2021
