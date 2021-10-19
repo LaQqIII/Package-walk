@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
-import com.example.packagewalk.presentation.PackageWalkTopBar
+import com.example.packagewalk.presentation.widgets.PackageWalkTopBar
 import com.example.packagewalk.presentation.widgets.PackageWalkButton
 import com.example.packagewalk.presentation.widgets.PackageWalkMobileTextField
 import com.example.packagewalk.presentation.widgets.StandartSpacer

@@ -9,7 +9,6 @@ import com.example.packagewalk.extensions.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.io.IOException
@@ -17,10 +16,6 @@ import javax.inject.Inject
 
 class PrefsStoreImpl
 @Inject constructor(@ApplicationContext private val context: Context) : PrefsStore {
-
-    init {
-        Timber.d("!@# init class PrefsStoreImpl")
-    }
 
     override fun isUserLoggedIn(): Flow<Boolean> {
         Timber.d("!@# emit value userLoggedIn")

@@ -1,4 +1,4 @@
-package com.example.packagewalk.presentation
+package com.example.packagewalk.presentation.widgets
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.packagewalk.presentation.navigation.MainSections
 
 /**
  * Отвечает за отрисовку и смену состояния нижней панели

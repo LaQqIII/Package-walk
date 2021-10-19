@@ -5,8 +5,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import kotlinx.coroutines.DelicateCoroutinesApi
 import timber.log.Timber
 
+@DelicateCoroutinesApi
 @Composable
 fun Profile(viewModel: ProfileViewModel, navigateToScreenAuthorization: () -> Unit) {
 
@@ -16,11 +18,10 @@ fun Profile(viewModel: ProfileViewModel, navigateToScreenAuthorization: () -> Un
 
     if (userLoggedIn) {
         Text(text = "Зашел")
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { viewModel.logOutProfile() }) {
             Text(text = "Выйти")
         }
     } else {
-        Text(text = "Не зашел")
-        //navigateToScreenAuthorization()
+        navigateToScreenAuthorization()
     }
 }

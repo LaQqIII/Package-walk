@@ -1,4 +1,4 @@
-package com.example.packagewalk.presentation
+package com.example.packagewalk.presentation.widgets
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
-import com.example.packagewalk.presentation.widgets.TextH6
 
 /**
  * Отрисовывает верхнюю панель приложения

@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
-import com.example.packagewalk.presentation.PackageWalkTopBar
+import com.example.packagewalk.presentation.widgets.PackageWalkTopBar
 import com.example.packagewalk.presentation.widgets.PackageWalkButton
 import com.example.packagewalk.presentation.widgets.StandartSpacer
 import timber.log.Timber

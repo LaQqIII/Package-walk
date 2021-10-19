@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.packagewalk.R
-import com.example.packagewalk.presentation.PackageWalkTopBar
+import com.example.packagewalk.presentation.widgets.PackageWalkTopBar
 import com.example.packagewalk.presentation.widgets.*
 import timber.log.Timber
 
@@ -30,6 +30,7 @@ fun EnterCodeScreen(
 ) {
 
     Timber.d("Отрисовка экрана ввода проверочного кода $TAG_SCREEN")
+
     val focusManager = LocalFocusManager.current
 
     val code by viewModel.code
