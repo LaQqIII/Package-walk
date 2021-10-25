@@ -16,7 +16,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 @ExperimentalComposeUiApi
-fun NavGraphBuilder.addAuthorizationSections(actions: MainActions) {
+fun NavGraphBuilder.addAuthorizationSections(actions: Actions) {
     composable(AuthorizationSections.AUTHORIZATION.route) {
         Authorization(
             navigateToScreenLoginIn = actions.navigateToScreenLoginIn,

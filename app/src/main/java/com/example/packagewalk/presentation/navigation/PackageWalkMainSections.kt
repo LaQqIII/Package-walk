@@ -12,12 +12,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.packagewalk.R
+import com.example.packagewalk.presentation.screens.createorder.CreateOrder
+import com.example.packagewalk.presentation.screens.createorder.CreateOrderViewModel
 import com.example.packagewalk.presentation.screens.profile.Profile
 import com.example.packagewalk.presentation.screens.profile.ProfileViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-fun NavGraphBuilder.addMainSections(actions: MainActions) {
+fun NavGraphBuilder.addMainSections(actions: Actions) {
 
     composable(MainSections.PROGRESS.route) {
         Text(text = "1")
@@ -27,8 +29,12 @@ fun NavGraphBuilder.addMainSections(actions: MainActions) {
         Text(text = "2")
     }
 
-    composable(MainSections.CREATE_ORDER.route) {
-        Text(text = "3")
+    composable(MainSections.CREATE_ORDER.route) { from ->
+        val viewModel = hiltViewModel<CreateOrderViewModel>()
+        CreateOrder(
+            viewModel = viewModel,
+            navigateToScreenAuthorization = { actions.navigateToScreenAuthorization(from) }
+        )
     }
 
     composable(MainSections.PROFILE.route) { from ->

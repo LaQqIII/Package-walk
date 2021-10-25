@@ -11,7 +11,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @Composable
 fun PackageWalkNavGraph(navController: NavHostController) {
 
-    val actions = MainActions(navController)
+    val actions = Actions(navController)
 
     NavHost(
         navController = navController,

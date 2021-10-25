@@ -4,11 +4,14 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.packagewalk.extensions.lifecycleIsResumed
 
-class MainActions(navController: NavHostController) {
+class Actions(navController: NavHostController) {
     val navigateToScreenAuthorization: (from: NavBackStackEntry) -> Unit = {
         if (it.lifecycleIsResumed()) {
             navController.navigate(AuthorizationSections.AUTHORIZATION.route) {
-                if (navController.currentDestination?.route == MainSections.PROFILE.route) {
+                val currentRoute = navController.currentDestination?.route
+                if (currentRoute == MainSections.PROFILE.route
+                    || currentRoute == MainSections.CREATE_ORDER.route
+                ) {
                     popUpTo(MainSections.PROGRESS.route) {
                         saveState = true
                     }
