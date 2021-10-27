@@ -15,4 +15,8 @@ class CreateOrderViewModel
     val from = mutableStateOf("")
 
     val to = mutableStateOf("")
+
+    fun createOrder() {
+
+    }
 }

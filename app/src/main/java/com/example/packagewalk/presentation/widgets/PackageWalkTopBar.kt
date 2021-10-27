@@ -26,12 +26,12 @@ fun PackageWalkTopBar(@StringRes titleId: Int?, icon: ImageVector?, onClickIcon:
     ) {
         icon?.let {
             IconButton(onClick = { onClickIcon() }) {
-                Icon(imageVector = icon, contentDescription = "")
+                Icon(imageVector = it, contentDescription = "")
             }
         }
         titleId?.let {
             TextH6(
-                stringId = R.string.registration,
+                stringId = it,
                 modifier = Modifier.fillMaxWidth()
             )
         }

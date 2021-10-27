@@ -25,4 +25,10 @@
     <string name="send_code_repeat">Отправить код повторно</string>
     <string name="error_code">Вы не правильно ввели код</string>
 
+    // Новый заказ
+    <string name="new_order">Новый заказ</string>
+    <string name="from">Откуда</string>
+    <string name="to">Куда</string>
+    <string name="create_order">Создать</string>
+
 </resources>
