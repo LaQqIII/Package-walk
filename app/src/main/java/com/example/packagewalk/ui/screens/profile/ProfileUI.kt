@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.screens.authorization.AuthorizationUI
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.TextFieldApp
@@ -24,40 +25,42 @@ import com.example.packagewalk.ui.widgets.TextFieldApp
 @Composable
 fun ProfileUI() {
     val name = remember { mutableStateOf("") }
-    Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.around_base))
-        ) {
-            val (nameRef, exitRef) = createRefs()
-            Column(modifier = Modifier.constrainAs(nameRef) {
-                top.linkTo(parent.top)
-            }) {
-                TextFieldApp(
-                    value = name.value,
-                    onValueChange = { name.value = it },
-                    onDoneClick = { /*TODO*/ },
-                    label = R.string.what_your_name,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = "+79809216265",
-                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.around_base))
-                )
-            }
-            PackageWalkButton(
-                stringId = R.string.logout,
-                onClick = { /*TODO*/ },
-                modifier = Modifier.constrainAs(exitRef) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(
-                        anchor = parent.bottom,
-                        margin = 16.dp
+    AuthorizationUI {
+        Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.around_base))
+            ) {
+                val (nameRef, exitRef) = createRefs()
+                Column(modifier = Modifier.constrainAs(nameRef) {
+                    top.linkTo(parent.top)
+                }) {
+                    TextFieldApp(
+                        value = name.value,
+                        onValueChange = { name.value = it },
+                        onDoneClick = { /*TODO*/ },
+                        label = R.string.what_your_name,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Text(
+                        text = "+79809216265",
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.around_base))
                     )
                 }
-            )
+                PackageWalkButton(
+                    stringId = R.string.logout,
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.constrainAs(exitRef) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(
+                            anchor = parent.bottom,
+                            margin = 16.dp
+                        )
+                    }
+                )
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.packagewalk.ui.widgets
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -20,24 +23,40 @@ fun TextFieldApp(
     onDoneClick: () -> Unit,
     modifier: Modifier = Modifier,
     @StringRes label: Int,
+    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
+    @StringRes error: Int? = null
 ) {
-    TextField(
-        value = value,
-        onValueChange = { onValueChange(it) },
-        modifier = modifier,
-        enabled = enabled,
-        textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
-        label = { Text(text = stringResource(id = label)) },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = { onDoneClick() }),
-        visualTransformation = visualTransformation
-    )
+    Column(
+        modifier = Modifier.padding(
+            bottom = if (isError) 0.dp else 16.dp
+        )
+    ) {
+        TextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            modifier = modifier,
+            enabled = enabled,
+            textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
+            label = { Text(text = stringResource(id = label)) },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = { onDoneClick() }),
+            visualTransformation = visualTransformation
+        )
+        if (isError && error != null) {
+            Text(
+                text = stringResource(id = error),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
 }
 
 /**
