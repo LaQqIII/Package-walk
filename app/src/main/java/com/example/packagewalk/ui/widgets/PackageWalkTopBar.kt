@@ -22,7 +22,8 @@ import com.example.packagewalk.R
 @Composable
 fun PackageWalkTopBar(
     @StringRes titleId: Int? = null,
-    onClickIcon: () -> Unit
+    hasBackArrow: Boolean = false,
+    onClickIcon: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -30,8 +31,10 @@ fun PackageWalkTopBar(
             .height(dimensionResource(R.dimen.height_top_bar)),
         contentAlignment = Alignment.CenterStart
     ) {
-        IconButton(onClick = { onClickIcon() }) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+        if (hasBackArrow) {
+            IconButton(onClick = { onClickIcon() }) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+            }
         }
         titleId?.let {
             TextH6(

@@ -18,18 +18,21 @@ fun TextFieldApp(
     value: String,
     onValueChange: (String) -> Unit,
     onDoneClick: () -> Unit,
-    @StringRes label: Int,
     modifier: Modifier = Modifier,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    @StringRes label: Int,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    enabled: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     TextField(
         value = value,
         onValueChange = { onValueChange(it) },
         modifier = modifier,
+        enabled = enabled,
         textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
         label = { Text(text = stringResource(id = label)) },
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Phone,
+            keyboardType = keyboardType,
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(onDone = { onDoneClick() }),

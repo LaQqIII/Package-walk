@@ -45,7 +45,7 @@ private fun MobileAuthorizationUI() {
     val codeSend = remember { mutableStateOf(false) }
     val code = remember { mutableStateOf("") }
     Scaffold(topBar = {
-        PackageWalkTopBar(titleId = R.string.entrance) {}
+        PackageWalkTopBar(titleId = R.string.entrance, hasBackArrow = true) {}
     }) {
         Column(
             modifier = Modifier
@@ -58,7 +58,8 @@ private fun MobileAuthorizationUI() {
                 onDoneClick = { /*TODO*/ },
                 label = R.string.number_phone,
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = { mobileNumberTransformation(it.text) }
+                visualTransformation = { mobileNumberTransformation(it.text) },
+                enabled = !codeSend.value
             )
             if (codeSend.value) {
                 TextFieldApp(
@@ -72,12 +73,17 @@ private fun MobileAuthorizationUI() {
                 )
             }
             PackageWalkButton(
-                stringId = R.string.get_code,
-                onClick = { codeSend.value = true },
+                stringId = if (codeSend.value) R.string.check_code else R.string.send_code,
+                onClick = {
+                    if (codeSend.value) {
+
+                    } else {
+                        codeSend.value = true
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.around_base)),
-                enabled = !codeSend.value
+                    .padding(dimensionResource(id = R.dimen.around_base))
             )
         }
     }

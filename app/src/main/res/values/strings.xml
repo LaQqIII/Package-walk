@@ -12,18 +12,22 @@
 
     // Авторизация пользователя
     <string name="login">Войти</string>
+    <string name="logout">Выйти</string>
     <string name="register">Зарегистрироваться</string>
     <string name="entrance">Вход</string>
     <string name="registration">Регистрация</string>
     <string name="number_phone">Номер телефона</string>
     <string name="email">Электронная почта</string>
     <string name="google">Google</string>
-    <string name="get_code">Получить код</string>
+    <string name="send_code">Получить код</string>
     <string name="sms_code">Код из смс</string>
+    <string name="check_code">Продолжить</string>
     <string name="send_on_number">Отправлен на номер %1s</string>
     <string name="continuee">Продолжить</string>
     <string name="send_code_repeat">Отправить код повторно</string>
     <string name="error_code">Вы не правильно ввели код</string>
+    <string name="what_your_name">Как вас зовут?</string>
+    <string name="empty"></string>
 
     // Новый заказ
     <string name="new_order">Новый заказ</string>
