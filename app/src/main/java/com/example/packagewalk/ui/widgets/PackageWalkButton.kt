@@ -7,28 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedButton
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
-
-@Composable
-fun PackageWalkTextButton(
-    @StringRes stringId: Int,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TextButton(
-        onClick = { onClick() }, modifier = modifier
-            .fillMaxWidth()
-            .height(dimensionResource(R.dimen.height_button_base))
-            .padding(horizontal = dimensionResource(R.dimen.on_the_sides_base))
-    ) {
-        PackageWalkTextButton(stringId = stringId)
-    }
-}
 
 /**
  * Наиболее часто используемая "заполненная" кнопка
@@ -40,16 +23,13 @@ fun PackageWalkTextButton(
 @Composable
 fun PackageWalkButton(
     @StringRes stringId: Int,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
     Button(
         onClick = { onClick() },
-        modifier = modifier
-            .fillMaxWidth()
-            .height(dimensionResource(R.dimen.height_button_base))
-            .padding(horizontal = dimensionResource(R.dimen.on_the_sides_base)),
+        modifier = modifier.height(dimensionResource(R.dimen.height_button_base)),
         enabled = enabled,
         shape = CircleShape
     ) {

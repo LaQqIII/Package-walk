@@ -1,45 +1,39 @@
 package com.example.packagewalk.ui.widgets
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.*
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.packagewalk.R
 
-/**
- * Стандартное поле для ввода мобильного телефона, пока только для номеров, начинающихся с +7
- * @param value значение поле ввода
- * @param onValueChange функция, вызываемая при изменении поля ввода
- * @param onDoneClick функция, вызываемая после набора номера, для отправки проверочного кода
- */
 @Composable
-fun PackageWalkMobileTextField(
+fun TextFieldApp(
     value: String,
     onValueChange: (String) -> Unit,
-    onDoneClick: () -> Unit
+    onDoneClick: () -> Unit,
+    @StringRes label: Int,
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    OutlinedTextField(
+    TextField(
         value = value,
         onValueChange = { onValueChange(it) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
+        label = { Text(text = stringResource(id = label)) },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Phone,
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(onDone = { onDoneClick() }),
-        visualTransformation = { mobileNumberTransformation(it.text) }
+        visualTransformation = visualTransformation
     )
 }
 
@@ -48,17 +42,14 @@ fun PackageWalkMobileTextField(
  * на выходе должно получиться вот так +7 xxx xxx xx xx
  * @param inputText входящий текст
  */
-private fun mobileNumberTransformation(inputText: String): TransformedText {
-
+fun mobileNumberTransformation(inputText: String): TransformedText {
     val prefix = "+7 "
     val prefixOffset = prefix.length
-
     val trimmed =
         if (inputText.length >= 10)
             inputText.substring(0..9)
         else
             inputText
-
     var outputText = prefix + ""
     trimmed.forEachIndexed { index, c ->
         outputText += c
@@ -66,7 +57,6 @@ private fun mobileNumberTransformation(inputText: String): TransformedText {
             outputText += " "
         }
     }
-
     val numberOffsetTranslator = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
             if (offset <= 2) return offset + prefixOffset
@@ -81,102 +71,5 @@ private fun mobileNumberTransformation(inputText: String): TransformedText {
             return offset - prefixOffset
         }
     }
-
     return TransformedText(AnnotatedString(outputText), numberOffsetTranslator)
-}
-
-@Composable
-fun EnterCodeTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    onDoneClick: () -> Unit,
-    isError: Boolean
-) {
-    Column {
-        OutlinedTextField(
-            value = value,
-            onValueChange = { onValueChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
-            isError = isError,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(onDone = { onDoneClick() })
-        )
-        if (isError) {
-            TextError(stringId = R.string.error_code)
-        }
-    }
-}
-
-@Composable
-fun OutlineTextFieldWithErrorView(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
-    label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = Int.MAX_VALUE,
-    shape: Shape = MaterialTheme.shapes.small,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
-    errorMsg: String = ""
-) {
-    Column(
-        modifier = Modifier.padding(
-            bottom = if (isError) {
-                0.dp
-            } else {
-                10.dp
-            }
-        )
-    )
-    {
-        OutlinedTextField(
-            enabled = enabled,
-            readOnly = readOnly,
-            value = value,
-            onValueChange = onValueChange,
-            modifier = modifier,
-            singleLine = singleLine,
-            textStyle = textStyle,
-            label = label,
-            placeholder = placeholder,
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            isError = isError,
-            visualTransformation = visualTransformation,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            maxLines = maxLines,
-            shape = shape,
-            colors = colors
-        )
-
-        if (isError) {
-            Text(
-                text = errorMsg,
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PackageWalkMobileTextFieldPreview() {
-    PackageWalkMobileTextField("", {}, {})
 }
