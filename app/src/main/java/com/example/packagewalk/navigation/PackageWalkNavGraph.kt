@@ -11,7 +11,7 @@ import com.example.packagewalk.navigation.main.addMainSections
 fun PackageWalkNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = MainSections.PROGRESS.route
+        startDestination = MainSections.Deals.route
     ) {
         addMainSections(navController)
         addAuthorizationSections(navController)
