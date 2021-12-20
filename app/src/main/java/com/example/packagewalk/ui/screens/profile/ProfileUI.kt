@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,31 +32,37 @@ fun ProfileUI() {
     val name = remember { mutableStateOf("") }
     //AuthorizationUI {
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.around_base))
+//        ConstraintLayout(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(dimensionResource(id = R.dimen.around_base))
+//        ) {
+//            val (nameRef, exitRef) = createRefs()
+        Column(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
+            horizontalAlignment = Alignment.CenterHorizontally
+//            modifier = Modifier.constrainAs(nameRef) {
+//                top.linkTo(parent.top)
+//            }
         ) {
-            val (nameRef, exitRef) = createRefs()
-            Column(modifier = Modifier.constrainAs(nameRef) {
-                top.linkTo(parent.top)
-            }) {
-                RowProfileInfo(caption = R.string.what_your_name, value = "Vlad")
-                RowProfileInfo(caption = R.string.number_phone, value = "+79809216265")
-            }
+            RowProfileInfo(caption = R.string.what_your_name, value = "Vlad")
+            RowProfileInfo(caption = R.string.number_phone, value = "+79809216265")
+//        }
             PackageWalkButton(
                 stringId = R.string.logout,
                 onClick = { /*TODO*/ },
-                modifier = Modifier.constrainAs(exitRef) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(
-                        anchor = parent.bottom,
-                        margin = 16.dp
-                    )
-                }
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base))
+//            modifier = Modifier.constrainAs(exitRef) {
+//                start.linkTo(parent.start)
+//                end.linkTo(parent.end)
+//                bottom.linkTo(
+//                    anchor = parent.bottom,
+//                    margin = 16.dp
+//                )
+//            }
             )
         }
     }
-    //}
 }
+//}
+//}

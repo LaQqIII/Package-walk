@@ -10,6 +10,10 @@
         девять десять одиннадцать двенадцать
     </string>
 
+
+    //Общее
+    <string name="error_text">Надо бы заполнить</string>
+
     // Авторизация пользователя
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
@@ -26,13 +30,17 @@
     <string name="continuee">Продолжить</string>
     <string name="send_code_repeat">Отправить код повторно</string>
     <string name="error_code">Код не тот</string>
-    <string name="what_your_name">Как вас зовут?</string>
+    <string name="what_your_name">Как вас зовут</string>
 
     // Новый заказ
     <string name="new_order">Новый заказ</string>
     <string name="from">Откуда</string>
     <string name="to">Куда</string>
-    <string name="when">Когда</string>
+    <string name="whenn">Когда</string>
     <string name="create_order">Создать</string>
+    <string name="approximate_size">Примерный размер посылки</string>
+
+    //Найти заказ
+    <string name="find">Найти</string>
 
 </resources>

@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.packagewalk.ui.screens.find_deal.FindDealUI
 import com.example.packagewalk.ui.screens.new_deal.NewDealUI
 import com.example.packagewalk.ui.screens.profile.ProfileUI
 
@@ -14,7 +15,7 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
     }
 
     composable(MainSections.FIND_DEAL.route) {
-        Text(text = "2")
+        FindDealUI()
     }
 
     composable(MainSections.NEW_DEAL.route) {

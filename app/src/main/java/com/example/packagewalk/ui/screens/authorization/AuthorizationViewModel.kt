@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.packagewalk.data.MyResult
 import com.example.packagewalk.repositories.FirebaseUserLiveData
 import com.example.packagewalk.repositories.PhoneAuthorizationRepository
+import com.example.packagewalk.ui.screens.authorization.models.AuthenticationState
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,8 +52,4 @@ class AuthorizationViewModel
             is MyResult.Error -> authorizationEvent.postValue(USER_FAILED_LOGIN)
         }
     }
-}
-
-enum class AuthenticationState {
-    AUTHENTICATED, UNAUTHENTICATED
 }

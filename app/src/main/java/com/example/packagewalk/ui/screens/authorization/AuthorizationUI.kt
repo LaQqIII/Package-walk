@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.screens.authorization.models.AuthenticationState
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton

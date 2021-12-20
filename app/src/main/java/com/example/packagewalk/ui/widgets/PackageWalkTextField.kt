@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.packagewalk.R
 
 @Composable
 fun TextFieldApp(
@@ -28,7 +29,8 @@ fun TextFieldApp(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
-    @StringRes error: Int? = null
+    @StringRes error: Int? = R.string.error_text,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier.padding(
@@ -47,7 +49,8 @@ fun TextFieldApp(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onDone = { onDoneClick() }),
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            trailingIcon = trailingIcon
         )
         if (isError && error != null) {
             Text(
