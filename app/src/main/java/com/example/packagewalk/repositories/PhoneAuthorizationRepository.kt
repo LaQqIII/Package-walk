@@ -2,6 +2,7 @@ package com.example.packagewalk.repositories
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import com.example.packagewalk.data.MyResult
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -10,7 +11,6 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,7 +37,7 @@ class PhoneAuthorizationRepository @Inject constructor() {
          *  user action
          */
         override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-            Timber.d("!@# verification completed $phoneAuthCredential")
+            Log.d("!@#", "verification completed $phoneAuthCredential")
             _smsCode = phoneAuthCredential.smsCode.orEmpty()
             _credential = phoneAuthCredential
         }
@@ -47,7 +47,7 @@ class PhoneAuthorizationRepository @Inject constructor() {
          * for instance if the the phone number format is not valid.
          */
         override fun onVerificationFailed(e: FirebaseException) {
-            Timber.e("!@# verification failed ${e.cause}")
+            Log.e("!@#", "verification failed $e")
         }
 
         /**
@@ -59,15 +59,14 @@ class PhoneAuthorizationRepository @Inject constructor() {
             verificationId: String,
             token: PhoneAuthProvider.ForceResendingToken
         ) {
-            Timber.d("!@# code send $verificationId")
-            Timber.d("!@# token=$token")
+            Log.d("!@#", "code send $verificationId, token=$token")
             _verificationId = verificationId
             _token = token
         }
     }
 
     fun sendCode(phoneNumber: String, context: Context): MyResult<Boolean> {
-        Timber.d("!@# отправка кода верификации на номер $phoneNumber")
+        Log.d("!@#", "отправка кода верификации на номер $phoneNumber")
         return try {
             val options = PhoneAuthOptions.newBuilder(Firebase.auth)
                 .setPhoneNumber("+7$phoneNumber")
@@ -78,7 +77,7 @@ class PhoneAuthorizationRepository @Inject constructor() {
             PhoneAuthProvider.verifyPhoneNumber(options)
             MyResult.Success(true)
         } catch (e: Exception) {
-            Timber.d("!@# ошибка при отправке кода верификации")
+            Log.d("!@#", "ошибка при отправке кода верификации")
             MyResult.Error(e)
         }
     }
@@ -86,15 +85,15 @@ class PhoneAuthorizationRepository @Inject constructor() {
     fun checkCode(code: String): Boolean = _smsCode == code
 
     suspend fun signIn(): MyResult<Boolean> {
-        Timber.d("!@# попытка входа пользователя")
+        Log.d("!@#", "попытка входа пользователя")
         return try {
             Firebase.auth
                 .signInWithCredential(_credential)
                 .await()
-            Timber.d("!@# пользователь залогинился!")
+            Log.d("!@#", "пользователь залогинился!")
             MyResult.Success(true)
         } catch (e: Exception) {
-            Timber.d("!@# ошибка при входе пользователя=$e")
+            Log.d("!@#", "ошибка при входе пользователя=$e")
             MyResult.Error(e)
         }
     }

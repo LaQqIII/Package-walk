@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.widgets.text.TextH6
 
 /**
  * Отрисовывает верхнюю панель приложения

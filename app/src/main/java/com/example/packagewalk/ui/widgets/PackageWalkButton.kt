@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.widgets.text.PackageWalkTextButton
 
 /**
  * Наиболее часто используемая "заполненная" кнопка

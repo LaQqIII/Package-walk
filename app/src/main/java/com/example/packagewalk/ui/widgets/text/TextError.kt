@@ -1,4 +1,4 @@
-package com.example.packagewalk.ui.widgets
+package com.example.packagewalk.ui.widgets.text
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding

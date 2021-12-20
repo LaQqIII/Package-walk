@@ -14,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
+import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.TextFieldApp
@@ -112,5 +114,13 @@ private fun MobileAuthorizationUI(
                     .padding(dimensionResource(id = R.dimen.around_base))
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    PackageWalkTheme {
+        MobileAuthorizationUI(sendCode = {}, checkCode = {}, codeIncorrect = false)
     }
 }
