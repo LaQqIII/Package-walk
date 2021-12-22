@@ -25,10 +25,7 @@ import com.example.packagewalk.data.Deal
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
-import com.example.packagewalk.ui.widgets.PackageWalkButton
-import com.example.packagewalk.ui.widgets.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.RowDeal
-import com.example.packagewalk.ui.widgets.TextFieldApp
+import com.example.packagewalk.ui.widgets.*
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 @Composable
@@ -62,7 +59,12 @@ private fun FindDealUI(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensionResource(id = R.dimen.around_base))
+            .padding(
+                start = dimensionResource(id = R.dimen.around_base),
+                top = dimensionResource(id = R.dimen.around_base),
+                end = dimensionResource(id = R.dimen.around_base),
+                bottom = dimensionResource(id = R.dimen.height_top_bar)
+            )
     ) {
         TextFieldApp(
             value = from.value,
@@ -117,16 +119,7 @@ private fun FindDealUI(
                 .padding(dimensionResource(id = R.dimen.around_base))
         )
         when (findDealState.value) {
-            LOADING -> {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = dimensionResource(id = R.dimen.around_base)),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            LOADING -> LoadingUI()
             LOADED -> ListDeals(deals)
             EMPTY -> {}
             ERROR -> {}
@@ -136,7 +129,7 @@ private fun FindDealUI(
 
 @Composable
 private fun ListDeals(deals: List<Deal>) {
-    LazyColumn {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(deals) { RowDeal(deal = it) }
     }
 }

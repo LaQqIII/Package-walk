@@ -13,7 +13,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = MainSections.Deals.route
     ) {
-        addMainSections(navController)
+        addMainSections()
         addAuthorizationSections(navController)
     }
 }

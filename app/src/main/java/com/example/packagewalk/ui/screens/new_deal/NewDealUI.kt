@@ -28,20 +28,11 @@ import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 @Preview(showBackground = true)
 @Composable
 fun NewDealUI() {
-    //AuthorizationUI {
     val from = remember { mutableStateOf("") }
     val to = remember { mutableStateOf("") }
     val data = remember { mutableStateOf("") }
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.new_order) }) {
-//        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-//            val (info, create) = createRefs()
-        Column(
-            modifier = Modifier
-//                    .constrainAs(info) {
-//                        top.linkTo(parent.top)
-//                    }
-                .padding(dimensionResource(id = R.dimen.around_base))
-        ) {
+        Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base))) {
             TextFieldApp(
                 value = from.value,
                 onValueChange = { from.value = it },
@@ -70,19 +61,15 @@ fun NewDealUI() {
                 })
             TextSubtitle1(value = stringResource(id = R.string.approximate_size))
             PackageWalkRadioButton()
-//        }
             PackageWalkButton(
                 stringId = R.string.create_order,
                 onClick = { /*TODO*/ },
                 modifier = Modifier
-//                            .constrainAs(create) { bottom.linkTo(parent.bottom) }
                     .fillMaxWidth()
                     .padding(dimensionResource(id = R.dimen.around_base))
             )
         }
     }
-//    }
-    //}
 }
 
 @Composable

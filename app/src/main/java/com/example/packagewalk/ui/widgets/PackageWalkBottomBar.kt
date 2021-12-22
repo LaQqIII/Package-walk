@@ -10,12 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.packagewalk.navigation.main.MainSections
 
-/**
- * Отвечает за отрисовку и смену состояния нижней панели
- * @param tabs массив экранов, которые должны быть отрисованы в нижней панели
- */
+/** Отвечает за отрисовку и смену состояния нижней панели*/
 @Composable
-fun PackageWalkBottomBar(navController: NavController, tabs: Array<MainSections>) {
+fun PackageWalkBottomBar(navController: NavController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -26,7 +23,7 @@ fun PackageWalkBottomBar(navController: NavController, tabs: Array<MainSections>
     // Отрисовываем нижнюю панель только если пользователь находится на одном из основых экранов
     if (currentRoute in routes) {
         BottomNavigation {
-            tabs.forEach { screen ->
+            sections.forEach { screen ->
                 BottomNavigationItem(
                     icon = { Icon(imageVector = screen.icon, contentDescription = "") },
                     selected = screen.route == currentRoute,

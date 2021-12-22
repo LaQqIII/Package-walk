@@ -18,25 +18,23 @@ import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 @Composable
 fun RowDeal(deal: Deal) {
-    Scaffold {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable { },
-            elevation = 8.dp
-        ) {
-            Column(modifier = Modifier.padding(8.dp)) {
-                Row {
-                    TextSubtitle1(value = deal.from)
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
-                        contentDescription = ""
-                    )
-                    TextSubtitle1(value = deal.to)
-                }
-                TextSubtitle1(value = deal.data, modifier = Modifier.padding(top = 8.dp))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { },
+        elevation = 8.dp
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row {
+                TextSubtitle1(value = deal.from)
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = ""
+                )
+                TextSubtitle1(value = deal.to)
             }
+            TextSubtitle1(value = deal.data, modifier = Modifier.padding(top = 8.dp))
         }
     }
 }
