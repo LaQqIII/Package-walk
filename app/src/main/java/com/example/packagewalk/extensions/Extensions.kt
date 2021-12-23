@@ -1,5 +1,8 @@
 package com.example.packagewalk.extensions
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 
@@ -10,3 +13,5 @@ import androidx.navigation.NavBackStackEntry
  */
 fun NavBackStackEntry.lifecycleIsResumed() =
     this.lifecycle.currentState == Lifecycle.State.RESUMED
+
+fun Modifier.allPadding() = this.padding(56.dp)

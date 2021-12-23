@@ -3,7 +3,7 @@ package com.example.packagewalk.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.packagewalk.navigation.authorization.addAuthorizationSections
+import com.example.packagewalk.navigation.detail.addDetailSections
 import com.example.packagewalk.navigation.main.MainSections
 import com.example.packagewalk.navigation.main.addMainSections
 
@@ -13,7 +13,7 @@ fun PackageWalkNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = MainSections.Deals.route
     ) {
-        addMainSections()
-        addAuthorizationSections(navController)
+        addMainSections(navController)
+        addDetailSections()
     }
 }

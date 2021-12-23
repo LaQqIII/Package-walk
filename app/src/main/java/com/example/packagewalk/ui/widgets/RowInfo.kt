@@ -1,4 +1,4 @@
-package com.example.packagewalk.ui.widgets.profile
+package com.example.packagewalk.ui.widgets
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -12,12 +12,12 @@ import com.example.packagewalk.ui.widgets.text.TextCaption
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 /**
- * Строка с отображением какой-то одной конкретной информации о сервисе.
+ * Строка с отображением какой-то одной конкретной информации с заголовком и значением.
  * @param caption - текст заголовка
  * @param value - данные об автосервисе
  */
 @Composable
-fun RowProfileInfo(
+fun RowInfo(
     @StringRes caption: Int,
     value: String,
     modifier: Modifier = Modifier

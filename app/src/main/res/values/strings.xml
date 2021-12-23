@@ -43,4 +43,14 @@
     //Найти заказ
     <string name="find">Найти</string>
 
+    //Активность
+    <string name="find_deal">Захватить посылку</string>
+    <string name="send_deal">Отправить посылку</string>
+    <string name="empty_deals">У вас пока не было сделок</string>
+    <string name="try_app_now">Воспользуйтесь возможностями приложения прямо сейчас</string>
+
+    //Сделка
+    <string name="deal">Посылка</string>
+    <string name="take_deal">Взять посылку</string>
+
 </resources>
