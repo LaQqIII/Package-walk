@@ -9,6 +9,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -25,16 +28,18 @@ fun TextFieldApp(
     onDoneClick: () -> Unit,
     modifier: Modifier = Modifier,
     @StringRes label: Int,
-    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     @StringRes error: Int? = R.string.error_text,
-    trailingIcon: @Composable (() -> Unit)? = null
+    trailingIcon: @Composable() (() -> Unit)? = null,
+    inputChecks: ((String) -> Boolean)? = null,
+    startCheck: Boolean = false
 ) {
+    val isError = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.padding(
-            bottom = if (isError) 0.dp else 16.dp
+            bottom = if (isError.value) 0.dp else 16.dp
         )
     ) {
         TextField(
@@ -52,7 +57,7 @@ fun TextFieldApp(
             visualTransformation = visualTransformation,
             trailingIcon = trailingIcon
         )
-        if (isError && error != null) {
+        if (isError.value && error != null) {
             Text(
                 text = stringResource(id = error),
                 color = MaterialTheme.colors.error,
@@ -60,5 +65,8 @@ fun TextFieldApp(
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
+    }
+    SideEffect {
+        if (startCheck && inputChecks != null) isError.value = inputChecks(value)
     }
 }

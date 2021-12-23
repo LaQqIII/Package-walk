@@ -13,5 +13,6 @@
     //elements
     <dimen name="height_button_base">44dp</dimen>
     <dimen name="height_top_bar">56dp</dimen>
+    <dimen name="size_progress_bar">32dp</dimen>
 
 </resources>

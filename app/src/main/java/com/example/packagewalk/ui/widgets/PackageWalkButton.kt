@@ -1,16 +1,17 @@
 package com.example.packagewalk.ui.widgets
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.widgets.text.PackageWalkTextButton
 
@@ -27,6 +28,7 @@ fun PackageWalkButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    loading: Boolean = false
 ) {
     Button(
         onClick = { onClick() },
@@ -34,7 +36,14 @@ fun PackageWalkButton(
         enabled = enabled,
         shape = CircleShape
     ) {
-        PackageWalkTextButton(stringId = stringId)
+        if (loading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.size_progress_bar)),
+                color = MaterialTheme.colors.surface
+            )
+        } else {
+            PackageWalkTextButton(stringId = stringId)
+        }
     }
 }
 

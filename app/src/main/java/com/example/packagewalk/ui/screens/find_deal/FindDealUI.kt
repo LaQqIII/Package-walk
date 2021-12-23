@@ -73,9 +73,8 @@ private fun FindDealUI(
                 from.value = it
             },
             onDoneClick = { /*TODO*/ },
-            label = R.string.from,
             modifier = Modifier.fillMaxWidth(),
-            isError = isFromError.value
+            label = R.string.from
         )
         TextFieldApp(
             value = to.value,
@@ -84,9 +83,8 @@ private fun FindDealUI(
                 to.value = it
             },
             onDoneClick = { /*TODO*/ },
-            label = R.string.to,
             modifier = Modifier.fillMaxWidth(),
-            isError = isToError.value
+            label = R.string.to
         )
         TextFieldApp(
             value = data.value,
@@ -95,16 +93,15 @@ private fun FindDealUI(
                 data.value = it
             },
             onDoneClick = { /*TODO*/ },
-            label = R.string.whenn,
             modifier = Modifier.fillMaxWidth(),
+            label = R.string.whenn,
+            keyboardType = KeyboardType.Number,
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.DateRange,
                     contentDescription = "",
                     modifier = Modifier.clickable { })
-            },
-            keyboardType = KeyboardType.Number,
-            isError = isDataError.value
+            }
         )
         PackageWalkButton(
             stringId = R.string.find,
@@ -155,6 +152,6 @@ private fun Preview() {
 @Composable
 private fun ListDealsPreview() {
     PackageWalkTheme {
-        ListDeals(deals = listOf(Deal("Саров", "Нижний Новгород", "31.12.2021"))) {}
+        ListDeals(deals = listOf(Deal("Саров", "Нижний Новгород", "31.12.2021", 0))) {}
     }
 }

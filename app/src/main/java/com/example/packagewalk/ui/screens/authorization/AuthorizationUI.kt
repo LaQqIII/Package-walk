@@ -80,8 +80,8 @@ private fun MobileAuthorizationUI(
                 value = phone.value,
                 onValueChange = { phone.value = it },
                 onDoneClick = { /*TODO*/ },
-                label = R.string.number_phone,
                 modifier = Modifier.fillMaxWidth(),
+                label = R.string.number_phone,
                 visualTransformation = { mobileNumberTransformation(it.text) },
                 enabled = !codeSend.value,
                 keyboardType = KeyboardType.Number
@@ -91,11 +91,10 @@ private fun MobileAuthorizationUI(
                     value = code.value,
                     onValueChange = { code.value = it },
                     onDoneClick = { /*TODO*/ },
-                    label = R.string.sms_code,
-                    isError = codeIncorrect,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = dimensionResource(id = R.dimen.around_base)),
+                    label = R.string.sms_code,
                     keyboardType = KeyboardType.Number,
                     error = R.string.error_code
                 )
