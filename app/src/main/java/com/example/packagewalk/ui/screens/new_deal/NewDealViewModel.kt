@@ -3,11 +3,12 @@ package com.example.packagewalk.ui.screens.new_deal
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.Deal
+import com.example.packagewalk.data.Deal.OpenDeal
 import com.example.packagewalk.data.MyResult
 import com.example.packagewalk.data.PackageSize
 import com.example.packagewalk.data.User
 import com.example.packagewalk.repositories.DealsRepository
+import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class NewDealViewModel
 @Inject constructor(private val repository: DealsRepository) : ViewModel() {
 
-    val newDealEvent = mutableStateOf(START)
+    val newDealEvent = mutableStateOf<NewDealEventState?>(null)
 
     val from = mutableStateOf("")
     val to = mutableStateOf("")
@@ -37,7 +38,7 @@ class NewDealViewModel
         viewModelScope.launch(Dispatchers.IO) {
             loading.value = true
             when (val result = repository.createNewDeal(
-                Deal(
+                OpenDeal(
                     from = from.value,
                     to = to.value,
                     data = data.value,
@@ -47,7 +48,7 @@ class NewDealViewModel
             )) {
                 is MyResult.Success -> {
                     if (result.data) {
-                        newDealEvent.value = CREATE
+                        newDealEvent.value = CREATED
                     } else {
                         newDealEvent.value = NOT_CREATED
                     }

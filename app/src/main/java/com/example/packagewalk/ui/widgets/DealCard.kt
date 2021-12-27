@@ -12,15 +12,21 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packagewalk.R
 import com.example.packagewalk.data.Deal
-import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 @Composable
-fun RowDeal(deal: Deal, onClick: () -> Unit) {
+fun DealCard(deal: Deal, onClick: () -> Unit) {
+    when (deal) {
+        is Deal.OpenDeal -> DealCard(deal = deal, onClick = onClick)
+        is Deal.CloseDeal -> DealCard(deal = deal, onClick = onClick)
+    }
+}
+
+@Composable
+private fun DealCard(deal: Deal.OpenDeal, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,10 +36,7 @@ fun RowDeal(deal: Deal, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             TextSubtitle1(
-                value = if (deal.isOpen)
-                    stringResource(id = R.string.open)
-                else
-                    stringResource(id = R.string.close),
+                stringResource(id = R.string.open),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Row {
@@ -49,10 +52,29 @@ fun RowDeal(deal: Deal, onClick: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-private fun Preview() {
-    PackageWalkTheme {
-        RowDeal(Deal()) {}
+private fun DealCard(deal: Deal.CloseDeal, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onClick() },
+        elevation = 8.dp
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            TextSubtitle1(
+                stringResource(id = R.string.close),
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Row {
+                TextSubtitle1(value = deal.from)
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = ""
+                )
+                TextSubtitle1(value = deal.to)
+            }
+            TextSubtitle1(value = deal.data, modifier = Modifier.padding(top = 8.dp))
+        }
     }
 }

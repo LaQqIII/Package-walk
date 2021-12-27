@@ -14,14 +14,14 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
 
     composable(MainSections.DEALS.route) {
         DealsUI(
-            navigateToDetail = actions.navigateToDetail,
+            navigateToDeal = actions.navigateToDeal,
             navigateToNewDeal = actions.navigateToNewDeal,
             navigateToFindDeal = actions.navigateToFindDeal
         )
     }
 
     composable(MainSections.FIND_DEAL.route) {
-        FindDealUI(navigateToDetail = actions.navigateToDetail)
+        FindDealUI(navigateToDeal = actions.navigateToDeal)
     }
 
     composable(MainSections.NEW_DEAL.route) {

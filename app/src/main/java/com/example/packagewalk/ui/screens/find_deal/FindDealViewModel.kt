@@ -23,7 +23,7 @@ class FindDealViewModel
     val from = mutableStateOf("")
     val to = mutableStateOf("")
     val data = mutableStateOf("")
-    val deals = mutableStateListOf<Deal>()
+    val deals = mutableStateListOf<Deal.OpenDeal>()
 
     fun loadingDeals() {
         if (from.value.isEmpty() || to.value.isEmpty() || data.value.isEmpty())

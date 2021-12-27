@@ -21,12 +21,13 @@ import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.LoadingUI
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.RowDeal
+import com.example.packagewalk.ui.widgets.DealCard
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
+import com.squareup.moshi.Moshi
 
 @Composable
 fun DealsUI(
-    navigateToDetail: (Deal) -> Unit,
+    navigateToDeal: (String) -> Unit,
     navigateToNewDeal: () -> Unit,
     navigateToFindDeal: () -> Unit
 ) {
@@ -35,7 +36,10 @@ fun DealsUI(
         when (viewModel.dealsEvent.value) {
             CREATE -> viewModel.loadingDeals()
             LOADING -> LoadingUI()
-            LOADED -> DealsUI(viewModel.deals, navigateToDetail)
+            LOADED -> DealsUI(
+                deals = viewModel.deals,
+                navigateToDeal = navigateToDeal
+            )
             EMPTY -> EmptyUI(navigateToNewDeal, navigateToFindDeal)
             ERROR -> {}
         }
@@ -43,10 +47,18 @@ fun DealsUI(
 }
 
 @Composable
-private fun DealsUI(deals: List<Deal>, navigateToDetail: (Deal) -> Unit) {
+private fun DealsUI(
+    deals: List<Deal>,
+    navigateToDeal: (String) -> Unit,
+) {
     LazyColumn {
         items(deals) { deal ->
-            RowDeal(deal = deal, onClick = { navigateToDetail(deal) })
+            DealCard(deal = deal, onClick = {
+                val moshi = Moshi.Builder().build()
+                val jsonAdapter = moshi.adapter(Deal::class.java)
+                val json = jsonAdapter.toJson(deal)
+                navigateToDeal(json)
+            })
         }
     }
 }

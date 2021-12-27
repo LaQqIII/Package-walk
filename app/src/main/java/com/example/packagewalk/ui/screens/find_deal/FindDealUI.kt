@@ -24,9 +24,11 @@ import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.*
+import com.squareup.moshi.Moshi
+import kotlinx.coroutines.launch
 
 @Composable
-fun FindDealUI(navigateToDetail: (Deal) -> Unit) {
+fun FindDealUI(navigateToDeal: (String) -> Unit) {
     val viewModel = hiltViewModel<FindDealViewModel>()
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_find_order) }) {
         FindDealUI(
@@ -36,7 +38,7 @@ fun FindDealUI(navigateToDetail: (Deal) -> Unit) {
             findDealState = viewModel.findDealEvent,
             deals = viewModel.deals,
             loadingDeals = { viewModel.loadingDeals() },
-            navigateToDetail = navigateToDetail
+            navigateToDeal = navigateToDeal
         )
     }
 }
@@ -47,9 +49,9 @@ private fun FindDealUI(
     to: MutableState<String>,
     data: MutableState<String>,
     findDealState: State<FindDealEventState?>,
-    deals: List<Deal>,
+    deals: List<Deal.OpenDeal>,
     loadingDeals: () -> Unit,
-    navigateToDetail: (Deal) -> Unit
+    navigateToDeal: (String) -> Unit
 ) {
     val isFromError = remember { mutableStateOf(false) }
     val isToError = remember { mutableStateOf(false) }
@@ -115,7 +117,7 @@ private fun FindDealUI(
         )
         when (findDealState.value) {
             LOADING -> LoadingUI()
-            LOADED -> ListDeals(deals, navigateToDetail)
+            LOADED -> ListDeals(deals, navigateToDeal)
             EMPTY -> {}
             ERROR -> {}
         }
@@ -123,11 +125,22 @@ private fun FindDealUI(
 }
 
 @Composable
-private fun ListDeals(deals: List<Deal>, navigateToDetail: (Deal) -> Unit) {
+private fun ListDeals(deals: List<Deal.OpenDeal>, navigateToDetail: (String) -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(deals) { RowDeal(deal = it, onClick = { navigateToDetail(it) }) }
+        items(deals) { deal ->
+            DealCard(deal = deal, onClick = {
+                coroutineScope.launch {
+                    val moshi: Moshi = Moshi.Builder().build()
+                    val jsonAdapter = moshi.adapter(Deal.OpenDeal::class.java)
+                    val json = jsonAdapter.toJson(deal)
+                    navigateToDetail(json)
+                }
+            })
+        }
     }
 }
+
 
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
@@ -141,7 +154,7 @@ private fun Preview() {
             findDealState = mutableStateOf(LOADED),
             deals = listOf(),
             loadingDeals = {},
-            navigateToDetail = {}
+            navigateToDeal = {}
         )
     }
 }

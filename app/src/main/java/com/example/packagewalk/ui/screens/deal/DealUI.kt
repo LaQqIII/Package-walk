@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.data.Deal
@@ -22,9 +21,8 @@ import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.RowInfo
 
 @Composable
-fun DealUI(deal: Deal, backPressed: () -> Unit) {
+fun DealUI(deal: Deal?, backPressed: () -> Unit) {
     val viewModel = hiltViewModel<DealViewModel>()
-    val showContacts = remember { mutableStateOf(false) }
     when (viewModel.state.value) {
         CANCEL_DEAL -> {}
         ERROR -> {}
@@ -40,32 +38,47 @@ fun DealUI(deal: Deal, backPressed: () -> Unit) {
             modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            RowInfo(caption = R.string.from, value = deal.from)
-            RowInfo(caption = R.string.to, value = deal.to)
-            RowInfo(caption = R.string.whenn, value = deal.data)
-            if (showContacts.value) {
-                RowInfo(caption = R.string.number_phone, value = deal.phoneNumber)
-            }
-            if (deal.phoneNumber == User.phoneNumber && deal.isOpen) {
-                PackageWalkButton(
-                    stringId = R.string.cancel_deal,
-                    onClick = { viewModel.cancelDeal(deal) },
-                    modifier = Modifier.allPadding(),
+            when (deal) {
+                is Deal.OpenDeal -> DealUI(
+                    deal = deal,
+                    cancelDeal = { viewModel.cancelDeal(deal) },
                     loading = viewModel.loading.value
                 )
-            } else if (deal.isOpen) {
-                PackageWalkButton(
-                    stringId = R.string.show_contacts,
-                    onClick = { showContacts.value = true },
-                    modifier = Modifier.allPadding(),
-                    enabled = !showContacts.value
-                )
+                is Deal.CloseDeal -> DealUI(deal = deal)
             }
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-private fun Preview() {
+private fun DealUI(deal: Deal.OpenDeal, cancelDeal: () -> Unit, loading: Boolean) {
+    val showContacts = remember { mutableStateOf(false) }
+    RowInfo(caption = R.string.from, value = deal.from)
+    RowInfo(caption = R.string.to, value = deal.to)
+    RowInfo(caption = R.string.whenn, value = deal.data)
+    if (showContacts.value) {
+        RowInfo(caption = R.string.number_phone, value = deal.phoneNumber)
+    }
+    if (deal.phoneNumber == User.phoneNumber) {
+        PackageWalkButton(
+            stringId = R.string.cancel_deal,
+            onClick = cancelDeal,
+            modifier = Modifier.allPadding(),
+            loading = loading
+        )
+    } else {
+        PackageWalkButton(
+            stringId = R.string.show_contacts,
+            onClick = { showContacts.value = true },
+            modifier = Modifier.allPadding(),
+            enabled = !showContacts.value
+        )
+    }
+}
+
+@Composable
+private fun DealUI(deal: Deal.CloseDeal) {
+    RowInfo(caption = R.string.from, value = deal.from)
+    RowInfo(caption = R.string.to, value = deal.to)
+    RowInfo(caption = R.string.whenn, value = deal.data)
 }

@@ -3,8 +3,8 @@ package com.example.packagewalk.repositories
 import android.util.Log
 import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.MyResult
-import com.example.packagewalk.extensions.toDeal
-
+import com.example.packagewalk.extensions.toCloseDeal
+import com.example.packagewalk.extensions.toOpenDeal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class DealsRepository @Inject constructor() {
     }
 
     /** Возвращает список открытых сделок, которые соответствуют переданным аргументом */
-    suspend fun issueDeals(from: String, to: String, data: String): MyResult<List<Deal>> {
+    suspend fun issueDeals(from: String, to: String, data: String): MyResult<List<Deal.OpenDeal>> {
         return try {
             val deals = FirebaseFirestore
                 .getInstance()
@@ -28,7 +28,7 @@ class DealsRepository @Inject constructor() {
                 .whereEqualTo("to", to)
                 .get()
                 .await()
-                .map { it.toDeal(true) }
+                .map { it.toOpenDeal() }
             MyResult.Success(deals)
         } catch (e: Exception) {
             MyResult.Error(e)
@@ -46,14 +46,14 @@ class DealsRepository @Inject constructor() {
                 .whereEqualTo("phoneNumber", phoneNumber)
                 .get()
                 .await()
-                .map { it.toDeal(true) }
+                .map { it.toOpenDeal() }
             val closeDeals = FirebaseFirestore
                 .getInstance()
                 .collection(CLOSE_DEALS)
                 .whereEqualTo("phoneNumber", phoneNumber)
                 .get()
                 .await()
-                .map { it.toDeal(false) }
+                .map { it.toCloseDeal() }
             Log.d("!@#", "Данные об активности пользователя получены успешно")
             MyResult.Success(openDeals + closeDeals)
         } catch (e: Exception) {
@@ -63,7 +63,7 @@ class DealsRepository @Inject constructor() {
     }
 
     /** Создает новую запись в бд */
-    suspend fun createNewDeal(deal: Deal): MyResult<Boolean> {
+    suspend fun createNewDeal(deal: Deal.OpenDeal): MyResult<Boolean> {
         return try {
             FirebaseFirestore
                 .getInstance()
@@ -81,9 +81,8 @@ class DealsRepository @Inject constructor() {
     /** Удаляет сделку из коллекции открытых сделок
      * и делает новую запись в коллекции отмененные сделки
      */
-    suspend fun cancelDeal(deal: Deal): MyResult<Boolean> {
+    suspend fun cancelDeal(deal: Deal.OpenDeal): MyResult<Boolean> {
         return try {
-            if (!deal.isOpen) throw Exception("Нельзя закрыть открытую сделку")
             FirebaseFirestore
                 .getInstance()
                 .collection(CANCEL_DEALS)

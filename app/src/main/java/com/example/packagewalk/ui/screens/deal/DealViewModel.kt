@@ -23,8 +23,8 @@ class DealViewModel
     val loading = mutableStateOf(false)
 
     /** Может вызвать пользователь для своей открытой сделки */
-    fun cancelDeal(deal: Deal) {
-        if (deal.phoneNumber != User.phoneNumber || !deal.isOpen) {
+    fun cancelDeal(deal: Deal.OpenDeal) {
+        if (deal.phoneNumber != User.phoneNumber) {
             return
         }
         viewModelScope.launch(Dispatchers.IO) {

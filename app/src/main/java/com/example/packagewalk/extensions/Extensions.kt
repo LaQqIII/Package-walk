@@ -18,7 +18,12 @@ fun NavBackStackEntry.lifecycleIsResumed() =
 
 fun Modifier.allPadding() = this.padding(56.dp)
 
-fun QueryDocumentSnapshot.toDeal(isOpen: Boolean): Deal {
-    val deal = this.toObject(Deal::class.java)
-    return deal.copy(id = this.id, isOpen = isOpen)
+fun QueryDocumentSnapshot.toOpenDeal(): Deal.OpenDeal {
+    val deal = this.toObject(Deal.OpenDeal::class.java)
+    return deal.copy(id = this.id)
+}
+
+fun QueryDocumentSnapshot.toCloseDeal(): Deal.CloseDeal {
+    val deal = this.toObject(Deal.CloseDeal::class.java)
+    return deal.copy(id = this.id)
 }
