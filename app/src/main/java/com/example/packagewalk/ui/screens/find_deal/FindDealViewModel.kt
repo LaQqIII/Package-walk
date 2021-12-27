@@ -2,7 +2,6 @@ package com.example.packagewalk.ui.screens.find_deal
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.packagewalk.data.Deal
@@ -19,7 +18,7 @@ import javax.inject.Inject
 class FindDealViewModel
 @Inject constructor(private val repository: DealsRepository) : ViewModel() {
 
-    val findDealEvent = MutableLiveData(CREATE)
+    val findDealEvent = mutableStateOf<FindDealEventState?>(null)
 
     val from = mutableStateOf("")
     val to = mutableStateOf("")
@@ -30,7 +29,7 @@ class FindDealViewModel
         if (from.value.isEmpty() || to.value.isEmpty() || data.value.isEmpty())
             return
         viewModelScope.launch(Dispatchers.IO) {
-            findDealEvent.postValue(LOADING)
+            findDealEvent.value = LOADING
             when (val result = repository.issueDeals(
                 from = from.value,
                 to = to.value,
@@ -38,14 +37,14 @@ class FindDealViewModel
             )) {
                 is MyResult.Success -> {
                     if (result.data.isEmpty()) {
-                        findDealEvent.postValue(EMPTY)
+                        findDealEvent.value = EMPTY
                     } else {
-                        findDealEvent.postValue(LOADED)
+                        findDealEvent.value = LOADED
                         deals.clear()
                         deals.addAll(result.data)
                     }
                 }
-                is MyResult.Error -> findDealEvent.postValue(ERROR)
+                is MyResult.Error -> findDealEvent.value = ERROR
             }
         }
     }

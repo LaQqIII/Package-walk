@@ -32,7 +32,7 @@ fun PackageWalkBottomBar(navController: NavController) {
                             navController.navigate(screen.route) {
                                 launchSingleTop = true
                                 restoreState = true
-                                popUpTo(MainSections.Deals.route) {
+                                popUpTo(MainSections.DEALS.route) {
                                     saveState = true
                                 }
                             }

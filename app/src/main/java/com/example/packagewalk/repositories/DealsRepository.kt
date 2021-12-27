@@ -3,50 +3,102 @@ package com.example.packagewalk.repositories
 import android.util.Log
 import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.MyResult
+import com.example.packagewalk.extensions.toDeal
+
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class DealsRepository @Inject constructor() {
 
+    companion object {
+        private const val OPEN_DEALS = "open_deals"
+        private const val CLOSE_DEALS = "close_deals"
+        private const val CANCEL_DEALS = "cancel_deals"
+    }
+
+    /** Возвращает список открытых сделок, которые соответствуют переданным аргументом */
     suspend fun issueDeals(from: String, to: String, data: String): MyResult<List<Deal>> {
-        delay(2000)
-        return MyResult.Success(
-            listOf(
-                Deal(from, to, data, 0),
-                Deal(from, to, data, 0),
-                Deal(from, to, data, 0),
-                Deal(from, to, data, 0)
-            )
-        )
+        return try {
+            val deals = FirebaseFirestore
+                .getInstance()
+                .collection(OPEN_DEALS)
+                .whereEqualTo("data", data)
+                .whereEqualTo("from", from)
+                .whereEqualTo("to", to)
+                .get()
+                .await()
+                .map { it.toDeal(true) }
+            MyResult.Success(deals)
+        } catch (e: Exception) {
+            MyResult.Error(e)
+        }
     }
 
-    suspend fun issueDealsUser(): MyResult<List<Deal>> {
-        delay(2000)
-        return MyResult.Success(
-            listOf(
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0)
-            )
-        )
+    /** Возвращает активность конкретного пользователя (открытые и закрытые сделки)
+     * @param phoneNumber - номер телефона пользователя
+     */
+    suspend fun issueDealsUser(phoneNumber: String): MyResult<List<Deal>> {
+        return try {
+            val openDeals = FirebaseFirestore
+                .getInstance()
+                .collection(OPEN_DEALS)
+                .whereEqualTo("phoneNumber", phoneNumber)
+                .get()
+                .await()
+                .map { it.toDeal(true) }
+            val closeDeals = FirebaseFirestore
+                .getInstance()
+                .collection(CLOSE_DEALS)
+                .whereEqualTo("phoneNumber", phoneNumber)
+                .get()
+                .await()
+                .map { it.toDeal(false) }
+            Log.d("!@#", "Данные об активности пользователя получены успешно")
+            MyResult.Success(openDeals + closeDeals)
+        } catch (e: Exception) {
+            Log.e("!@#", "Возникли ошибки при получении данных о активности пользователя")
+            MyResult.Error(e)
+        }
     }
 
+    /** Создает новую запись в бд */
     suspend fun createNewDeal(deal: Deal): MyResult<Boolean> {
         return try {
             FirebaseFirestore
                 .getInstance()
-                .collection("deals")
+                .collection(OPEN_DEALS)
                 .document()
                 .set(deal)
                 .await()
             MyResult.Success(true)
         } catch (e: Exception) {
-            Log.d("!@#", "ошибка при создании нового сделки=$e")
+            Log.d("!@#", "ошибка при создании новой сделки=$e")
             MyResult.Error(e)
         }
     }
 
+    /** Удаляет сделку из коллекции открытых сделок
+     * и делает новую запись в коллекции отмененные сделки
+     */
+    suspend fun cancelDeal(deal: Deal): MyResult<Boolean> {
+        return try {
+            if (!deal.isOpen) throw Exception("Нельзя закрыть открытую сделку")
+            FirebaseFirestore
+                .getInstance()
+                .collection(CANCEL_DEALS)
+                .document()
+                .set(deal)
+                .await()
+            FirebaseFirestore
+                .getInstance()
+                .collection(OPEN_DEALS)
+                .document(deal.id)
+                .delete()
+                .await()
+            MyResult.Success(true)
+        } catch (e: Exception) {
+            MyResult.Error(e)
+        }
+    }
 }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.screens.authorization.AuthorizationUI
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.RowInfo
@@ -16,6 +17,7 @@ import com.example.packagewalk.ui.widgets.RowInfo
 @Preview(showBackground = true)
 @Composable
 fun ProfileUI() {
+//    AuthorizationUI {
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
@@ -30,4 +32,5 @@ fun ProfileUI() {
             )
         }
     }
+//    }
 }

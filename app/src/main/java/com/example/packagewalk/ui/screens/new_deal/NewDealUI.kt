@@ -1,5 +1,6 @@
 package com.example.packagewalk.ui.screens.new_deal
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -9,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -22,20 +23,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.data.PackageSize
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
+import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.TextFieldApp
 import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
-@Preview(showBackground = true)
 @Composable
-fun NewDealUI() {
+fun NewDealUI(navigateToDeals: () -> Unit) {
+//    AuthorizationUI {
     val viewModel = hiltViewModel<NewDealViewModel>()
-    val newDealState = viewModel.newDealEvent.observeAsState()
-    when (newDealState.value) {
-        CREATE -> {}
-        CREATED -> {}
+    when (viewModel.newDealEvent.value) {
+        CREATED -> navigateToDeals()
         NOT_CREATED -> {}
         ERROR -> {}
     }
@@ -48,6 +48,7 @@ fun NewDealUI() {
         startCheck = viewModel.startCheck.value,
         loading = viewModel.loading.value
     )
+//    }
 }
 
 @Composable
@@ -140,5 +141,22 @@ private fun PackageWalkRadioButton(size: MutableState<PackageSize>) {
                 )
             }
         }
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    PackageWalkTheme {
+        NewDealUI(
+            from = mutableStateOf("Саров"),
+            to = mutableStateOf("Нижний Новгород"),
+            data = mutableStateOf("12.12.2021"),
+            size = mutableStateOf(PackageSize.LARGE),
+            createNewDeal = { /*TODO*/ },
+            startCheck = false,
+            loading = false
+        )
     }
 }

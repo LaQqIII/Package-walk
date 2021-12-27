@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -26,32 +25,37 @@ import com.example.packagewalk.ui.widgets.RowDeal
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 @Composable
-fun DealsUI(navigateToDetail: () -> Unit) {
+fun DealsUI(
+    navigateToDetail: (Deal) -> Unit,
+    navigateToNewDeal: () -> Unit,
+    navigateToFindDeal: () -> Unit
+) {
     val viewModel = hiltViewModel<DealsViewModel>()
-    val dealsState = viewModel.dealsEvent.observeAsState()
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_progress) }) {
-        when (dealsState.value) {
+        when (viewModel.dealsEvent.value) {
             CREATE -> viewModel.loadingDeals()
             LOADING -> LoadingUI()
             LOADED -> DealsUI(viewModel.deals, navigateToDetail)
-            EMPTY -> EmptyUI()
+            EMPTY -> EmptyUI(navigateToNewDeal, navigateToFindDeal)
             ERROR -> {}
         }
     }
 }
 
 @Composable
-private fun DealsUI(deals: List<Deal>, navigateToDetail: () -> Unit) {
+private fun DealsUI(deals: List<Deal>, navigateToDetail: (Deal) -> Unit) {
     LazyColumn {
         items(deals) { deal ->
-            RowDeal(deal = deal, onClick = navigateToDetail)
+            RowDeal(deal = deal, onClick = { navigateToDetail(deal) })
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-private fun EmptyUI() {
+private fun EmptyUI(
+    navigateToNewDeal: () -> Unit,
+    navigateToFindDeal: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,20 +65,16 @@ private fun EmptyUI() {
             value = stringResource(id = R.string.empty_deals),
             modifier = Modifier.fillMaxWidth()
         )
-        TextSubtitle1(
-            value = stringResource(id = R.string.try_app_now),
-            modifier = Modifier.fillMaxWidth()
-        )
         PackageWalkButton(
             stringId = R.string.send_deal,
-            onClick = { /*TODO*/ },
+            onClick = navigateToNewDeal,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = dimensionResource(id = R.dimen.around_base))
         )
         PackageWalkButton(
             stringId = R.string.find_deal,
-            onClick = { /*TODO*/ },
+            onClick = navigateToFindDeal,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = dimensionResource(id = R.dimen.around_base))
@@ -86,13 +86,16 @@ private fun EmptyUI() {
 @Composable
 private fun Preview() {
     PackageWalkTheme {
-        DealsUI(
-            deals = listOf(
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0),
-                Deal("Саров", "Нижний Новгород", "12.12", 0)
-            )
-        ) {}
+        DealsUI(deals = listOf()) {}
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EmptyUIPreview() {
+    PackageWalkTheme {
+        EmptyUI(navigateToNewDeal = { /*TODO*/ }) {
+
+        }
     }
 }

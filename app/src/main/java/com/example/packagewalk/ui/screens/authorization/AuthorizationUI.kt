@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,9 +42,7 @@ fun AuthorizationUI(content: @Composable (() -> Unit)) {
 @Composable
 private fun MobileAuthorizationUI(viewModel: AuthorizationViewModel) {
     val context = LocalContext.current
-    val authorizationEvent = viewModel.authorizationEvent.observeAsState()
-    val codeInCorrect by viewModel.codeInCorrect
-    when (authorizationEvent.value) {
+    when (viewModel.authorizationEvent.value) {
         CODE_SEND -> {}
         CODE_NOT_SEND -> {}
         CODE_CORRECT -> viewModel.signIn()
@@ -55,7 +52,7 @@ private fun MobileAuthorizationUI(viewModel: AuthorizationViewModel) {
     MobileAuthorizationUI(
         sendCode = { viewModel.sendCode(it, context) },
         checkCode = { viewModel.checkCode(it) },
-        codeIncorrect = codeInCorrect
+        codeIncorrect = viewModel.codeInCorrect.value
     )
 }
 

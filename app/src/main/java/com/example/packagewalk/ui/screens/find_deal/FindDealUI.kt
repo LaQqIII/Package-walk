@@ -13,7 +13,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,15 +26,14 @@ import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.*
 
 @Composable
-fun FindDealUI(navigateToDetail: () -> Unit) {
+fun FindDealUI(navigateToDetail: (Deal) -> Unit) {
     val viewModel = hiltViewModel<FindDealViewModel>()
-    val findDealState = viewModel.findDealEvent.observeAsState()
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_find_order) }) {
         FindDealUI(
             from = viewModel.from,
             to = viewModel.to,
             data = viewModel.data,
-            findDealState = findDealState,
+            findDealState = viewModel.findDealEvent,
             deals = viewModel.deals,
             loadingDeals = { viewModel.loadingDeals() },
             navigateToDetail = navigateToDetail
@@ -51,7 +49,7 @@ private fun FindDealUI(
     findDealState: State<FindDealEventState?>,
     deals: List<Deal>,
     loadingDeals: () -> Unit,
-    navigateToDetail: () -> Unit
+    navigateToDetail: (Deal) -> Unit
 ) {
     val isFromError = remember { mutableStateOf(false) }
     val isToError = remember { mutableStateOf(false) }
@@ -125,9 +123,9 @@ private fun FindDealUI(
 }
 
 @Composable
-private fun ListDeals(deals: List<Deal>, navigateToDetail: () -> Unit) {
+private fun ListDeals(deals: List<Deal>, navigateToDetail: (Deal) -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(deals) { RowDeal(deal = it, onClick = navigateToDetail) }
+        items(deals) { RowDeal(deal = it, onClick = { navigateToDetail(it) }) }
     }
 }
 
@@ -152,6 +150,6 @@ private fun Preview() {
 @Composable
 private fun ListDealsPreview() {
     PackageWalkTheme {
-        ListDeals(deals = listOf(Deal("Саров", "Нижний Новгород", "31.12.2021", 0))) {}
+        ListDeals(deals = listOf()) {}
     }
 }

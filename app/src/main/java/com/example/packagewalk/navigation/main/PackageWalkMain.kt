@@ -12,8 +12,12 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
 
     val actions = MainActions(navHostController)
 
-    composable(MainSections.Deals.route) {
-        DealsUI(navigateToDetail = actions.navigateToDetail)
+    composable(MainSections.DEALS.route) {
+        DealsUI(
+            navigateToDetail = actions.navigateToDetail,
+            navigateToNewDeal = actions.navigateToNewDeal,
+            navigateToFindDeal = actions.navigateToFindDeal
+        )
     }
 
     composable(MainSections.FIND_DEAL.route) {
@@ -21,7 +25,7 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
     }
 
     composable(MainSections.NEW_DEAL.route) {
-        NewDealUI()
+        NewDealUI(navigateToDeals = actions.navigateToDeals)
     }
 
     composable(MainSections.PROFILE.route) {
