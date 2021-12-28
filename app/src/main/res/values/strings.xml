@@ -55,5 +55,6 @@
     <string name="cancel_deal">Отменить сделку</string>
     <string name="open">Выполняется</string>
     <string name="close">Закрыта</string>
+    <string name="close_deal">Посылка доставлена</string>
 
 </resources>

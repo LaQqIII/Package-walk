@@ -18,16 +18,15 @@ import com.example.packagewalk.data.Deal
 import com.example.packagewalk.extensions.allPadding
 import com.example.packagewalk.ui.screens.deals.models.DealsEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
+import com.example.packagewalk.ui.widgets.DealCard
 import com.example.packagewalk.ui.widgets.LoadingUI
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.DealCard
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
-import com.squareup.moshi.Moshi
 
 @Composable
 fun DealsUI(
-    navigateToDeal: (String) -> Unit,
+    navigateToDeal: (Deal) -> Unit,
     navigateToNewDeal: () -> Unit,
     navigateToFindDeal: () -> Unit
 ) {
@@ -49,16 +48,11 @@ fun DealsUI(
 @Composable
 private fun DealsUI(
     deals: List<Deal>,
-    navigateToDeal: (String) -> Unit,
+    navigateToDeal: (Deal) -> Unit,
 ) {
     LazyColumn {
         items(deals) { deal ->
-            DealCard(deal = deal, onClick = {
-                val moshi = Moshi.Builder().build()
-                val jsonAdapter = moshi.adapter(Deal::class.java)
-                val json = jsonAdapter.toJson(deal)
-                navigateToDeal(json)
-            })
+            DealCard(deal = deal, onClick = { navigateToDeal(deal) })
         }
     }
 }

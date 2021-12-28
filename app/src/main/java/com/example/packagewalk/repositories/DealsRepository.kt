@@ -100,4 +100,29 @@ class DealsRepository @Inject constructor() {
             MyResult.Error(e)
         }
     }
+
+    /** Удаляет сделку из коллекции открытых сделок
+     * и делает новую запись в коллекции закрытые сделки
+     */
+    suspend fun closeDeal(deal: Deal.OpenDeal): MyResult<Boolean> {
+        return try {
+            FirebaseFirestore
+                .getInstance()
+                .collection(CLOSE_DEALS)
+                .document()
+                .set(deal)
+                .await()
+            FirebaseFirestore
+                .getInstance()
+                .collection(OPEN_DEALS)
+                .document(deal.id)
+                .delete()
+                .await()
+            Log.v("!@#", "Сделка успешно закрыта")
+            MyResult.Success(true)
+        } catch (e: Exception) {
+            Log.e("!@#", "Возникли ошибки при закрытии сделки=$e")
+            MyResult.Error(e)
+        }
+    }
 }

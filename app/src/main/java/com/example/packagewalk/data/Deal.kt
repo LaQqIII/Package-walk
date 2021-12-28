@@ -1,6 +1,10 @@
 package com.example.packagewalk.data
 
-sealed class Deal {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+sealed class Deal : Parcelable {
+    @Parcelize
     /** Открытые сделки, лежат в бд в коллекции open_deals */
     data class OpenDeal(
         /** Уникальный идентификатор бд */
@@ -17,8 +21,9 @@ sealed class Deal {
         val phoneNumber: String = "",
         /** Стоимость сделки */
         val cost: Int = 0
-    ) : Deal()
+    ) : Parcelable, Deal()
 
+    @Parcelize
     /** Закрытые сделки, лежат в бд в коллекции close_deals */
     data class CloseDeal(
         /** Уникальный идентификатор бд */
@@ -35,5 +40,5 @@ sealed class Deal {
         val phoneNumber: String = "",
         /** Стоимость сделки */
         val cost: Int = 0
-    ) : Deal()
+    ) : Parcelable, Deal()
 }

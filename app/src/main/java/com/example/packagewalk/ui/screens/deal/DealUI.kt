@@ -1,6 +1,7 @@
 package com.example.packagewalk.ui.screens.deal
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,17 +15,21 @@ import com.example.packagewalk.R
 import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.User
 import com.example.packagewalk.extensions.allPadding
-import com.example.packagewalk.ui.screens.deal.models.DealEventState.CANCEL_DEAL
-import com.example.packagewalk.ui.screens.deal.models.DealEventState.ERROR
+import com.example.packagewalk.ui.screens.deal.models.DealEventState.*
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.RowInfo
 
 @Composable
-fun DealUI(deal: Deal?, backPressed: () -> Unit) {
+fun DealUI(
+    deal: Deal?,
+    navigateToDeals: () -> Unit,
+    backPressed: () -> Unit
+) {
     val viewModel = hiltViewModel<DealViewModel>()
     when (viewModel.state.value) {
-        CANCEL_DEAL -> {}
+        CLOSE_DEAL -> navigateToDeals()
+        CANCEL_DEAL -> navigateToDeals()
         ERROR -> {}
     }
     Scaffold(topBar = {
@@ -34,51 +39,72 @@ fun DealUI(deal: Deal?, backPressed: () -> Unit) {
             onClickIcon = backPressed
         )
     }) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            when (deal) {
-                is Deal.OpenDeal -> DealUI(
-                    deal = deal,
-                    cancelDeal = { viewModel.cancelDeal(deal) },
-                    loading = viewModel.loading.value
-                )
-                is Deal.CloseDeal -> DealUI(deal = deal)
-            }
+        when (deal) {
+            is Deal.OpenDeal -> DealUI(
+                deal = deal,
+                cancelDeal = { viewModel.cancelDeal(deal) },
+                closeDeal = { viewModel.closeDeal(deal) },
+                loading = viewModel.loading.value
+            )
+            is Deal.CloseDeal -> DealUI(deal = deal)
         }
     }
 }
 
 @Composable
-private fun DealUI(deal: Deal.OpenDeal, cancelDeal: () -> Unit, loading: Boolean) {
-    val showContacts = remember { mutableStateOf(false) }
-    RowInfo(caption = R.string.from, value = deal.from)
-    RowInfo(caption = R.string.to, value = deal.to)
-    RowInfo(caption = R.string.whenn, value = deal.data)
-    if (showContacts.value) {
-        RowInfo(caption = R.string.number_phone, value = deal.phoneNumber)
-    }
-    if (deal.phoneNumber == User.phoneNumber) {
-        PackageWalkButton(
-            stringId = R.string.cancel_deal,
-            onClick = cancelDeal,
-            modifier = Modifier.allPadding(),
-            loading = loading
-        )
-    } else {
-        PackageWalkButton(
-            stringId = R.string.show_contacts,
-            onClick = { showContacts.value = true },
-            modifier = Modifier.allPadding(),
-            enabled = !showContacts.value
-        )
+private fun DealUI(
+    deal: Deal.OpenDeal,
+    cancelDeal: () -> Unit,
+    closeDeal: () -> Unit,
+    loading: Boolean
+) {
+    Column(
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val showContacts = remember { mutableStateOf(false) }
+        RowInfo(caption = R.string.from, value = deal.from)
+        RowInfo(caption = R.string.to, value = deal.to)
+        RowInfo(caption = R.string.whenn, value = deal.data)
+        if (showContacts.value) {
+            RowInfo(caption = R.string.number_phone, value = deal.phoneNumber)
+        }
+        if (deal.phoneNumber == User.phoneNumber) {
+            PackageWalkButton(
+                stringId = R.string.close_deal,
+                onClick = closeDeal,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .allPadding(),
+                loading = loading
+            )
+            PackageWalkButton(
+                stringId = R.string.cancel_deal,
+                onClick = cancelDeal,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .allPadding(),
+                loading = loading
+            )
+        } else {
+            PackageWalkButton(
+                stringId = R.string.show_contacts,
+                onClick = { showContacts.value = true },
+                modifier = Modifier.allPadding(),
+                enabled = !showContacts.value
+            )
+        }
     }
 }
 
 @Composable
 private fun DealUI(deal: Deal.CloseDeal) {
-    RowInfo(caption = R.string.from, value = deal.from)
-    RowInfo(caption = R.string.to, value = deal.to)
-    RowInfo(caption = R.string.whenn, value = deal.data)
+    Column(
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        RowInfo(caption = R.string.from, value = deal.from)
+        RowInfo(caption = R.string.to, value = deal.to)
+        RowInfo(caption = R.string.whenn, value = deal.data)
+    }
 }

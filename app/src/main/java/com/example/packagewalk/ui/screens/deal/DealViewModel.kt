@@ -42,4 +42,24 @@ class DealViewModel
             loading.value = false
         }
     }
+
+    fun closeDeal(deal: Deal.OpenDeal) {
+        if (deal.phoneNumber != User.phoneNumber) {
+            return
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            loading.value = true
+            when (val result = repository.closeDeal(deal)) {
+                is MyResult.Success -> {
+                    if (result.data) {
+                        state.value = CANCEL_DEAL
+                    } else {
+                        state.value = ERROR
+                    }
+                }
+                is MyResult.Error -> state.value = ERROR
+            }
+            loading.value = false
+        }
+    }
 }

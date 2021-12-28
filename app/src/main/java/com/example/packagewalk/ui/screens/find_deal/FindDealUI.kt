@@ -24,11 +24,9 @@ import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.*
-import com.squareup.moshi.Moshi
-import kotlinx.coroutines.launch
 
 @Composable
-fun FindDealUI(navigateToDeal: (String) -> Unit) {
+fun FindDealUI(navigateToDeal: (Deal.OpenDeal) -> Unit) {
     val viewModel = hiltViewModel<FindDealViewModel>()
     Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_find_order) }) {
         FindDealUI(
@@ -51,7 +49,7 @@ private fun FindDealUI(
     findDealState: State<FindDealEventState?>,
     deals: List<Deal.OpenDeal>,
     loadingDeals: () -> Unit,
-    navigateToDeal: (String) -> Unit
+    navigateToDeal: (Deal.OpenDeal) -> Unit
 ) {
     val isFromError = remember { mutableStateOf(false) }
     val isToError = remember { mutableStateOf(false) }
@@ -125,18 +123,10 @@ private fun FindDealUI(
 }
 
 @Composable
-private fun ListDeals(deals: List<Deal.OpenDeal>, navigateToDetail: (String) -> Unit) {
-    val coroutineScope = rememberCoroutineScope()
+private fun ListDeals(deals: List<Deal.OpenDeal>, navigateToDetail: (Deal.OpenDeal) -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(deals) { deal ->
-            DealCard(deal = deal, onClick = {
-                coroutineScope.launch {
-                    val moshi: Moshi = Moshi.Builder().build()
-                    val jsonAdapter = moshi.adapter(Deal.OpenDeal::class.java)
-                    val json = jsonAdapter.toJson(deal)
-                    navigateToDetail(json)
-                }
-            })
+            DealCard(deal = deal, onClick = { navigateToDetail(deal) })
         }
     }
 }
