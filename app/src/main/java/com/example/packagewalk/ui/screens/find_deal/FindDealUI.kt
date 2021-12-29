@@ -1,44 +1,42 @@
 package com.example.packagewalk.ui.screens.find_deal
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.data.Deal
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
-import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.*
+import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
 fun FindDealUI(navigateToDeal: (Deal.OpenDeal) -> Unit) {
     val viewModel = hiltViewModel<FindDealViewModel>()
-    Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_find_order) }) {
-        FindDealUI(
-            from = viewModel.from,
-            to = viewModel.to,
-            data = viewModel.data,
-            findDealState = viewModel.findDealEvent,
-            deals = viewModel.deals,
-            loadingDeals = { viewModel.loadingDeals() },
-            navigateToDeal = navigateToDeal
-        )
-    }
+    FindDealUI(
+        from = viewModel.from,
+        to = viewModel.to,
+        data = viewModel.data,
+        findDealState = viewModel.findDealEvent,
+        deals = viewModel.deals,
+        loadingDeals = { viewModel.loadingDeals() },
+        navigateToDeal = navigateToDeal,
+        loadingCities = { viewModel.loadingCities(it) },
+        startCheck = viewModel.startCheck.value,
+        cities = viewModel.cities
+    )
 }
 
 @Composable
@@ -48,12 +46,14 @@ private fun FindDealUI(
     data: MutableState<String>,
     findDealState: State<FindDealEventState?>,
     deals: List<Deal.OpenDeal>,
+    cities: List<String>,
+    startCheck: Boolean,
     loadingDeals: () -> Unit,
-    navigateToDeal: (Deal.OpenDeal) -> Unit
+    loadingCities: (String) -> Unit,
+    navigateToDeal: (Deal.OpenDeal) -> Unit,
 ) {
-    val isFromError = remember { mutableStateOf(false) }
-    val isToError = remember { mutableStateOf(false) }
-    val isDataError = remember { mutableStateOf(false) }
+    val isFromExpanded = remember { mutableStateOf(false) }
+    val isToExpanded = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,51 +64,62 @@ private fun FindDealUI(
                 bottom = dimensionResource(id = R.dimen.height_top_bar)
             )
     ) {
-        TextFieldApp(
+        TextFieldWithDropdownMenu(
             value = from.value,
             onValueChange = {
-                isFromError.value = false
                 from.value = it
+                if (from.value.length >= 3) {
+                    loadingCities(from.value)
+                    isFromExpanded.value = true
+                } else {
+                    isFromExpanded.value = false
+                }
             },
-            onDoneClick = { /*TODO*/ },
+            label = R.string.from,
+            listOfValues = cities,
+            expanded = isFromExpanded,
             modifier = Modifier.fillMaxWidth(),
-            label = R.string.from
+            inputChecks = { emptyInputCheck(it) },
+            startCheck = startCheck
         )
-        TextFieldApp(
+        TextFieldWithDropdownMenu(
             value = to.value,
             onValueChange = {
-                isToError.value = false
                 to.value = it
+                if (to.value.length >= 3) {
+                    loadingCities(to.value)
+                    isToExpanded.value = true
+                } else {
+                    isToExpanded.value = false
+                }
             },
-            onDoneClick = { /*TODO*/ },
+            label = R.string.to,
+            listOfValues = cities,
+            expanded = isToExpanded,
             modifier = Modifier.fillMaxWidth(),
-            label = R.string.to
+            inputChecks = { emptyInputCheck(it) },
+            startCheck = startCheck
         )
-        TextFieldApp(
+        PackageWalkTextField(
             value = data.value,
-            onValueChange = {
-                isDataError.value = false
-                data.value = it
-            },
-            onDoneClick = { /*TODO*/ },
-            modifier = Modifier.fillMaxWidth(),
+            onValueChange = { if (it.length <= 8) data.value = it },
             label = R.string.whenn,
+            modifier = Modifier.fillMaxWidth(),
             keyboardType = KeyboardType.Number,
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.DateRange,
                     contentDescription = "",
-                    modifier = Modifier.clickable { })
-            }
+                    modifier = Modifier.clickable {  }
+                )
+            },
+            inputChecks = { emptyInputCheck(it) },
+            startCheck = startCheck,
+            visualTransformation = { dateTransformation(data.value) }
         )
         PackageWalkButton(
             stringId = R.string.find,
-            onClick = {
-                isFromError.value = from.value.isEmpty()
-                isToError.value = to.value.isEmpty()
-                isDataError.value = data.value.isEmpty()
-                loadingDeals()
-            },
+            onClick = { loadingDeals() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.around_base))
@@ -119,40 +130,5 @@ private fun FindDealUI(
             EMPTY -> {}
             ERROR -> {}
         }
-    }
-}
-
-@Composable
-private fun ListDeals(deals: List<Deal.OpenDeal>, navigateToDetail: (Deal.OpenDeal) -> Unit) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(deals) { deal ->
-            DealCard(deal = deal, onClick = { navigateToDetail(deal) })
-        }
-    }
-}
-
-
-@SuppressLint("UnrememberedMutableState")
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    PackageWalkTheme {
-        FindDealUI(
-            from = mutableStateOf("Саров"),
-            to = mutableStateOf("Нижний Новгород"),
-            data = mutableStateOf("31.12.2021"),
-            findDealState = mutableStateOf(LOADED),
-            deals = listOf(),
-            loadingDeals = {},
-            navigateToDeal = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ListDealsPreview() {
-    PackageWalkTheme {
-        ListDeals(deals = listOf()) {}
     }
 }

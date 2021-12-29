@@ -95,4 +95,8 @@ dependencies {
     // safetynet
     implementation 'com.google.android.gms:play-services-safetynet:18.0.0'
     implementation 'androidx.browser:browser:1.4.0'
+
+    //Places
+    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'com.google.maps.android:places-ktx:1.0.0'
 }

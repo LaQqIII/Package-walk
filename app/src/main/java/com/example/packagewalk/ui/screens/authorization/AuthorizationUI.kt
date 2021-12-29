@@ -20,8 +20,8 @@ import com.example.packagewalk.ui.screens.authorization.models.AuthenticationSta
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
+import com.example.packagewalk.ui.widgets.PackageWalkTextField
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
-import com.example.packagewalk.ui.widgets.TextFieldApp
 import com.example.packagewalk.ui.widgets.mobileNumberTransformation
 
 /**
@@ -73,7 +73,7 @@ private fun MobileAuthorizationUI(
                 .fillMaxSize()
                 .padding(dimensionResource(id = R.dimen.around_base))
         ) {
-            TextFieldApp(
+            PackageWalkTextField(
                 value = phone.value,
                 onValueChange = { phone.value = it },
                 onDoneClick = { /*TODO*/ },
@@ -84,7 +84,7 @@ private fun MobileAuthorizationUI(
                 keyboardType = KeyboardType.Number
             )
             if (codeSend.value) {
-                TextFieldApp(
+                PackageWalkTextField(
                     value = code.value,
                     onValueChange = { code.value = it },
                     onDoneClick = { /*TODO*/ },

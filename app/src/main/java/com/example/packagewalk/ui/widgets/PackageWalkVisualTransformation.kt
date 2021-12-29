@@ -40,3 +40,30 @@ fun mobileNumberTransformation(inputText: String): TransformedText {
     }
     return TransformedText(AnnotatedString(outputText), numberOffsetTranslator)
 }
+
+/** Функция преобразующая ввод даты в удобно читаемый формат
+ * На выходе XX/XX/XXXX */
+fun dateTransformation(inputText: String): TransformedText {
+    var out = ""
+    inputText.forEachIndexed { index, char ->
+        when (index) {
+            2 -> out += "/$char"
+            4 -> out += "/$char"
+            else -> out += char
+        }
+    }
+    val numberOffsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            if (offset <= 2) return offset
+            if (offset <= 4) return offset + 1
+            return offset + 2
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            if (offset <= 2) return offset
+            if (offset <= 5) return offset - 1
+            return offset - 2
+        }
+    }
+    return TransformedText(AnnotatedString(out), numberOffsetTranslator)
+}
