@@ -1,22 +1,20 @@
 package com.example.packagewalk.ui.screens.find_deal
 
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.data.Deal
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
+import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.*
 import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +26,7 @@ fun FindDealUI(navigateToDeal: (Deal.OpenDeal) -> Unit) {
     FindDealUI(
         from = viewModel.from,
         to = viewModel.to,
-        data = viewModel.data,
+        date = viewModel.data,
         findDealState = viewModel.findDealEvent,
         deals = viewModel.deals,
         loadingDeals = { viewModel.loadingDeals() },
@@ -43,14 +41,14 @@ fun FindDealUI(navigateToDeal: (Deal.OpenDeal) -> Unit) {
 private fun FindDealUI(
     from: MutableState<String>,
     to: MutableState<String>,
-    data: MutableState<String>,
+    date: MutableState<String>,
     findDealState: State<FindDealEventState?>,
     deals: List<Deal.OpenDeal>,
     cities: List<String>,
     startCheck: Boolean,
     loadingDeals: () -> Unit,
     loadingCities: (String) -> Unit,
-    navigateToDeal: (Deal.OpenDeal) -> Unit,
+    navigateToDeal: (Deal.OpenDeal) -> Unit
 ) {
     val isFromExpanded = remember { mutableStateOf(false) }
     val isToExpanded = remember { mutableStateOf(false) }
@@ -100,22 +98,11 @@ private fun FindDealUI(
             inputChecks = { emptyInputCheck(it) },
             startCheck = startCheck
         )
-        PackageWalkTextField(
-            value = data.value,
-            onValueChange = { if (it.length <= 8) data.value = it },
-            label = R.string.whenn,
+        PackageWalkTextFieldWithDateDialog(
+            date = date,
             modifier = Modifier.fillMaxWidth(),
-            keyboardType = KeyboardType.Number,
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = "",
-                    modifier = Modifier.clickable {  }
-                )
-            },
             inputChecks = { emptyInputCheck(it) },
-            startCheck = startCheck,
-            visualTransformation = { dateTransformation(data.value) }
+            startCheck = startCheck
         )
         PackageWalkButton(
             stringId = R.string.find,
@@ -130,5 +117,31 @@ private fun FindDealUI(
             EMPTY -> {}
             ERROR -> {}
         }
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    PackageWalkTheme {
+        FindDealUI(
+            from = mutableStateOf("Саров"),
+            to = mutableStateOf("Нижний Новгород"),
+            date = mutableStateOf("30122021"),
+            findDealState = mutableStateOf(LOADED),
+            deals = listOf(
+                Deal.OpenDeal(
+                    from = "Саров",
+                    to = "Нижний довгород",
+                    data = "30.12.2021"
+                )
+            ),
+            cities = listOf(),
+            startCheck = false,
+            loadingDeals = { /*TODO*/ },
+            loadingCities = {},
+            navigateToDeal = {}
+        )
     }
 }

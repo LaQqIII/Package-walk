@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
+import com.example.packagewalk.data.User
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.RowInfo
 
@@ -19,8 +20,8 @@ fun ProfileUI() {
         modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RowInfo(caption = R.string.what_your_name, value = "Vlad")
-        RowInfo(caption = R.string.number_phone, value = "+79809216265")
+        RowInfo(caption = R.string.what_your_name, value = User.name ?: "")
+        RowInfo(caption = R.string.number_phone, value = User.phoneNumber ?: "")
         PackageWalkButton(
             stringId = R.string.logout,
             onClick = { /*TODO*/ },

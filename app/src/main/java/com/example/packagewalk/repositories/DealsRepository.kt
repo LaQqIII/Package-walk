@@ -20,6 +20,7 @@ class DealsRepository @Inject constructor() {
     /** Возвращает список открытых сделок, которые соответствуют переданным аргументом */
     suspend fun issueDeals(from: String, to: String, data: String): MyResult<List<Deal.OpenDeal>> {
         return try {
+            Log.v("!@#", "Попытка найти сделки от $from до $to на $data")
             val deals = FirebaseFirestore
                 .getInstance()
                 .collection(OPEN_DEALS)

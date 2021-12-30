@@ -92,7 +92,20 @@ private fun EmptyUI(
 @Composable
 private fun Preview() {
     PackageWalkTheme {
-        DealsUI(deals = listOf()) {}
+        DealsUI(
+            deals = listOf(
+                Deal.OpenDeal(
+                    from = "Саров",
+                    to = "Нижний довгород",
+                    data = "30.12.2021"
+                ),
+                Deal.CloseDeal(
+                    from = "Саров",
+                    to = "Нижний довгород",
+                    data = "30.12.2021"
+                )
+            )
+        ) {}
     }
 }
 

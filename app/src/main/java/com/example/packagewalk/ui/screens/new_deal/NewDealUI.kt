@@ -1,12 +1,9 @@
 package com.example.packagewalk.ui.screens.new_deal
 
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -14,12 +11,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.data.PackageSize
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
-import com.example.packagewalk.ui.widgets.*
+import com.example.packagewalk.ui.theme.PackageWalkTheme
+import com.example.packagewalk.ui.widgets.PackageWalkButton
+import com.example.packagewalk.ui.widgets.PackageWalkRadioButton
+import com.example.packagewalk.ui.widgets.PackageWalkTextFieldWithDateDialog
+import com.example.packagewalk.ui.widgets.TextFieldWithDropdownMenu
 import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,7 +38,7 @@ fun NewDealUI(navigateToDeals: () -> Unit) {
     NewDealUI(
         from = viewModel.from,
         to = viewModel.to,
-        data = viewModel.data,
+        date = viewModel.data,
         size = viewModel.size,
         startCheck = viewModel.startCheck.value,
         loading = viewModel.loading.value,
@@ -51,7 +52,7 @@ fun NewDealUI(navigateToDeals: () -> Unit) {
 private fun NewDealUI(
     from: MutableState<String>,
     to: MutableState<String>,
-    data: MutableState<String>,
+    date: MutableState<String>,
     size: MutableState<PackageSize>,
     startCheck: Boolean,
     loading: Boolean,
@@ -98,22 +99,11 @@ private fun NewDealUI(
             inputChecks = { emptyInputCheck(it) },
             startCheck = startCheck
         )
-        PackageWalkTextField(
-            value = data.value,
-            onValueChange = { if (it.length <= 8) data.value = it },
+        PackageWalkTextFieldWithDateDialog(
+            date = date,
             modifier = Modifier.fillMaxWidth(),
-            label = R.string.whenn,
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = "",
-                    modifier = Modifier.clickable { }
-                )
-            },
             inputChecks = { emptyInputCheck(it) },
             startCheck = startCheck,
-            keyboardType = KeyboardType.Number,
-            visualTransformation = { dateTransformation(data.value) }
         )
         TextSubtitle1(value = stringResource(id = R.string.approximate_size))
         PackageWalkRadioButton(size)
@@ -125,5 +115,25 @@ private fun NewDealUI(
                 .padding(dimensionResource(id = R.dimen.around_base)),
             loading = loading
         )
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    PackageWalkTheme {
+        NewDealUI(
+            from = mutableStateOf("Саров"),
+            to = mutableStateOf("Нижний Новгород"),
+            date = mutableStateOf("30122021"),
+            size = mutableStateOf(PackageSize.MEDIUM),
+            startCheck = false,
+            loading = false,
+            cities = listOf(),
+            loadingCities = {}
+        ) {
+
+        }
     }
 }

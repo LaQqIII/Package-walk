@@ -38,10 +38,11 @@ class FindDealViewModel
             return
         viewModelScope.launch(Dispatchers.IO) {
             findDealEvent.value = LOADING
+            val date = prepareDate(data.value)
             when (val result = repository.issueDeals(
                 from = from.value,
                 to = to.value,
-                data = data.value
+                data = date
             )) {
                 is MyResult.Success -> {
                     if (result.data.isEmpty()) {
@@ -70,5 +71,17 @@ class FindDealViewModel
                 is MyResult.Error -> cities.clear()
             }
         }
+    }
+
+    private fun prepareDate(inputText: String): String {
+        var out = ""
+        inputText.forEachIndexed { index, char ->
+            when (index) {
+                2 -> out += "/$char"
+                4 -> out += "/$char"
+                else -> out += char
+            }
+        }
+        return out
     }
 }

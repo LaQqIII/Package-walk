@@ -34,6 +34,21 @@ fun QueryDocumentSnapshot.toCloseDeal(): Deal.CloseDeal {
     return deal.copy(id = this.id)
 }
 
+fun String.toData(): String {
+    return if (this.length == 8) {
+        val newString = ""
+        this.forEachIndexed { index, c ->
+            if (index == 1 || index == 3) {
+                newString.plus('/')
+            }
+            newString.plus(c)
+        }
+        newString
+    } else {
+        this
+    }
+}
+
 fun NavController.navigate(
     route: String,
     param: Pair<String, Parcelable>?,

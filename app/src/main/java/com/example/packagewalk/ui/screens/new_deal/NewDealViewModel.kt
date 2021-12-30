@@ -44,11 +44,12 @@ class NewDealViewModel
         }
         viewModelScope.launch(Dispatchers.IO) {
             loading.value = true
+            val date = prepareDate(data.value)
             when (val result = repository.createNewDeal(
                 OpenDeal(
                     from = from.value,
                     to = to.value,
-                    data = data.value,
+                    data = date,
                     size = size.value.id,
                     phoneNumber = User.phoneNumber!!
                 )
@@ -83,4 +84,16 @@ class NewDealViewModel
 
     private fun checkInput(): Boolean =
         from.value.isEmpty() || to.value.isEmpty() || data.value.isEmpty()
+
+    private fun prepareDate(inputText: String): String {
+        var out = ""
+        inputText.forEachIndexed { index, char ->
+            when (index) {
+                2 -> out += "/$char"
+                4 -> out += "/$char"
+                else -> out += char
+            }
+        }
+        return out
+    }
 }
