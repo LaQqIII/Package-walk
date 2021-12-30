@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
 import com.example.packagewalk.ui.widgets.RowInfo
+import com.example.packagewalk.ui.widgets.RowPhoneInfo
 
 @Composable
 fun DealUI(
@@ -68,7 +70,7 @@ private fun DealUI(
         RowInfo(caption = R.string.to, value = deal.to)
         RowInfo(caption = R.string.whenn, value = deal.data)
         if (showContacts.value) {
-            RowInfo(caption = R.string.number_phone, value = deal.phoneNumber)
+            RowPhoneInfo(phone = deal.phoneNumber, context = LocalContext.current)
         }
         Column(
             modifier = Modifier

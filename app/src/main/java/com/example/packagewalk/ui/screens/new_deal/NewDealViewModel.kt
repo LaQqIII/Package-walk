@@ -31,6 +31,7 @@ class NewDealViewModel
     val to = mutableStateOf("")
     val data = mutableStateOf("")
     val size = mutableStateOf(PackageSize.SMALL)
+    val cost = mutableStateOf(0)
     val startCheck = mutableStateOf(false)
     val loading = mutableStateOf(false)
     val cities = mutableStateListOf<String>()
@@ -51,7 +52,9 @@ class NewDealViewModel
                     to = to.value,
                     data = date,
                     size = size.value.id,
-                    phoneNumber = User.phoneNumber!!
+                    phoneNumber = User.phoneNumber!!,
+                    cost = cost.value,
+                    customer = User.name ?: ""
                 )
             )) {
                 is MyResult.Success -> {

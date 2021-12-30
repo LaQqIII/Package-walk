@@ -20,7 +20,9 @@ sealed class Deal : Parcelable {
         /** Номер телефона заказчика */
         val phoneNumber: String = "",
         /** Стоимость сделки */
-        val cost: Int = 0
+        val cost: Int = 0,
+        /** Имя заказчика */
+        val customer: String = ""
     ) : Parcelable, Deal()
 
     @Parcelize
@@ -39,6 +41,10 @@ sealed class Deal : Parcelable {
         /** Номер телефона заказчика */
         val phoneNumber: String = "",
         /** Стоимость сделки */
-        val cost: Int = 0
+        val cost: Int = 0,
+        /** Имя заказчика */
+        val customer: String = "",
+        /** Имя исполнителя */
+        val executor: String = ""
     ) : Parcelable, Deal()
 }

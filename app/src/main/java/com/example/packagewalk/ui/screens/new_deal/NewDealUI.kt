@@ -17,10 +17,7 @@ import com.example.packagewalk.R
 import com.example.packagewalk.data.PackageSize
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
-import com.example.packagewalk.ui.widgets.PackageWalkButton
-import com.example.packagewalk.ui.widgets.PackageWalkRadioButton
-import com.example.packagewalk.ui.widgets.PackageWalkTextFieldWithDateDialog
-import com.example.packagewalk.ui.widgets.TextFieldWithDropdownMenu
+import com.example.packagewalk.ui.widgets.*
 import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,6 +38,7 @@ fun NewDealUI(navigateToDeals: () -> Unit) {
         date = viewModel.data,
         size = viewModel.size,
         startCheck = viewModel.startCheck.value,
+        cost = viewModel.cost,
         loading = viewModel.loading.value,
         cities = viewModel.cities,
         loadingCities = { viewModel.loadingCities(it) },
@@ -54,6 +52,7 @@ private fun NewDealUI(
     to: MutableState<String>,
     date: MutableState<String>,
     size: MutableState<PackageSize>,
+    cost: MutableState<Int>,
     startCheck: Boolean,
     loading: Boolean,
     cities: List<String>,
@@ -107,6 +106,11 @@ private fun NewDealUI(
         )
         TextSubtitle1(value = stringResource(id = R.string.approximate_size))
         PackageWalkRadioButton(size)
+        TextFieldCost(
+            value = cost.value.toString(),
+            onClickAddButton = { cost.value += 50 },
+            onClickRemoveButton = { if (cost.value >= 50) cost.value -= 50 }
+        )
         PackageWalkButton(
             stringId = R.string.create_order,
             onClick = { createNewDeal() },
@@ -127,6 +131,7 @@ private fun Preview() {
             from = mutableStateOf("Саров"),
             to = mutableStateOf("Нижний Новгород"),
             date = mutableStateOf("30122021"),
+            cost = mutableStateOf(100),
             size = mutableStateOf(PackageSize.MEDIUM),
             startCheck = false,
             loading = false,

@@ -1,6 +1,7 @@
 package com.example.packagewalk.ui.widgets
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
@@ -20,9 +21,10 @@ import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 fun RowInfo(
     @StringRes caption: Int,
     value: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.clickable { onClick() }) {
         TextCaption(stringId = caption, modifier = Modifier.padding(top = 8.dp))
         TextSubtitle1(value = value, modifier = Modifier.padding(bottom = 8.dp))
         Divider()

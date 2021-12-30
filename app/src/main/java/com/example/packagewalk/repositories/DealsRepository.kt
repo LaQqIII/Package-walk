@@ -15,6 +15,10 @@ class DealsRepository @Inject constructor() {
         private const val OPEN_DEALS = "open_deals"
         private const val CLOSE_DEALS = "close_deals"
         private const val CANCEL_DEALS = "cancel_deals"
+        private const val FROM_FIELD = "from"
+        private const val TO_FIELD = "to"
+        private const val DATA_FIELD = "data"
+        private const val PHONE_FIELD = "phoneNumber"
     }
 
     /** Возвращает список открытых сделок, которые соответствуют переданным аргументом */
@@ -24,9 +28,9 @@ class DealsRepository @Inject constructor() {
             val deals = FirebaseFirestore
                 .getInstance()
                 .collection(OPEN_DEALS)
-                .whereEqualTo("data", data)
-                .whereEqualTo("from", from)
-                .whereEqualTo("to", to)
+                .whereEqualTo(DATA_FIELD, data)
+                .whereEqualTo(FROM_FIELD, from)
+                .whereEqualTo(TO_FIELD, to)
                 .get()
                 .await()
                 .map { it.toOpenDeal() }
@@ -44,14 +48,14 @@ class DealsRepository @Inject constructor() {
             val openDeals = FirebaseFirestore
                 .getInstance()
                 .collection(OPEN_DEALS)
-                .whereEqualTo("phoneNumber", phoneNumber)
+                .whereEqualTo(PHONE_FIELD, phoneNumber)
                 .get()
                 .await()
                 .map { it.toOpenDeal() }
             val closeDeals = FirebaseFirestore
                 .getInstance()
                 .collection(CLOSE_DEALS)
-                .whereEqualTo("phoneNumber", phoneNumber)
+                .whereEqualTo(PHONE_FIELD, phoneNumber)
                 .get()
                 .await()
                 .map { it.toCloseDeal() }
