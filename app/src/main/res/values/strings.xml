@@ -56,8 +56,9 @@
     <string name="show_contacts">Показать контакты</string>
     <string name="cancel_deal">Отменить доставку</string>
     <string name="open">Выполняется</string>
-    <string name="close">Закрыта</string>
+    <string name="close">Доставлено</string>
     <string name="close_deal">Посылка доставлена</string>
+    <string name="cost">Стоимость</string>
 
     //Выбор даты
     <string name="cancel">Отмена</string>

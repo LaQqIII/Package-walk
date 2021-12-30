@@ -69,6 +69,7 @@ private fun DealUI(
         RowInfo(caption = R.string.from, value = deal.from)
         RowInfo(caption = R.string.to, value = deal.to)
         RowInfo(caption = R.string.whenn, value = deal.data)
+        RowInfo(caption = R.string.cost, value = "${deal.cost} руб")
         if (showContacts.value) {
             RowPhoneInfo(phone = deal.phoneNumber, context = LocalContext.current)
         }
@@ -119,6 +120,7 @@ private fun DealUI(deal: Deal.CloseDeal) {
         RowInfo(caption = R.string.from, value = deal.from)
         RowInfo(caption = R.string.to, value = deal.to)
         RowInfo(caption = R.string.whenn, value = deal.data)
+        RowInfo(caption = R.string.cost, value = "${deal.cost} руб")
     }
 }
 
