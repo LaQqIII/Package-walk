@@ -164,7 +164,8 @@ fun PackageWalkTextFieldWithDateDialog(
     enabled: Boolean = true,
     @StringRes error: Int? = R.string.error_text,
     inputChecks: ((String) -> Boolean)? = null,
-    startCheck: Boolean = false
+    startCheck: Boolean = false,
+    @StringRes label: Int = R.string.whenn
 ) {
     val inputService = LocalTextInputService.current
     val isError = remember { mutableStateOf(false) }
@@ -189,7 +190,7 @@ fun PackageWalkTextFieldWithDateDialog(
             modifier = modifier,
             enabled = enabled,
             textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
-            label = { Text(text = stringResource(id = R.string.whenn)) },
+            label = { Text(text = stringResource(id = label)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
                 keyboardType = KeyboardType.Number,

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
-import com.example.packagewalk.data.Deal
+import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.extensions.allPadding
 import com.example.packagewalk.ui.screens.deals.models.DealsEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
@@ -94,12 +94,12 @@ private fun Preview() {
     PackageWalkTheme {
         DealsUI(
             deals = listOf(
-                Deal.OpenDeal(
+                Deal(
                     from = "Саров",
                     to = "Нижний довгород",
                     data = "30.12.2021"
                 ),
-                Deal.CloseDeal(
+                Deal(
                     from = "Саров",
                     to = "Нижний довгород",
                     data = "30.12.2021"

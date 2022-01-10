@@ -4,11 +4,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.MyResult
-import com.example.packagewalk.repositories.DealsRepository
+import com.example.packagewalk.data.documents.Deal
+import com.example.packagewalk.repositories.DealsRepositoryForExecutor
 import com.example.packagewalk.repositories.PlacesRepository
-import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState
 import com.example.packagewalk.ui.screens.find_deal.models.FindDealEventState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,25 +18,27 @@ import javax.inject.Inject
 @HiltViewModel
 class FindDealViewModel
 @Inject constructor(
-    private val repository: DealsRepository,
+    private val repository: DealsRepositoryForExecutor,
     private val placesRepository: PlacesRepository
 ) : ViewModel() {
 
-    val findDealEvent = mutableStateOf<FindDealEventState?>(null)
+    val findDealEvent = mutableStateOf(FILTER)
 
     val from = mutableStateOf("")
     val to = mutableStateOf("")
     val data = mutableStateOf("")
-    val deals = mutableStateListOf<Deal.OpenDeal>()
+    val deals = mutableStateListOf<Deal>()
     val cities = mutableStateListOf<String>()
     val startCheck = mutableStateOf(false)
+    val loading = mutableStateOf(false)
 
     fun loadingDeals() {
         startCheck.value = true
         if (from.value.isEmpty() || to.value.isEmpty() || data.value.isEmpty())
             return
         viewModelScope.launch(Dispatchers.IO) {
-            findDealEvent.value = LOADING
+            findDealEvent.value = SEARCH
+            loading.value = true
             val date = prepareDate(data.value)
             when (val result = repository.issueDeals(
                 from = from.value,
@@ -45,13 +46,9 @@ class FindDealViewModel
                 data = date
             )) {
                 is MyResult.Success -> {
-                    if (result.data.isEmpty()) {
-                        findDealEvent.value = EMPTY
-                    } else {
-                        findDealEvent.value = LOADED
-                        deals.clear()
-                        deals.addAll(result.data)
-                    }
+                    loading.value = false
+                    deals.clear()
+                    deals.addAll(result.data)
                 }
                 is MyResult.Error -> findDealEvent.value = ERROR
             }

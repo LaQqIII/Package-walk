@@ -13,20 +13,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packagewalk.R
-import com.example.packagewalk.data.Deal
+import com.example.packagewalk.data.documents.Deal
+import com.example.packagewalk.data.enums.DealStatus
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 
 @Composable
 fun DealCard(deal: Deal, onClick: () -> Unit) {
-    when (deal) {
-        is Deal.OpenDeal -> DealCard(deal = deal, onClick = onClick)
-        is Deal.CloseDeal -> DealCard(deal = deal, onClick = onClick)
+    when (deal.status) {
+        DealStatus.OPEN -> OpenDealCard(deal = deal, onClick = onClick)
+        DealStatus.CLOSE -> CloseDealCard(deal = deal, onClick = onClick)
     }
 }
 
 @Composable
-private fun DealCard(deal: Deal.OpenDeal, onClick: () -> Unit) {
+private fun OpenDealCard(deal: Deal, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +63,7 @@ private fun DealCard(deal: Deal.OpenDeal, onClick: () -> Unit) {
 }
 
 @Composable
-private fun DealCard(deal: Deal.CloseDeal, onClick: () -> Unit) {
+private fun CloseDealCard(deal: Deal, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -101,8 +102,8 @@ private fun DealCard(deal: Deal.CloseDeal, onClick: () -> Unit) {
 @Composable
 private fun OpenDealPreview() {
     PackageWalkTheme {
-        DealCard(
-            deal = Deal.OpenDeal(
+        OpenDealCard(
+            deal = Deal(
                 from = "Саров",
                 to = "Нижний довгород",
                 data = "30.12.2021",
@@ -118,8 +119,8 @@ private fun OpenDealPreview() {
 @Composable
 private fun CloseDealPreview() {
     PackageWalkTheme {
-        DealCard(
-            deal = Deal.CloseDeal(
+        CloseDealCard(
+            deal = Deal(
                 from = "Саров",
                 to = "Нижний довгород",
                 data = "30.12.2021",

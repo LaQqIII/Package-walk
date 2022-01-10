@@ -2,23 +2,25 @@ package com.example.packagewalk.ui.screens.new_deal
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
-import com.example.packagewalk.data.PackageSize
+import com.example.packagewalk.data.enums.PackageSize
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
-import com.example.packagewalk.ui.widgets.*
-import com.example.packagewalk.ui.widgets.input_checks.emptyInputCheck
+import com.example.packagewalk.ui.widgets.InputMainDealInfo
+import com.example.packagewalk.ui.widgets.PackageWalkButton
+import com.example.packagewalk.ui.widgets.PackageWalkRadioButton
+import com.example.packagewalk.ui.widgets.TextFieldCost
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -59,50 +61,20 @@ private fun NewDealUI(
     loadingCities: (String) -> Unit,
     createNewDeal: () -> Unit,
 ) {
-    val isFromExpanded = remember { mutableStateOf(false) }
-    val isToExpanded = remember { mutableStateOf(false) }
-    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base))) {
-        TextFieldWithDropdownMenu(
-            value = from.value,
-            onValueChange = {
-                from.value = it
-                if (from.value.length >= 3) {
-                    loadingCities(from.value)
-                    isFromExpanded.value = true
-                } else {
-                    isFromExpanded.value = false
-                }
-            },
-            listOfValues = cities,
-            expanded = isFromExpanded,
-            modifier = Modifier.fillMaxWidth(),
-            label = R.string.from,
-            inputChecks = { emptyInputCheck(it) },
-            startCheck = startCheck
-        )
-        TextFieldWithDropdownMenu(
-            value = to.value,
-            onValueChange = {
-                to.value = it
-                if (to.value.length >= 3) {
-                    loadingCities(to.value)
-                    isToExpanded.value = true
-                } else {
-                    isToExpanded.value = false
-                }
-            },
-            label = R.string.to,
-            listOfValues = cities,
-            expanded = isToExpanded,
-            modifier = Modifier.fillMaxWidth(),
-            inputChecks = { emptyInputCheck(it) },
-            startCheck = startCheck
-        )
-        PackageWalkTextFieldWithDateDialog(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.around_base))
+    ) {
+        InputMainDealInfo(
+            from = from,
+            to = to,
             date = date,
-            modifier = Modifier.fillMaxWidth(),
-            inputChecks = { emptyInputCheck(it) },
+            cities = cities,
             startCheck = startCheck,
+            fromLabel = R.string.from,
+            toLabel = R.string.to,
+            loadingCities = { loadingCities(it) }
         )
         TextSubtitle1(value = stringResource(id = R.string.approximate_size))
         PackageWalkRadioButton(size)

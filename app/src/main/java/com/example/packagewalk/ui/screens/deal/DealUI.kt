@@ -12,8 +12,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
-import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.User
+import com.example.packagewalk.data.documents.Deal
+import com.example.packagewalk.data.enums.DealStatus
 import com.example.packagewalk.extensions.allPadding
 import com.example.packagewalk.extensions.horizontalPadding
 import com.example.packagewalk.ui.screens.deal.models.DealEventState.*
@@ -37,26 +38,29 @@ fun DealUI(
     }
     Scaffold(topBar = {
         PackageWalkTopBar(
-            titleId = R.string.deal,
+            titleId = if (deal?.customerPhoneNumber == User.phoneNumber) R.string.your_deal else R.string.deal,
             hasBackArrow = true,
             onClickIcon = backPressed
         )
     }) {
-        when (deal) {
-            is Deal.OpenDeal -> DealUI(
+        when (deal?.status) {
+            DealStatus.OPEN -> DealUI(
                 deal = deal,
                 cancelDeal = { viewModel.cancelDeal(deal) },
                 closeDeal = { viewModel.closeDeal(deal) },
                 loading = viewModel.loading.value
             )
-            is Deal.CloseDeal -> DealUI(deal = deal)
+            DealStatus.CLOSE -> DealUI(deal = deal)
+            else -> {
+                // TODO: 10.01.2022 Сделать экран с ошибкой
+            }
         }
     }
 }
 
 @Composable
 private fun DealUI(
-    deal: Deal.OpenDeal,
+    deal: Deal,
     cancelDeal: () -> Unit,
     closeDeal: () -> Unit,
     loading: Boolean
@@ -66,12 +70,14 @@ private fun DealUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val showContacts = remember { mutableStateOf(false) }
-        RowInfo(caption = R.string.from, value = deal.from)
-        RowInfo(caption = R.string.to, value = deal.to)
-        RowInfo(caption = R.string.whenn, value = deal.data)
+        RowInfo(caption = R.string.status, value = deal.status.description)
+        RowInfo(caption = R.string.from_deal, value = deal.from)
+        RowInfo(caption = R.string.to_deal, value = deal.to)
+        RowInfo(caption = R.string.when_deal, value = deal.data)
         RowInfo(caption = R.string.cost, value = "${deal.cost} руб")
         if (showContacts.value) {
-            RowPhoneInfo(phone = deal.phoneNumber, context = LocalContext.current)
+            RowInfo(caption = R.string.customer_name, value = deal.customerName)
+            RowPhoneInfo(phone = deal.customerPhoneNumber, context = LocalContext.current)
         }
         Column(
             modifier = Modifier
@@ -80,7 +86,7 @@ private fun DealUI(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (deal.phoneNumber == User.phoneNumber) {
+            if (deal.customerPhoneNumber == User.phoneNumber) {
                 PackageWalkButton(
                     stringId = R.string.cancel_deal,
                     onClick = cancelDeal,
@@ -110,16 +116,16 @@ private fun DealUI(
 }
 
 @Composable
-private fun DealUI(deal: Deal.CloseDeal) {
+private fun DealUI(deal: Deal) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.around_base)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RowInfo(caption = R.string.from, value = deal.from)
-        RowInfo(caption = R.string.to, value = deal.to)
-        RowInfo(caption = R.string.whenn, value = deal.data)
+        RowInfo(caption = R.string.from_deal, value = deal.from)
+        RowInfo(caption = R.string.to_deal, value = deal.to)
+        RowInfo(caption = R.string.when_deal, value = deal.data)
         RowInfo(caption = R.string.cost, value = "${deal.cost} руб")
     }
 }
@@ -129,7 +135,7 @@ private fun DealUI(deal: Deal.CloseDeal) {
 private fun OpenDealPreview() {
     PackageWalkTheme {
         DealUI(
-            deal = Deal.OpenDeal(from = "Саров", to = "Нижний довгород", data = "30.12.2021"),
+            deal = Deal(from = "Саров", to = "Нижний довгород", data = "30.12.2021"),
             cancelDeal = { /*TODO*/ },
             closeDeal = { /*TODO*/ },
             loading = false
@@ -141,6 +147,6 @@ private fun OpenDealPreview() {
 @Composable
 private fun CloseDealPreview() {
     PackageWalkTheme {
-        DealUI(deal = Deal.CloseDeal(from = "Саров", to = "Нижний довгород", data = "30.12.2021"))
+        DealUI(deal = Deal(from = "Саров", to = "Нижний довгород", data = "30.12.2021"))
     }
 }

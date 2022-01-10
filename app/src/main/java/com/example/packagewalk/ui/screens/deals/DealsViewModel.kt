@@ -4,9 +4,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.Deal
 import com.example.packagewalk.data.MyResult
 import com.example.packagewalk.data.User
+import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.repositories.DealsRepository
 import com.example.packagewalk.ui.screens.deals.models.DealsEventState.*
 import dagger.hilt.android.lifecycle.HiltViewModel

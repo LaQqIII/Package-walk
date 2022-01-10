@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Package walk</string>
-    <string name="screen_progress">Активность</string>
-    <string name="screen_find_order">Найти заказ</string>
-    <string name="screen_create_order">Создать заказ</string>
-    <string name="screen_profile">Профиль</string>
+    <string name="screen_progress">Ваша активность</string>
+    <string name="screen_find_order">Найти попутный заказ</string>
+    <string name="screen_create_order">Надо переслать посылку</string>
+    <string name="screen_profile">Ваш профиль</string>
 
     <string name="verification_text">
         Раз два три четыре пять шесть семь восемь
@@ -35,9 +35,9 @@
 
     // Новый заказ
     <string name="new_order">Новый заказ</string>
-    <string name="from">Откуда</string>
-    <string name="to">Куда</string>
-    <string name="whenn">Когда</string>
+    <string name="from">Откуда забрать посылку?</string>
+    <string name="to">Куда доставить посылку?</string>
+    <string name="whenn">Когда нужно доставить?</string>
     <string name="create_order">Создать</string>
     <string name="approximate_size">Примерный размер посылки</string>
     <string name="enter_cost">Введите цену</string>
@@ -45,6 +45,11 @@
     //Найти заказ
     <string name="find">Найти</string>
     <string name="choose_date">Выберите дату</string>
+    <string name="from_find">Откуда едете?</string>
+    <string name="to_find">Куда едете?</string>
+    <string name="when_find">Когда выезжаете?</string>
+    <string name="no_find_deal">По выбранным параметрам не найдено посылок</string>
+    <string name="show_filter">Изменить данные</string>
 
     //Активность
     <string name="find_deal">Захватить посылку</string>
@@ -53,12 +58,18 @@
 
     //Сделка
     <string name="deal">Посылка</string>
+    <string name="your_deal">Посылка</string>
     <string name="show_contacts">Показать контакты</string>
     <string name="cancel_deal">Отменить доставку</string>
     <string name="open">Выполняется</string>
     <string name="close">Доставлено</string>
     <string name="close_deal">Посылка доставлена</string>
-    <string name="cost">Стоимость</string>
+    <string name="cost">Стоимость доставки</string>
+    <string name="from_deal">Город отправления</string>
+    <string name="to_deal">Город получения</string>
+    <string name="when_deal">Дата доставки</string>
+    <string name="customer_name">Имя отправителя</string>
+    <string name="status">Статус</string>
 
     //Выбор даты
     <string name="cancel">Отмена</string>

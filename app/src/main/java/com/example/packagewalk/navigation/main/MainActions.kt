@@ -1,15 +1,11 @@
 package com.example.packagewalk.navigation.main
 
 import androidx.navigation.NavHostController
-import com.example.packagewalk.data.Deal
+import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.navigation.SharingBetweenScreens
 import com.example.packagewalk.navigation.detail.RoutesDetail
 
 class MainActions(navController: NavHostController) {
-    val navigateToOpenDeal: (Deal.OpenDeal) -> Unit = {
-        SharingBetweenScreens.deal = it
-        navController.navigate(RoutesDetail.DEAL.route)
-    }
     val navigateToDeal: (Deal) -> Unit = {
         SharingBetweenScreens.deal = it
         navController.navigate(RoutesDetail.DEAL.route)

@@ -1,7 +1,6 @@
 package com.example.packagewalk.navigation.main
 
 import androidx.compose.material.Scaffold
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -28,12 +27,12 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
 
     composable(MainSections.FIND_DEAL.route) {
         Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_find_order) }) {
-            FindDealUI(navigateToDeal = actions.navigateToOpenDeal)
+            FindDealUI(navigateToDeal = actions.navigateToDeal)
         }
     }
 
     composable(MainSections.NEW_DEAL.route) {
-        Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.new_order) }) {
+        Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_create_order) }) {
             NewDealUI(navigateToDeals = actions.navigateToDeals)
         }
     }

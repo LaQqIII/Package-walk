@@ -4,11 +4,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.Deal.OpenDeal
 import com.example.packagewalk.data.MyResult
-import com.example.packagewalk.data.PackageSize
 import com.example.packagewalk.data.User
-import com.example.packagewalk.repositories.DealsRepository
+import com.example.packagewalk.data.documents.Deal
+import com.example.packagewalk.data.enums.DealStatus
+import com.example.packagewalk.data.enums.PackageSize
+import com.example.packagewalk.repositories.DealsRepositoryForCustomers
 import com.example.packagewalk.repositories.PlacesRepository
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState
 import com.example.packagewalk.ui.screens.new_deal.models.NewDealEventState.*
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewDealViewModel
 @Inject constructor(
-    private val repository: DealsRepository,
+    private val repository: DealsRepositoryForCustomers,
     private val placesRepository: PlacesRepository
 ) : ViewModel() {
 
@@ -47,14 +48,16 @@ class NewDealViewModel
             loading.value = true
             val date = prepareDate(data.value)
             when (val result = repository.createNewDeal(
-                OpenDeal(
+                Deal(
+                    status = DealStatus.OPEN,
                     from = from.value,
                     to = to.value,
                     data = date,
                     size = size.value.id,
-                    phoneNumber = User.phoneNumber!!,
                     cost = cost.value,
-                    customer = User.name ?: ""
+                    customer = User.id ?: "",
+                    customerName = User.name ?: "",
+                    customerPhoneNumber = User.phoneNumber!!
                 )
             )) {
                 is MyResult.Success -> {

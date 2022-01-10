@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.example.packagewalk.data.PackageSize
+import com.example.packagewalk.data.enums.PackageSize
 
 @Composable
 fun PackageWalkRadioButton(size: MutableState<PackageSize>) {

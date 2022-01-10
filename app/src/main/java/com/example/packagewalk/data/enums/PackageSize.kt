@@ -1,4 +1,4 @@
-package com.example.packagewalk.data
+package com.example.packagewalk.data.enums
 
 enum class PackageSize(val id: Int, val description: String) {
     SMALL(0, "Маленькая"),
