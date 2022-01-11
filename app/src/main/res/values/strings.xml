@@ -40,7 +40,7 @@
     <string name="whenn">Когда нужно доставить?</string>
     <string name="create_order">Создать</string>
     <string name="approximate_size">Примерный размер посылки</string>
-    <string name="enter_cost">Введите цену</string>
+    <string name="enter_cost">Введите цену за доставку</string>
 
     //Найти заказ
     <string name="find">Найти</string>

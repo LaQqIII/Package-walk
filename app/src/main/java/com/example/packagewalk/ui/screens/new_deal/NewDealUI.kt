@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
@@ -20,7 +21,7 @@ import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.InputMainDealInfo
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkRadioButton
-import com.example.packagewalk.ui.widgets.TextFieldCost
+import com.example.packagewalk.ui.widgets.PackageWalkTextField
 import com.example.packagewalk.ui.widgets.text.TextSubtitle1
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -76,13 +77,16 @@ private fun NewDealUI(
             toLabel = R.string.to,
             loadingCities = { loadingCities(it) }
         )
+        PackageWalkTextField(
+            value = cost.value.toString(),
+            onValueChange = { if (it.isEmpty()) cost.value = 0 else cost.value = it.toInt() },
+            label = R.string.enter_cost,
+            modifier = Modifier.fillMaxWidth(),
+            keyboardType = KeyboardType.Number,
+            startCheck = startCheck
+        )
         TextSubtitle1(value = stringResource(id = R.string.approximate_size))
         PackageWalkRadioButton(size)
-        TextFieldCost(
-            value = cost.value.toString(),
-            onClickAddButton = { cost.value += 50 },
-            onClickRemoveButton = { if (cost.value >= 50) cost.value -= 50 }
-        )
         PackageWalkButton(
             stringId = R.string.create_order,
             onClick = { createNewDeal() },

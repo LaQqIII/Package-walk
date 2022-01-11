@@ -28,18 +28,20 @@ fun TextFieldCost(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TextSubtitle1(
             value = stringResource(id = R.string.enter_cost),
             modifier = Modifier.padding(end = dimensionResource(id = R.dimen.around_base))
         )
-        IconButton(onClick = { onClickRemoveButton() }) {
-            Icon(imageVector = Icons.Default.RemoveCircleOutline, contentDescription = "")
-        }
-        TextSubtitle1(value = value)
-        IconButton(onClick = { onClickAddButton() }) {
-            Icon(imageVector = Icons.Default.AddCircleOutline, contentDescription = "")
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = { onClickRemoveButton() }) {
+                Icon(imageVector = Icons.Default.RemoveCircleOutline, contentDescription = "")
+            }
+            TextSubtitle1(value = value)
+            IconButton(onClick = { onClickAddButton() }) {
+                Icon(imageVector = Icons.Default.AddCircleOutline, contentDescription = "")
+            }
         }
     }
 }

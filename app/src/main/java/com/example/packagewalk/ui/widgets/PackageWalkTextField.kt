@@ -22,7 +22,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.packagewalk.R
 
 @Composable
@@ -102,55 +101,50 @@ fun TextFieldWithDropdownMenu(
 ) {
     val inputService = LocalTextInputService.current
     val isError = remember { mutableStateOf(false) }
-    ConstraintLayout {
-        val (refTextField, refMenu) = createRefs()
-        Column(
-            modifier = Modifier
-                .padding(
-                    bottom = if (isError.value) 0.dp else 16.dp
-                )
-                .constrainAs(refTextField) {}
-        ) {
-            TextField(
-                value = value,
-                onValueChange = { onValueChange(it) },
-                modifier = modifier,
-                enabled = enabled,
-                textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
-                label = { Text(text = stringResource(id = label)) },
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                    keyboardType = keyboardType,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(onDone = {
-                    if (onDoneClick != null) {
-                        onDoneClick()
-                    } else {
-                        inputService?.hideSoftwareKeyboard()
-                    }
-                }),
-                visualTransformation = visualTransformation,
-                trailingIcon = trailingIcon
+    Column(
+        modifier = Modifier
+            .padding(
+                bottom = if (isError.value) 0.dp else 16.dp
             )
-            if (isError.value && error != null) {
-                Text(
-                    text = stringResource(id = error),
-                    color = MaterialTheme.colors.error,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
+    ) {
+        TextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            modifier = modifier,
+            enabled = enabled,
+            textStyle = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
+            label = { Text(text = stringResource(id = label)) },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,
+                keyboardType = keyboardType,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                if (onDoneClick != null) {
+                    onDoneClick()
+                } else {
+                    inputService?.hideSoftwareKeyboard()
+                }
+            }),
+            visualTransformation = visualTransformation,
+            trailingIcon = trailingIcon
+        )
+        if (isError.value && error != null) {
+            Text(
+                text = stringResource(id = error),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = 16.dp)
+            )
         }
-        PackageWalkDropdownMenu(
-            expanded = expanded,
-            listOfValues = listOfValues,
-            onClickItem = {
-                onValueChange(it)
-                expanded.value = false
-            },
-            modifier = Modifier.constrainAs(refMenu) { top.linkTo(refTextField.bottom) })
     }
+    PackageWalkDropdownMenu(
+        expanded = expanded,
+        listOfValues = listOfValues,
+        onClickItem = {
+            onValueChange(it)
+            expanded.value = false
+        })
     SideEffect {
         if (startCheck && inputChecks != null) isError.value = inputChecks(value)
     }
@@ -173,17 +167,17 @@ fun PackageWalkTextFieldWithDateDialog(
     if (showDateDialog.value) {
         PackageWalkDatePicker(
             onDateSelected = {
+                val day = if (it.dayOfMonth < 10) "0${it.dayOfMonth}" else "${it.dayOfMonth}"
+                val month =
+                    if (it.month.ordinal + 1 < 10) "0${it.month.ordinal + 1}" else "${it.month.ordinal + 1}"
+                val year = it.year
+                date.value = "$day$month$year"
                 showDateDialog.value = false
-                date.value = "${it.dayOfMonth}${it.month.ordinal + 1}${it.year}"
             },
             onDismissRequest = { showDateDialog.value = false }
         )
     }
-    Column(
-        modifier = modifier.padding(
-            bottom = if (isError.value) 0.dp else 16.dp
-        )
-    ) {
+    Column(modifier = modifier.padding(bottom = if (isError.value) 0.dp else 16.dp)) {
         TextField(
             value = date.value,
             onValueChange = { if (it.length <= 8) date.value = it },

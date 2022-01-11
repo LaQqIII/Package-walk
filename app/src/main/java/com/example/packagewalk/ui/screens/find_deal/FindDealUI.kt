@@ -2,6 +2,7 @@ package com.example.packagewalk.ui.screens.find_deal
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -118,15 +119,17 @@ private fun SearchUI(
                     imageVector = Icons.Outlined.TouchApp,
                     contentDescription = "",
                     modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(32.dp)
+                        .padding(end = 8.dp)
+                        .size(32.dp),
+                    tint = MaterialTheme.colors.onBackground
                 )
                 Column {
                     Row {
                         TextSubtitle1(value = from)
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = ""
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
                         )
                         TextSubtitle1(value = to)
                     }
