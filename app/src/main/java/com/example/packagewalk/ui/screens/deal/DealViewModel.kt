@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.packagewalk.data.MyResult
-import com.example.packagewalk.data.User
+import com.example.packagewalk.data.CurrentCargoruan
 import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.repositories.DealsRepositoryForCustomers
 import com.example.packagewalk.ui.screens.deal.models.DealEventState
@@ -25,7 +25,7 @@ class DealViewModel
 
     /** Отменяет сделку. Может вызвать пользователь для своей открытой сделки */
     fun cancelDeal(deal: Deal) {
-        if (deal.customerPhoneNumber != User.phoneNumber) {
+        if (deal.customerPhoneNumber != CurrentCargoruan.phoneNumber) {
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,7 +46,7 @@ class DealViewModel
 
     /** Закрывает сделку. Может вызвать пользователь для своей открытой сделки */
     fun closeDeal(deal: Deal) {
-        if (deal.customerPhoneNumber != User.phoneNumber) {
+        if (deal.customerPhoneNumber != CurrentCargoruan.phoneNumber) {
             return
         }
         viewModelScope.launch(Dispatchers.IO) {

@@ -36,7 +36,7 @@ class DealsRepositoryForCustomers @Inject constructor() {
                 .await()
             MyResult.Success(true)
         } catch (e: Exception) {
-            Log.d("!@#", "ошибка при создании новой сделки=$e")
+            Log.e("!@#", "ошибка при создании новой сделки=$e")
             MyResult.Error(e)
         }
     }

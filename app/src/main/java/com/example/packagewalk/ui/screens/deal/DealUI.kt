@@ -12,11 +12,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
-import com.example.packagewalk.data.User
+import com.example.packagewalk.data.CurrentCargoruan
 import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.data.enums.DealStatus
 import com.example.packagewalk.extensions.allPadding
 import com.example.packagewalk.extensions.horizontalPadding
+import com.example.packagewalk.ui.screens.authorization.AuthorizationUI
 import com.example.packagewalk.ui.screens.deal.models.DealEventState.*
 import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
@@ -30,29 +31,31 @@ fun DealUI(
     navigateToDeals: () -> Unit,
     backPressed: () -> Unit
 ) {
-    val viewModel = hiltViewModel<DealViewModel>()
-    when (viewModel.state.value) {
-        CLOSE_DEAL -> navigateToDeals()
-        CANCEL_DEAL -> navigateToDeals()
-        ERROR -> {}
-    }
-    Scaffold(topBar = {
-        PackageWalkTopBar(
-            titleId = if (deal?.customerPhoneNumber == User.phoneNumber) R.string.your_deal else R.string.deal,
-            hasBackArrow = true,
-            onClickIcon = backPressed
-        )
-    }) {
-        when (deal?.status) {
-            DealStatus.OPEN -> DealUI(
-                deal = deal,
-                cancelDeal = { viewModel.cancelDeal(deal) },
-                closeDeal = { viewModel.closeDeal(deal) },
-                loading = viewModel.loading.value
+    AuthorizationUI() {
+        val viewModel = hiltViewModel<DealViewModel>()
+        when (viewModel.state.value) {
+            CLOSE_DEAL -> navigateToDeals()
+            CANCEL_DEAL -> navigateToDeals()
+            ERROR -> {}
+        }
+        Scaffold(topBar = {
+            PackageWalkTopBar(
+                titleId = if (deal?.customerPhoneNumber == CurrentCargoruan.phoneNumber) R.string.your_deal else R.string.deal,
+                hasBackArrow = true,
+                onClickIcon = backPressed
             )
-            DealStatus.CLOSE -> DealUI(deal = deal)
-            else -> {
-                // TODO: 10.01.2022 Сделать экран с ошибкой
+        }) {
+            when (deal?.status) {
+                DealStatus.OPEN -> DealUI(
+                    deal = deal,
+                    cancelDeal = { viewModel.cancelDeal(deal) },
+                    closeDeal = { viewModel.closeDeal(deal) },
+                    loading = viewModel.loading.value
+                )
+                DealStatus.CLOSE -> DealUI(deal = deal)
+                else -> {
+                    // TODO: 10.01.2022 Сделать экран с ошибкой
+                }
             }
         }
     }
@@ -86,7 +89,7 @@ private fun DealUI(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (deal.customerPhoneNumber == User.phoneNumber) {
+            if (deal.customerPhoneNumber == CurrentCargoruan.phoneNumber) {
                 PackageWalkButton(
                     stringId = R.string.cancel_deal,
                     onClick = cancelDeal,

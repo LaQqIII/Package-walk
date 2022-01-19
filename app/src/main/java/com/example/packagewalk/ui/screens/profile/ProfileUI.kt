@@ -8,20 +8,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.packagewalk.R
-import com.example.packagewalk.data.User
+import com.example.packagewalk.data.CurrentCargoruan
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.RowInfo
 
 @Preview(showBackground = true)
 @Composable
 fun ProfileUI() {
-//    AuthorizationUI {}
     Column(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.around_base)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RowInfo(caption = R.string.what_your_name, value = User.name ?: "")
-        RowInfo(caption = R.string.number_phone, value = User.phoneNumber ?: "")
+        RowInfo(caption = R.string.what_your_name, value = CurrentCargoruan.name ?: "")
+        RowInfo(caption = R.string.number_phone, value = CurrentCargoruan.phoneNumber ?: "")
         PackageWalkButton(
             stringId = R.string.logout,
             onClick = { /*TODO*/ },

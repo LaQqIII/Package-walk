@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.packagewalk.data.MyResult
-import com.example.packagewalk.data.User
+import com.example.packagewalk.data.CurrentCargoruan
 import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.repositories.DealsRepository
 import com.example.packagewalk.ui.screens.deals.models.DealsEventState.*
@@ -23,13 +23,13 @@ class DealsViewModel
     val deals = mutableStateListOf<Deal>()
 
     fun loadingDeals() {
-        if (User.phoneNumber == null) {
+        if (CurrentCargoruan.phoneNumber == null) {
             dealsEvent.value = ERROR
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
             dealsEvent.value = LOADING
-            when (val result = repository.issueDealsUser(User.phoneNumber!!)) {
+            when (val result = repository.issueDealsUser(CurrentCargoruan.phoneNumber!!)) {
                 is MyResult.Success -> {
                     if (result.data.isEmpty()) {
                         dealsEvent.value = EMPTY

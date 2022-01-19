@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.packagewalk.R
+import com.example.packagewalk.ui.screens.authorization.AuthorizationUI
 import com.example.packagewalk.ui.screens.deals.DealsUI
 import com.example.packagewalk.ui.screens.find_deal.FindDealUI
 import com.example.packagewalk.ui.screens.new_deal.NewDealUI
@@ -18,11 +19,13 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
     val actions = MainActions(navHostController)
 
     composable(MainSections.DEALS.route) {
-        DealsUI(
-            navigateToDeal = actions.navigateToDeal,
-            navigateToNewDeal = actions.navigateToNewDeal,
-            navigateToFindDeal = actions.navigateToFindDeal
-        )
+        AuthorizationUI(showAuthorization = false) {
+            DealsUI(
+                navigateToDeal = actions.navigateToDeal,
+                navigateToNewDeal = actions.navigateToNewDeal,
+                navigateToFindDeal = actions.navigateToFindDeal
+            )
+        }
     }
 
     composable(MainSections.FIND_DEAL.route) {
@@ -38,8 +41,10 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
     }
 
     composable(MainSections.PROFILE.route) {
-        Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
-            ProfileUI()
+        AuthorizationUI {
+            Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_profile) }) {
+                ProfileUI()
+            }
         }
     }
 

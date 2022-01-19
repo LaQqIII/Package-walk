@@ -30,12 +30,16 @@ import com.example.packagewalk.ui.widgets.mobileNumberTransformation
  * Если залогинен, то будет показан content.
  */
 @Composable
-fun AuthorizationUI(content: @Composable (() -> Unit)) {
+fun AuthorizationUI(showAuthorization: Boolean = true, content: @Composable () -> Unit) {
     val viewModel = hiltViewModel<AuthorizationViewModel>()
     val authenticationState = viewModel.authenticationState.observeAsState()
     when (authenticationState.value) {
         AuthenticationState.AUTHENTICATED -> content()
-        AuthenticationState.UNAUTHENTICATED -> MobileAuthorizationUI(viewModel)
+        AuthenticationState.UNAUTHENTICATED -> if (showAuthorization) {
+            MobileAuthorizationUI(viewModel)
+        } else {
+            content()
+        }
     }
 }
 
@@ -48,6 +52,8 @@ private fun MobileAuthorizationUI(viewModel: AuthorizationViewModel) {
         CODE_CORRECT -> viewModel.signIn()
         USER_LOGIN -> {}
         USER_FAILED_LOGIN -> {}
+        CREATE -> {}
+        ADD_SUPPORTERS -> viewModel.addNewUser()
     }
     MobileAuthorizationUI(
         sendCode = { viewModel.sendCode(it, context) },
