@@ -26,16 +26,8 @@ data class Deal(
     val cost: Int = 0,
     /** Признак пометки на удаление */
     val markedForDeletion: Boolean = false,
-    /** Путь к документу пользователя заказчика */
-    val customer: String = "",
     /** Имя заказчика */
     val customerName: String = "",
     /** Номер телефона заказчика */
     val customerPhoneNumber: String = "",
-//    /** Путь к документу пользователя исполнителя */
-//    val executor: String = "",
-//    /** Имя исполнителя */
-//    val executorName: String = "",
-//    /** Номер телефона исполнителя */
-//    val executorPhoneNumber: String = "",
 )

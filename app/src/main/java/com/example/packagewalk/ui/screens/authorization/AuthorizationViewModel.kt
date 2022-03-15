@@ -13,7 +13,6 @@ import com.example.packagewalk.repositories.FirebaseUserLiveData
 import com.example.packagewalk.repositories.PhoneAuthorizationRepository
 import com.example.packagewalk.ui.screens.authorization.models.AuthenticationState
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,14 +25,13 @@ class AuthorizationViewModel
     private val cargoruanRepository: CargoruanRepository
 ) : ViewModel() {
 
-    private var user: FirebaseUser? = null
-
     val name = mutableStateOf("")
 
+    val phoneNumber = mutableStateOf("")
+
     val authenticationState = FirebaseUserLiveData().map { _user ->
-        user = _user
         if (_user != null) {
-            if (!CurrentCargoruan.identified) identifyCurrentCargoruan()
+            if (!CurrentCargoruan.identified) identifyCurrentCargoruan(_user.phoneNumber ?: "")
             AuthenticationState.AUTHENTICATED
         } else {
             AuthenticationState.UNAUTHENTICATED
@@ -42,10 +40,10 @@ class AuthorizationViewModel
 
     val authorizationEvent = mutableStateOf(CREATE)
 
-    val codeInCorrect = mutableStateOf(false)
+    private val codeInCorrect = mutableStateOf(false)
 
-    fun sendCode(phoneNumber: String, context: Context) {
-        when (authRepository.sendCode(phoneNumber, context)) {
+    fun sendCode(context: Context) {
+        when (authRepository.sendCode(phoneNumber.value, context)) {
             is MyResult.Success -> authorizationEvent.value = CODE_SEND
             is MyResult.Error -> authorizationEvent.value = CODE_NOT_SEND
         }
@@ -60,16 +58,15 @@ class AuthorizationViewModel
 
     fun signIn() = viewModelScope.launch(Dispatchers.IO) {
         when (authRepository.signIn()) {
-            is MyResult.Success -> authorizationEvent.value = ADD_SUPPORTERS
+            is MyResult.Success -> addNewUser()
             is MyResult.Error -> authorizationEvent.value = USER_FAILED_LOGIN
         }
     }
 
-    fun addNewUser() = viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun addNewUser() {
         when (val result = cargoruanRepository.addSupporters(
             Сargoruan(
-                uid = user!!.uid,
-                phoneNumber = user!!.phoneNumber ?: "",
+                phoneNumber = phoneNumber.value,
                 name = name.value
             )
         )) {
@@ -84,18 +81,16 @@ class AuthorizationViewModel
         }
     }
 
-    private fun identifyCurrentCargoruan() = viewModelScope.launch(Dispatchers.IO) {
-        when (val result = cargoruanRepository.issueCargoruan(user!!.uid)) {
-            is MyResult.Success -> {
-                result.data?.apply {
-                    CurrentCargoruan.uid = uid
-                    CurrentCargoruan.name = name
-                    CurrentCargoruan.phoneNumber = phoneNumber
-                    CurrentCargoruan.markedForDeletion = markedForDeletion
+    private fun identifyCurrentCargoruan(phoneNumber: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = cargoruanRepository.issueCargoruan(phoneNumber)) {
+                is MyResult.Success -> {
+                    CurrentCargoruan.name = result.data?.name
+                    CurrentCargoruan.phoneNumber = result.data?.phoneNumber
                     CurrentCargoruan.identified = true
                 }
+                is MyResult.Error -> {}
             }
-            is MyResult.Error -> {}
         }
     }
 }

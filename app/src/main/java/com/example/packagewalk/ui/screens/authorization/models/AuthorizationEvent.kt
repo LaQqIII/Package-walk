@@ -13,9 +13,6 @@ enum class AuthorizationEventState {
     /** Введенный код соответствует отправленному  */
     CODE_CORRECT,
 
-    /** Добавить последователя в бд */
-    ADD_SUPPORTERS,
-
     /** Пользователь залогинился */
     USER_LOGIN,
 

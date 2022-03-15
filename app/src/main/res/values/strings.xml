@@ -31,7 +31,7 @@
     <string name="continuee">Продолжить</string>
     <string name="send_code_repeat">Отправить код повторно</string>
     <string name="error_code">Код не тот</string>
-    <string name="what_your_name">Как вас зовут</string>
+    <string name="what_your_name">Как вас зовут?</string>
 
     // Новый заказ
     <string name="new_order">Новый заказ</string>

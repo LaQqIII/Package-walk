@@ -2,8 +2,6 @@ package com.example.packagewalk.data
 
 /** Объект, который хранит данные текущего пользователя приложения */
 object CurrentCargoruan {
-    /** Уникальный идентификатор, который соответствует пути к User ID в бд. */
-    var uid: String? = null
 
     /** Номер телефона пользователя. */
     var phoneNumber: String? = null

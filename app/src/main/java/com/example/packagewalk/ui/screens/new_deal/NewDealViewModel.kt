@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.packagewalk.data.MyResult
 import com.example.packagewalk.data.CurrentCargoruan
+import com.example.packagewalk.data.MyResult
 import com.example.packagewalk.data.documents.Deal
 import com.example.packagewalk.data.enums.DealStatus
 import com.example.packagewalk.data.enums.PackageSize
@@ -55,7 +55,6 @@ class NewDealViewModel
                     data = date,
                     size = size.value.id,
                     cost = cost.value,
-                    customer = CurrentCargoruan.uid ?: "",
                     customerName = CurrentCargoruan.name ?: "",
                     customerPhoneNumber = CurrentCargoruan.phoneNumber!!
                 )

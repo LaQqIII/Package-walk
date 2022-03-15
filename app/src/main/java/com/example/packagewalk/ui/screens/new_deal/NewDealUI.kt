@@ -28,7 +28,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun NewDealUI(navigateToDeals: () -> Unit) {
-//    AuthorizationUI {}
     val viewModel = hiltViewModel<NewDealViewModel>()
     when (viewModel.newDealEvent.value) {
         CREATED -> navigateToDeals()

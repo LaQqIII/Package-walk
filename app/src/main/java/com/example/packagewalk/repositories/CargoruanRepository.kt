@@ -11,6 +11,7 @@ class CargoruanRepository @Inject constructor() {
 
     companion object {
         private const val CARGORUANS = "cargoruans"
+        private const val PHONE_NUMBER = "phoneNumber"
     }
 
     private val firebaseFirestore = FirebaseFirestore.getInstance()
@@ -30,13 +31,14 @@ class CargoruanRepository @Inject constructor() {
         }
     }
 
-    suspend fun issueCargoruan(uid: String): MyResult<Сargoruan?> {
+    suspend fun issueCargoruan(phoneNumber: String): MyResult<Сargoruan?> {
         return try {
             val result = cargoruansCollection()
-                .document(uid)
+                .whereEqualTo(PHONE_NUMBER, phoneNumber)
                 .get()
                 .await()
-                .toObject(Сargoruan::class.java)
+                .map { it.toObject(Сargoruan::class.java) }
+                .firstOrNull()
             MyResult.Success(result)
         } catch (e: Exception) {
             Log.e("!@#", "ошибка при получении данных об каргоруанце=$e")

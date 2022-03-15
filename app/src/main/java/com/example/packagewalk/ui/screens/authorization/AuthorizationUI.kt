@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,12 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.packagewalk.R
 import com.example.packagewalk.ui.screens.authorization.models.AuthenticationState
 import com.example.packagewalk.ui.screens.authorization.models.AuthorizationEventState.*
-import com.example.packagewalk.ui.theme.PackageWalkTheme
 import com.example.packagewalk.ui.widgets.PackageWalkButton
 import com.example.packagewalk.ui.widgets.PackageWalkTextField
 import com.example.packagewalk.ui.widgets.PackageWalkTopBar
@@ -53,22 +52,21 @@ private fun MobileAuthorizationUI(viewModel: AuthorizationViewModel) {
         USER_LOGIN -> {}
         USER_FAILED_LOGIN -> {}
         CREATE -> {}
-        ADD_SUPPORTERS -> viewModel.addNewUser()
     }
     MobileAuthorizationUI(
-        sendCode = { viewModel.sendCode(it, context) },
-        checkCode = { viewModel.checkCode(it) },
-        codeIncorrect = viewModel.codeInCorrect.value
-    )
+        phoneNumber = viewModel.phoneNumber,
+        name = viewModel.name,
+        sendCode = { viewModel.sendCode(context) }
+    ) { viewModel.checkCode(it) }
 }
 
 @Composable
 private fun MobileAuthorizationUI(
-    sendCode: (phoneNumber: String) -> Unit,
-    checkCode: (code: String) -> Unit,
-    codeIncorrect: Boolean
+    phoneNumber: MutableState<String>,
+    name: MutableState<String>,
+    sendCode: () -> Unit,
+    checkCode: (code: String) -> Unit
 ) {
-    val phone = remember { mutableStateOf("") }
     val codeSend = remember { mutableStateOf(false) }
     val code = remember { mutableStateOf("") }
     Scaffold(topBar = {
@@ -80,8 +78,15 @@ private fun MobileAuthorizationUI(
                 .padding(dimensionResource(id = R.dimen.around_base))
         ) {
             PackageWalkTextField(
-                value = phone.value,
-                onValueChange = { phone.value = it },
+                value = name.value,
+                onValueChange = { name.value = it },
+                onDoneClick = { /*TODO*/ },
+                modifier = Modifier.fillMaxWidth(),
+                label = R.string.what_your_name
+            )
+            PackageWalkTextField(
+                value = phoneNumber.value,
+                onValueChange = { phoneNumber.value = it },
                 onDoneClick = { /*TODO*/ },
                 modifier = Modifier.fillMaxWidth(),
                 label = R.string.number_phone,
@@ -108,7 +113,7 @@ private fun MobileAuthorizationUI(
                     if (codeSend.value) {
                         checkCode(code.value)
                     } else {
-                        sendCode(phone.value)
+                        sendCode()
                         codeSend.value = true
                     }
                 },
@@ -117,13 +122,5 @@ private fun MobileAuthorizationUI(
                     .padding(dimensionResource(id = R.dimen.around_base))
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    PackageWalkTheme {
-        MobileAuthorizationUI(sendCode = {}, checkCode = {}, codeIncorrect = false)
     }
 }

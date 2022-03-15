@@ -35,8 +35,10 @@ fun NavGraphBuilder.addMainSections(navHostController: NavHostController) {
     }
 
     composable(MainSections.NEW_DEAL.route) {
-        Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_create_order) }) {
-            NewDealUI(navigateToDeals = actions.navigateToDeals)
+        AuthorizationUI {
+            Scaffold(topBar = { PackageWalkTopBar(titleId = R.string.screen_create_order) }) {
+                NewDealUI(navigateToDeals = actions.navigateToDeals)
+            }
         }
     }
 
